@@ -1,3 +1,5 @@
+using SharedKernel.Domain.BusinessRule;
+
 namespace SharedKernel.Domain.ValueObjects
 {
     public abstract class ValueObject
@@ -18,6 +20,12 @@ namespace SharedKernel.Domain.ValueObjects
         protected static bool NotEqualOperator(ValueObject left, ValueObject right)
         {
             return !(EqualOperator(left, right));
+        }
+
+        protected static void CheckRule(IBusinessRule rule)
+        {
+            if(rule.IsBroken())
+                throw new BusinessRuleValidationException(rule);
         }
 
         protected abstract IEnumerable<object> GetEqualityComponents();
