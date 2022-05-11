@@ -1,6 +1,6 @@
 namespace SharedKernel.Domain.ValueObjects
 {
-   public class AggregateKey : ValueObject
+    public class AggregateKey : ValueObject
     {
         public Guid Key { get; set; }
 
