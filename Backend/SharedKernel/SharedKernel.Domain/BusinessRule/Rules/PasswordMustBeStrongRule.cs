@@ -15,6 +15,8 @@ namespace SharedKernel.Domain.BusinessRule.Rules
 
         public bool IsBroken()
         {
+            if(string.IsNullOrEmpty(Password))
+                return true;
             var hasNumber = new Regex(@"[0-9]+");
             var hasUpperChar = new Regex(@"[A-Z]+");
             var hasMinimum8Chars = new Regex(@".{8,}");
