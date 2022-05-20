@@ -1,4 +1,5 @@
 using System;
+using SharedKernel.Domain.Event;
 
 namespace SharedKernel.Application.EventBus
 {

@@ -1,3 +1,6 @@
+using SharedKernel.Domain.Aggregate;
+using SharedKernel.Domain.UniqueKey;
+
 namespace SharedKernel.Application.AggregateRepository
 {
     public interface ISessionAggregate

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using SharedKernel.Domain.Event;
+using SharedKernel.Domain.UniqueKey;
 
 namespace SharedKernel.Application
 {

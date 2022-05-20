@@ -1,3 +1,5 @@
+using SharedKernel.Domain.Event;
+
 namespace SharedKernel.Application.EventBus
 {
     public interface IEventPublisher
