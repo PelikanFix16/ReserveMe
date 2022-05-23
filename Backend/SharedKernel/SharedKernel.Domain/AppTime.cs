@@ -1,6 +1,5 @@
-namespace SharedKernel.Domain.Constants
+namespace SharedKernel.Domain
 {
-
     public class AppTime
     {
         public static Func<DateTime> CurrentTimeProvider { get; set; } = () => DateTime.Now;
@@ -8,5 +7,4 @@ namespace SharedKernel.Domain.Constants
         public static DateTime Now() => CurrentTimeProvider();
 
     }
-
 }
