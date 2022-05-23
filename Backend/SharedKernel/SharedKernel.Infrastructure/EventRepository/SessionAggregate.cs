@@ -68,4 +68,3 @@ namespace SharedKernel.Infrastructure.EventRepository
 
 }
 
-}
