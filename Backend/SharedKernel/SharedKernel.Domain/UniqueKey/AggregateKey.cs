@@ -9,6 +9,9 @@ namespace SharedKernel.Domain.UniqueKey
         {
             Key = key;
         }
+
+        public static Guid Empty {get => Guid.Empty;}
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Key;
