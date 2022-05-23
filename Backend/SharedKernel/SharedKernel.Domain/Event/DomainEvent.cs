@@ -1,4 +1,3 @@
-using SharedKernel.Domain.Constants;
 using SharedKernel.Domain.UniqueKey;
 
 namespace SharedKernel.Domain.Event

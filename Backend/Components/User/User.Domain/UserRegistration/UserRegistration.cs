@@ -1,5 +1,4 @@
 using SharedKernel.Domain.Aggregate;
-using SharedKernel.Domain.Constants;
 using User.Domain.UserRegistration.Events;
 using User.Domain.UserRegistration.Rules;
 using User.Domain.ValueObjects;
