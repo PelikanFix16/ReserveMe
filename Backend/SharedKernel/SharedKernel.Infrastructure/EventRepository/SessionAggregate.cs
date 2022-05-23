@@ -1,4 +1,5 @@
 using SharedKernel.Application.AggregateRepository;
+using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
 
@@ -22,64 +23,49 @@ namespace SharedKernel.Infrastructure.EventRepository
             where T : AggregateRoot
             where TK : AggregateKey
         {
-            try
+
+            if (!IsTracked(key))
             {
-                if (!IsTracked(key))
-                {
-                    _aggregateStore.Add(key, aggregate);
-                }
-                else if (_aggregateStore[key] != aggregate)
-                    throw new InvalidOperationException($"Invalid aggregate to key {key}");
+                _aggregateStore.Add(key, aggregate);
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            else if (_aggregateStore[key] != aggregate)
+                throw new ConcurrencyException(key);
+
         }
 
         private bool IsTracked(AggregateKey key) => _aggregateStore.ContainsKey(key);
 
         public bool Commit()
         {
-            try
+
+            foreach (var key in _aggregateStore)
             {
-                foreach (var key in _aggregateStore)
-                {
-                    _aggregateRepository.Save(key.Key,key.Value, key.Value.Version);
-                }
-                _aggregateStore.Clear();
-                return true;
+                _aggregateRepository.Save(key.Key, key.Value, key.Value.Version);
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            _aggregateStore.Clear();
+            return true;
+
 
         }
 
-        public T Get<T>(AggregateKey key, int? exceptedVersion = null) where T : AggregateRoot,new()
+        public T Get<T>(AggregateKey key, int? exceptedVersion = null) where T : AggregateRoot, new()
         {
-            try
+            if (IsTracked(key))
             {
-                if (IsTracked(key))
-                {
-                    var trackedAggregate = (T)_aggregateStore[key];
-                    if (exceptedVersion != null && trackedAggregate.Version != exceptedVersion)
-                        throw new InvalidOperationException($"Version not matching to aggregate in memory {key} and excepted version {exceptedVersion} aggregate version {trackedAggregate.Version}");
-                    return trackedAggregate;
-                }
-                var aggregate = _aggregateRepository.Get<T>(key);
-                if (exceptedVersion != null && aggregate.Version != exceptedVersion)
-                    throw new InvalidOperationException($"Version not matching to aggregate in database key {key} and version excepted version {exceptedVersion} aggregate version {aggregate.Version}");
-                Add(aggregate, key);
-                return (T)aggregate;
+                var trackedAggregate = (T)_aggregateStore[key];
+                if (exceptedVersion != null && trackedAggregate.Version != exceptedVersion)
+                    throw new ConcurrencyException(key);
+                return trackedAggregate;
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            var aggregate = _aggregateRepository.Get<T>(key);
+            if (exceptedVersion != null && aggregate.Version != exceptedVersion)
+                throw new ConcurrencyException(key);
+            Add(aggregate, key);
+            return (T)aggregate;
         }
 
     }
+
+}
 
 }

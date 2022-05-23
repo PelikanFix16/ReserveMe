@@ -1,6 +1,7 @@
 using SharedKernel.Application;
 using SharedKernel.Application.AggregateRepository;
 using SharedKernel.Application.EventBus;
+using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
 
@@ -32,7 +33,7 @@ namespace SharedKernel.Infrastructure.EventRepository
             var aggregate = new T();
             var events = _eventStore.Get(key,-1);
             if(!events.Any())
-                throw new InvalidDataException($"Events not found for key {key}");
+                throw new AggregateNotFoundException(key);
             aggregate.LoadFromHistory(events);
             return aggregate;
         }
@@ -40,8 +41,10 @@ namespace SharedKernel.Infrastructure.EventRepository
         public void Save<T>(AggregateKey key,T aggregate, int? exceptedVersion = null) where T : AggregateRoot
         {
             if(exceptedVersion != null && _eventStore.Get(key,exceptedVersion.Value).Any())
-                throw new InvalidOperationException($"Event with this version already exists key {key}");
+                throw new ConcurrencyException(key);
             foreach(var @event in aggregate.GetUncomittedChanges()){
+                if(@event.Key.Key == AggregateKey.Empty)
+                    throw new AggregateOrEventMissingIdException(aggregate.GetType(),@event.GetType());
                 _eventStore.Save(@event);
                 _eventPublisher.Publish(@event);
             }
