@@ -17,7 +17,7 @@ namespace SharedKernel.Infrastructure.EventStore
         [BsonElement(StreamIdFieldname)]
         public string? StreamId {get;set;}
 
-        [BsonElement(VersionFieldname))]
+        [BsonElement(VersionFieldname)]
         public int Version {get;set;}
 
         [BsonElement("payload")]
