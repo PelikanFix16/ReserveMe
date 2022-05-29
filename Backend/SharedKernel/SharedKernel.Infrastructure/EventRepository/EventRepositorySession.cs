@@ -7,13 +7,13 @@ using SharedKernel.Domain.UniqueKey;
 
 namespace SharedKernel.Infrastructure.EventRepository
 {
-    public class EventRepository : IEventRepository
+    public class EventRepositorySession : IEventRepository
     {
 
         private readonly IEventStore _eventStore;
         private readonly IEventPublisher _eventPublisher;
 
-        public EventRepository(IEventStore eventStore, IEventPublisher eventPublisher)
+        public EventRepositorySession(IEventStore eventStore, IEventPublisher eventPublisher)
         {
             if (eventStore == null)
                 throw new ArgumentNullException("eventStore");
