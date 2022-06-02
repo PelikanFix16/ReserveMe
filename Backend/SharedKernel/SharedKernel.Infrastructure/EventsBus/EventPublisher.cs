@@ -8,20 +8,22 @@ using SharedKernel.Domain.Event;
 
 namespace SharedKernel.Infrastructure.EventsBus
 {
-    public abstract class EventPublisher : IEventPublisher
+    public class EventPublisher : IEventPublisher
     {
 
         private readonly ConnectionFactory connectionFactory;
 
-        public EventPublisher(IWebHostEnvironment env)
+        public EventPublisher(IConfiguration env)
         {
-            connectionFactory = new ConnectionFactory();
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-                .AddEnvironmentVariables();
-            builder.Build().GetSection("RabbitMqSetting").Bind(connectionFactory);
+            connectionFactory = new ConnectionFactory(){
+                UserName = env["username"],
+                Password = env["password"],
+                HostName = env["hostname"],
+                Uri = new Uri(env["uri"]),
+                VirtualHost = env["virtualhost"]
 
+            };
+      
         }
 
         public void Publish<T>(T @event) where T : DomainEvent
