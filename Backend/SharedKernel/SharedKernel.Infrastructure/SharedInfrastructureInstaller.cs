@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application;
@@ -19,9 +20,8 @@ namespace SharedKernel.Infrastructure
             return service;
         }
 
-        public static IServiceCollection AddEventBus(this IServiceCollection service, IConfiguration configuration)
+        public static IServiceCollection AddEventBus(this IServiceCollection service,IConfiguration configuration)
         {
-            service.AddOptions();
             service.AddSingleton<IEventPublisher, EventPublisher>();
             return service;
         }
@@ -29,11 +29,13 @@ namespace SharedKernel.Infrastructure
         public static IServiceCollection AddEventRepository(this IServiceCollection service, IConfiguration configuration)
         {
             service.AddOptions();
-            service.AddScoped<IEventRepository,EventRepositorySession>();
             service.AddScoped<ISessionAggregate, SessionAggregate>();
+            service.AddScoped<IEventRepository, EventRepositorySession>();
             return service;
 
         }
+
+ 
 
     }
 }
