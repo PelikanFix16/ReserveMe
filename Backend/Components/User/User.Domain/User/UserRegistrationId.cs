@@ -1,6 +1,6 @@
 using SharedKernel.Domain.UniqueKey;
 
-namespace User.Domain.UserRegistration
+namespace User.Domain.User
 {
     public class UserRegistrationId : AggregateKey
     {

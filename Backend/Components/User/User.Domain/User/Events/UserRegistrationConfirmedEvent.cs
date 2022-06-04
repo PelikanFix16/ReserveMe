@@ -1,7 +1,7 @@
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
 
-namespace User.Domain.UserRegistration.Events
+namespace User.Domain.User.Events
 {
     public class UserRegistrationConfirmedEvent : DomainEvent
     {

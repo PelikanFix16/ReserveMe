@@ -1,6 +1,6 @@
 using User.Domain.ValueObjects;
 
-namespace User.Domain.UserRegistration.Contracts
+namespace User.Domain.User.Contracts
 {
     public interface ICheckLoginUnique
     {

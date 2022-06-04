@@ -1,4 +1,4 @@
-namespace User.Domain.UserRegistration
+namespace User.Domain.User
 {
     public enum UserStatus
     {

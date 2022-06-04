@@ -1,9 +1,9 @@
 using SharedKernel.Domain.Aggregate;
-using User.Domain.UserRegistration.Events;
-using User.Domain.UserRegistration.Rules;
+using User.Domain.User.Events;
+using User.Domain.User.Rules;
 using User.Domain.ValueObjects;
 
-namespace User.Domain.UserRegistration
+namespace User.Domain.User
 {
     public class UserRegistration : AggregateRoot
     {

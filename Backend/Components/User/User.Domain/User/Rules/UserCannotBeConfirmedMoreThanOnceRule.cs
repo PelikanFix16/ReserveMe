@@ -1,6 +1,6 @@
 using SharedKernel.Domain.BusinessRule;
 
-namespace User.Domain.UserRegistration.Rules
+namespace User.Domain.User.Rules
 {
     public class UserCannotBeConfirmedMoreThanOnceRule : IBusinessRule
     {
