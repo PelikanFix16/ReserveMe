@@ -7,7 +7,7 @@ namespace User.Domain.User
 {
     public class UserAggregateRoot : AggregateRoot
     {
-        public UserRegistrationId? Id { get; private set; }
+        public UserId? Id { get; private set; }
         public Login? Login { get; private set; }
         public Password? Password { get; private set; }
         public Name? Name { get; private set; }
@@ -28,8 +28,12 @@ namespace User.Domain.User
         {
             Password = e.Password;
         }
+        private void Apply(UserChangedLoginEvent e)
+        {
+            Login = e.Login;
+        }
 
-        public UserAggregateRoot(UserRegistrationId id, Login login, Password password, Name name, DateTimeOffset birthDate)
+        public UserAggregateRoot(UserId id, Login login, Password password, Name name, DateTimeOffset birthDate)
         {
             ApplyChange(new UserRegisteredEvent(id, login, password, name, birthDate, Version));
 
@@ -63,7 +67,13 @@ namespace User.Domain.User
 
         public void ChangeLogin(Login newLogin)
         {
-            
+            if (Login is null)
+                throw new NullReferenceException("Login cannot be null");
+            if (Id is null)
+                throw new NullReferenceException("Id cannot be null");
+            CheckRule(new UserCannotChangeSameLogin(Login, newLogin));
+            ApplyChange(new UserChangedLoginEvent(Id, newLogin, Version));
+
         }
 
 

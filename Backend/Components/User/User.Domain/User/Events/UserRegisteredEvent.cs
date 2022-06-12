@@ -7,7 +7,7 @@ namespace User.Domain.User.Events
     public class UserRegisteredEvent : DomainEvent
     {
 
-        public UserRegistrationId Id { get;private set;}
+        public UserId Id { get;private set;}
         public Login Login {get; private set;}
         public Password Password {get;private set;}
         public Name Name {get; private set;}
@@ -15,7 +15,7 @@ namespace User.Domain.User.Events
         
 
 
-        public UserRegisteredEvent(UserRegistrationId key,Login login,Password password,Name name,DateTimeOffset birthdate, int version) : base(key, version)
+        public UserRegisteredEvent(UserId key,Login login,Password password,Name name,DateTimeOffset birthdate, int version) : base(key, version)
         {
             Id = key;
             Login = login;
