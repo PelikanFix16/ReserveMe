@@ -5,7 +5,7 @@ using User.Domain.ValueObjects;
 
 namespace User.Domain.User
 {
-    public class UserRegistration : AggregateRoot
+    public class UserAggregateRoot : AggregateRoot
     {
         public UserRegistrationId? Id { get; private set; }
         public Login? Login { get; private set; }
@@ -24,13 +24,17 @@ namespace User.Domain.User
             BirthDate = e.BirthDate;
             RegisteredDate = e.TimeStamp;
         }
+        private void Apply(UserChangedPasswordEvent e)
+        {
+            Password = e.Password;
+        }
 
-        public UserRegistration(UserRegistrationId id, Login login, Password password, Name name, DateTimeOffset birthDate)
+        public UserAggregateRoot(UserRegistrationId id, Login login, Password password, Name name, DateTimeOffset birthDate)
         {
             ApplyChange(new UserRegisteredEvent(id, login, password, name, birthDate, Version));
 
         }
-        public UserRegistration()
+        public UserAggregateRoot()
         {
 
         }
@@ -38,17 +42,29 @@ namespace User.Domain.User
         public void Confirm()
         {
             CheckRule(new UserCannotBeConfirmedMoreThanOnceRule(Status));
-            if(Id is null)
-                throw new ArgumentNullException("Id cannot be null");
-            ApplyChange(new UserRegistrationConfirmedEvent(Id,UserStatus.Activated,Version));
+            if (Id is null)
+                throw new NullReferenceException("Id cannot be null");
+            ApplyChange(new UserRegistrationConfirmedEvent(Id, UserStatus.Activated, Version));
 
         }
 
 
+        public void ChangePassword(Password newPassword)
+        {
+            if (Password is null)
+                throw new NullReferenceException("Password cannot be null");
+            if (Id is null)
+                throw new NullReferenceException("Id cannot be null");
+
+            CheckRule(new UserCannotChangeSamePassword(Password, newPassword));
+            ApplyChange(new UserChangedPasswordEvent(Id, newPassword, Version));
+        }
 
 
-
-
+        public void ChangeLogin(Login newLogin)
+        {
+            
+        }
 
 
 
