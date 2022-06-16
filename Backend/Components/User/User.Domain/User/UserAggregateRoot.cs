@@ -13,7 +13,9 @@ namespace User.Domain.User
         public Name? Name { get; private set; }
         public DateTimeOffset BirthDate { get; private set; }
         public DateTimeOffset RegisteredDate { get; private set; }
+        public DateTimeOffset DeletedDate { get; private set; }
         public UserStatus Status { get; private set; } = UserStatus.DeActivated;
+
 
         private void Apply(UserRegisteredEvent e)
         {
@@ -31,6 +33,17 @@ namespace User.Domain.User
         private void Apply(UserChangedLoginEvent e)
         {
             Login = e.Login;
+        }
+        private void Apply(UserRegistrationConfirmedEvent e)
+        {
+            Status = e.Status;
+        }
+        private void Apply(UserChangedNameEvent e)
+        {
+            Name = e.Name;
+        }
+        private void Apply(UserDeletedEvent e){
+            DeletedDate = e.TimeStamp;
         }
 
         public UserAggregateRoot(UserId id, Login login, Password password, Name name, DateTimeOffset birthDate)
@@ -60,6 +73,7 @@ namespace User.Domain.User
             if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
 
+            CheckRule(new UserCannotBeModifiedWithoutConfirmatio(Status));
             CheckRule(new UserCannotChangeSamePassword(Password, newPassword));
             ApplyChange(new UserChangedPasswordEvent(Id, newPassword, Version));
         }
@@ -71,9 +85,30 @@ namespace User.Domain.User
                 throw new NullReferenceException("Login cannot be null");
             if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
+
+            CheckRule(new UserCannotBeModifiedWithoutConfirmatio(Status));
             CheckRule(new UserCannotChangeSameLogin(Login, newLogin));
             ApplyChange(new UserChangedLoginEvent(Id, newLogin, Version));
 
+        }
+
+        public void ChangeName(Name newName)
+        {
+            if (Id is null)
+                throw new NullReferenceException("Id cannot be null");
+            if (Name is null)
+                throw new NullReferenceException("Name cannot be null");
+            CheckRule(new UserCannotBeModifiedWithoutConfirmatio(Status));
+            CheckRule(new UserCannotChangeSameName(newName, Name));
+            ApplyChange(new UserChangedNameEvent(Id, newName, Version));
+
+        }
+
+        public void Delete()
+        {
+            if(Id is null)
+                throw new NullReferenceException("Id cannot be null");
+            ApplyChange(new UserDeletedEvent(Id,Version));
         }
 
 
