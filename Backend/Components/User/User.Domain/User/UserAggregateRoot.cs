@@ -11,7 +11,7 @@ namespace User.Domain.User
         public Login? Login { get; private set; }
         public Password? Password { get; private set; }
         public Name? Name { get; private set; }
-        public DateTimeOffset BirthDate { get; private set; }
+        public BirthDate? BirthDate { get; private set; }
         public DateTimeOffset RegisteredDate { get; private set; }
         public DateTimeOffset DeletedDate { get; private set; }
         public UserStatus Status { get; private set; } = UserStatus.DeActivated;
@@ -46,7 +46,7 @@ namespace User.Domain.User
             DeletedDate = e.TimeStamp;
         }
 
-        public UserAggregateRoot(UserId id, Login login, Password password, Name name, DateTimeOffset birthDate)
+        public UserAggregateRoot(UserId id, Login login, Password password, Name name, BirthDate birthDate)
         {
             ApplyChange(new UserRegisteredEvent(id, login, password, name, birthDate, Version));
 
