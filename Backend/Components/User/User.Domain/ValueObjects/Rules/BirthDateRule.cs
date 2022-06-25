@@ -22,11 +22,11 @@ namespace User.Domain.ValueObjects.Rules
             var birthDateYear = _birthDate.Year;
             var oldYears = currentYear + maxRequiredBirthDate;
             var youngYears = currentYear + minRequiredBirthDate;
-            var birthDateInYears = currentYear - birthDateYear;
+            var birthDateInYears = Math.Abs(currentYear - birthDateYear);
 
-            return (birthDateInYears > youngYears)
-                            ||  (birthDateInYears < oldYears);
-            
+            bool retVal = (birthDateInYears < minRequiredBirthDate)
+                            ||  (birthDateInYears > maxRequiredBirthDate);
+            return retVal;
         }
     }
 }

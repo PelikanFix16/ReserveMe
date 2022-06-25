@@ -15,7 +15,7 @@ namespace Domain.Test.ValueObject
         public void User_Should_throw_exception_when_be_younger_than_12_years()
         {
             //Arrange
-            DateTimeOffset Young_User = AppTime.Now().AddYears(-11);
+            DateTimeOffset Young_User = AppTime.Now().AddYears(11);
 
 
             Action act = () => BirthDate.Create(Young_User);
