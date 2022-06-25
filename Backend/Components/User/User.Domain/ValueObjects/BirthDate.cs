@@ -1,4 +1,5 @@
 using SharedKernel.Domain.ValueObjects;
+using User.Domain.ValueObjects.Rules;
 
 namespace User.Domain.ValueObjects
 {
@@ -13,7 +14,8 @@ namespace User.Domain.ValueObjects
 
         public static BirthDate Create(DateTimeOffset birthDate)
         {
-            //Some check rule here 
+            //User should be between 12 and 120 years old
+            CheckRule(new BirthDateRule(birthDate));
             return new BirthDate(birthDate);
         }
 
