@@ -15,7 +15,7 @@ namespace Domain.Test.ValueObject
         public void User_Should_throw_exception_when_be_younger_than_12_years()
         {
             //Arrange
-            DateTimeOffset Young_User = AppTime.Now().AddYears(11);
+            DateTimeOffset Young_User = AppTime.Now().AddYears(-11);
 
 
             Action act = () => BirthDate.Create(Young_User);
@@ -29,7 +29,7 @@ namespace Domain.Test.ValueObject
         [Fact]
         public void User_Should_throw_exception_when_be_older_than_120_years()
         {
-            DateTimeOffset Old_user = AppTime.Now().AddYears(121);
+            DateTimeOffset Old_user = AppTime.Now().AddYears(-121);
 
             Action act = () => BirthDate.Create(Old_user);
             
@@ -41,7 +41,7 @@ namespace Domain.Test.ValueObject
         [Fact]
         public void User_should_create_when_be_older_or_equal_to_12_years()
         {
-            DateTimeOffset correct_user = AppTime.Now().AddYears(12);
+            DateTimeOffset correct_user = AppTime.Now().AddYears(-12);
 
             BirthDate birthdate = BirthDate.Create(correct_user);
 
@@ -53,7 +53,7 @@ namespace Domain.Test.ValueObject
         [Fact]
         public void User_should_create_when_be_older_or_equal_to_120_years()
         {
-                DateTimeOffset correct_user = AppTime.Now().AddYears(120);
+                DateTimeOffset correct_user = AppTime.Now().AddYears(-120);
                 
                 BirthDate birthdate = BirthDate.Create(correct_user);
 
