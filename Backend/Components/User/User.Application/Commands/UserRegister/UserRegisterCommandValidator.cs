@@ -49,10 +49,13 @@ namespace User.Application.Commands.UserRegister
                 .WithMessage("Birth date cannot be null")
                 .NotEmpty()
                 .WithMessage("Birth date cannot be empty")
-                .LessThanOrEqualTo(AppTime.Now().AddYears(-12))
-                .WithMessage("Birth date must be less than or equal to 12 years")
-                .GreaterThanOrEqualTo(AppTime.Now().AddYears(-120))
-                .WithMessage("BirthDate must be greater than or equal to 120 years");
+                .LessThan(AppTime.Now().AddYears(-11))
+                .WithMessage("Birth date must be greater than or equal to 12 years")
+                .GreaterThan(AppTime.Now().AddYears(-120))
+                .WithMessage("Birth Date must be less than or equal to 120 years");
+                // .LessThan(AppTime.Now())
+                // .WithMessage("Birth Date must be lower than current date");
+
                 
 
 
