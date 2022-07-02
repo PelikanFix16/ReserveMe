@@ -23,9 +23,11 @@ namespace User.Domain.ValueObjects.Rules
             var oldYears = currentYear + maxRequiredBirthDate;
             var youngYears = currentYear + minRequiredBirthDate;
             var birthDateInYears = Math.Abs(currentYear - birthDateYear);
+            //var cleanDate = _birthDate.DateTime;
 
             bool retVal = (birthDateInYears < minRequiredBirthDate)
                             ||  (birthDateInYears > maxRequiredBirthDate);
+                            //|| cleanDate >= AppTime.Now();
             return retVal;
         }
     }

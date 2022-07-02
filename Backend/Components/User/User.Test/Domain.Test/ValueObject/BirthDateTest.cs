@@ -9,7 +9,7 @@ namespace Domain.Test.ValueObject
 {
     public class BirthDateTest
     {
-        private string birth_date_message = 
+        private string birth_date_message =
                             "Birth date should be between 12 and 120 year old";
         [Fact]
         public void User_Should_throw_exception_when_be_younger_than_12_years()
@@ -32,7 +32,7 @@ namespace Domain.Test.ValueObject
             DateTimeOffset Old_user = AppTime.Now().AddYears(-121);
 
             Action act = () => BirthDate.Create(Old_user);
-            
+
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage(birth_date_message);
@@ -53,11 +53,24 @@ namespace Domain.Test.ValueObject
         [Fact]
         public void User_should_create_when_be_older_or_equal_to_120_years()
         {
-                DateTimeOffset correct_user = AppTime.Now().AddYears(-120);
-                
-                BirthDate birthdate = BirthDate.Create(correct_user);
+            DateTimeOffset correct_user = AppTime.Now().AddYears(-120);
 
-                birthdate.Value.Should().Be(correct_user);
+            BirthDate birthdate = BirthDate.Create(correct_user);
+
+            birthdate.Value.Should().Be(correct_user);
+        }
+
+        [Fact]
+        public void User_hould_not_create_if_birth_date_is_more_or_equal_current_date()
+        {
+            DateTimeOffset currentDate = DateTimeOffset.Now;
+
+            Action act = () => BirthDate.Create(currentDate);
+
+            act.Should()
+                .Throw<BusinessRuleValidationException>()
+                .WithMessage(birth_date_message);
+
         }
     }
 }
