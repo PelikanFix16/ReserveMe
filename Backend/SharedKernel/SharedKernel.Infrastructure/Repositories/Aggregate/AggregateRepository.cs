@@ -56,7 +56,7 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
 
         private bool CheckVersionAggregate(AggregateRoot aggregate, AggregateKey key)
         {
-            AggregateRoot? rootCheckAggregate = null;
+            AggregateRoot rootCheckAggregate = null;
             foreach (var item in _aggregates)
             {
                 if (item.Key == key)
