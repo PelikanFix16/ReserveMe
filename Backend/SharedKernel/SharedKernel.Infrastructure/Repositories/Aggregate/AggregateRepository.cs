@@ -23,8 +23,7 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
             foreach (var item in _aggregates)
             {
                 IEnumerable<DomainEvent> events = item.Value.GetUncomittedChanges();
-                if (!await _eventRepository.Save(events))
-                    return false;
+                await _eventRepository.Save(events);
                 _aggregates.Remove(item);
             }
             return true;
