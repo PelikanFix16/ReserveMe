@@ -19,7 +19,7 @@ namespace User.Domain.User
 
         private void Apply(UserRegisteredEvent e)
         {
-            Id = e.UserId;
+            Id = e.Key as UserId;
             Login = e.Login;
             Password = e.Password;
             Name = e.Name;
