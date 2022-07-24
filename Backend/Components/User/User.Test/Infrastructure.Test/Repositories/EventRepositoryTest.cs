@@ -46,7 +46,7 @@ namespace Infrastructure.Test.Repositories
             var eventsList = events.ToArray();
             //Assert
             var domainEvent = (UserRegisteredEvent)eventsList[0];
-            domainEvent.Id.Should().Be(userId);
+            domainEvent.Key.Should().Be(userId);
             domainEvent.Version.Should().Be(0);
 
 
