@@ -39,7 +39,7 @@ namespace Domain.Test.Aggregate
         {
             UserAggregateRoot userAggregateRoot = userFactory.Create();
 
-            IList<DomainEvent> _event = userAggregateRoot.GetUncomittedChanges().ToList();
+            IList<DomainEvent> _event = userAggregateRoot.GetUncommittedChanges().ToList();
 
             _event.Count().Should().Be(1);
             _event[0].Version.Should().Be(0);
@@ -57,7 +57,7 @@ namespace Domain.Test.Aggregate
             UserAggregateRoot userAggregateRoot = userFactory.Create();
             userAggregateRoot.Confirm();
 
-            IList<DomainEvent> _event = userAggregateRoot.GetUncomittedChanges().ToList();
+            IList<DomainEvent> _event = userAggregateRoot.GetUncommittedChanges().ToList();
 
             _event.Count().Should().Be(2);
             _event[1].Version.Should().Be(1);
@@ -90,7 +90,7 @@ namespace Domain.Test.Aggregate
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangePassword(pass);
 
-            IList<DomainEvent> events = userAggregateRoot.GetUncomittedChanges().ToList();
+            IList<DomainEvent> events = userAggregateRoot.GetUncommittedChanges().ToList();
 
             events.Count().Should().Be(3);
             events[2].Version.Should().Be(2);
@@ -140,7 +140,7 @@ namespace Domain.Test.Aggregate
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangeLogin(login);
 
-            IList<DomainEvent> domainEvents = userAggregateRoot.GetUncomittedChanges().ToList();
+            IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
 
             domainEvents.Count().Should().Be(3);
             domainEvents[2].Version.Should().Be(2);
@@ -190,7 +190,7 @@ namespace Domain.Test.Aggregate
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangeName(name);
 
-            IList<DomainEvent> domainEvents = userAggregateRoot.GetUncomittedChanges().ToList();
+            IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
 
             domainEvents.Count().Should().Be(3);
             domainEvents[2].Version.Should().Be(2);
@@ -237,7 +237,7 @@ namespace Domain.Test.Aggregate
 
             userAggregateRoot.Delete();
 
-            IList<DomainEvent> domainEvents = userAggregateRoot.GetUncomittedChanges().ToList();
+            IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
             DateTimeOffset deleteTime = domainEvents[1].TimeStamp;
 
             domainEvents.Count().Should().Be(2);
@@ -291,7 +291,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void Should_Load_event_from_history_add_apply_new_event_from_aggregate_using_method_ChangePassword_event_should_have_current_version_and_new_password()
         {
-                    UserId userId = new UserId(Guid.NewGuid());
+            UserId userId = new UserId(Guid.NewGuid());
             Login login = Login.Create(_login);
             Password password = Password.Create(_password);
             Name name = Name.Create(_firstName, _lastName);
@@ -323,12 +323,12 @@ namespace Domain.Test.Aggregate
             UserAggregateRoot userAggregate = new UserAggregateRoot();
 
             userAggregate.LoadFromHistory(domainEvents);
-            
+
             var newPassword = Password.Create("testTest123@#1");
 
             userAggregate.ChangePassword(newPassword);
 
-            IList<DomainEvent> newEvents = userAggregate.GetUncomittedChanges().ToList();
+            IList<DomainEvent> newEvents = userAggregate.GetUncommittedChanges().ToList();
 
             newEvents.Count().Should().Be(1);
             newEvents[0].Version.Should().Be(3);

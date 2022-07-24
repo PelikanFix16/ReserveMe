@@ -22,7 +22,7 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
         {
             foreach (var item in _aggregates)
             {
-                IEnumerable<DomainEvent> events = item.Value.GetUncomittedChanges();
+                IEnumerable<DomainEvent> events = item.Value.GetUncommittedChanges();
                 await _eventRepository.Save(events);
                 _aggregates.Remove(item);
             }
@@ -34,7 +34,7 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
             T aggregate = new T();
             if (_aggregates.ContainsKey(key))
             {
-                IEnumerable<DomainEvent> _events = _aggregates[key].GetUncomittedChanges();
+                IEnumerable<DomainEvent> _events = _aggregates[key].GetUncommittedChanges();
                 aggregate.LoadFromHistory(_events);
                 return aggregate;
             }

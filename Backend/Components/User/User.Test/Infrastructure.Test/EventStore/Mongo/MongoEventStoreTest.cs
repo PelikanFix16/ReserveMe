@@ -90,7 +90,7 @@ namespace Infrastructure.Test.EventStore.Mongo
 
             var eventStore = new MongoEventStore(_settings);
 
-            foreach (var @event in user.GetUncomittedChanges())
+            foreach (var @event in user.GetUncommittedChanges())
             {
                 await eventStore.Save(@event);
             }

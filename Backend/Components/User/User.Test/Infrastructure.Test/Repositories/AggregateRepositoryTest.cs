@@ -84,7 +84,7 @@ namespace Infrastructure.Test.Repositories
             //checking returns true 
             result.Should().BeTrue();
             //checking we execute save function with this parameters
-            eventRepositoryMock.Verify(mock => mock.Save(user.GetUncomittedChanges()), Times.Once());
+            eventRepositoryMock.Verify(mock => mock.Save(user.GetUncommittedChanges()), Times.Once());
             // checking did dictionary is empty
 
             var userFromEvents = await _aggregateRepository.Get<UserAggregateRoot>(userId);
