@@ -25,7 +25,7 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
             foreach (var @event in events)
             {
                 await _eventStore.Save(@event);
-                await _eventPublisher.Publish(@event);
+                _eventPublisher.Publish(@event);
             }
 
         }
