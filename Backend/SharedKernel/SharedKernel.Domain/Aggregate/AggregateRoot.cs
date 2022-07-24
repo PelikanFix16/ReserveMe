@@ -8,7 +8,7 @@ namespace SharedKernel.Domain.Aggregate
         private readonly List<DomainEvent> _changes = new List<DomainEvent>();
         public int Version { get; protected set; }
 
-        public IEnumerable<DomainEvent> GetUncomittedChanges()
+        public IEnumerable<DomainEvent> GetUncommittedChanges()
         {
             lock (_changes)
             {

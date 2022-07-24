@@ -19,7 +19,7 @@ namespace User.Domain.User
 
         private void Apply(UserRegisteredEvent e)
         {
-            Id = e.Id;
+            Id = e.Key as UserId;
             Login = e.Login;
             Password = e.Password;
             Name = e.Name;
@@ -42,7 +42,8 @@ namespace User.Domain.User
         {
             Name = e.Name;
         }
-        private void Apply(UserDeletedEvent e){
+        private void Apply(UserDeletedEvent e)
+        {
             DeletedDate = e.TimeStamp;
         }
 
@@ -106,9 +107,9 @@ namespace User.Domain.User
 
         public void Delete()
         {
-            if(Id is null)
+            if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
-            ApplyChange(new UserDeletedEvent(Id,Version));
+            ApplyChange(new UserDeletedEvent(Id, Version));
         }
 
 
