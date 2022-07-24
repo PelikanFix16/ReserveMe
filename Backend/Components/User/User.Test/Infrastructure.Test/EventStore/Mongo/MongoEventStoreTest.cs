@@ -73,8 +73,34 @@ namespace Infrastructure.Test.EventStore.Mongo
             user!.Status.Should().Be(UserStatus.Activated);
 
 
+        }
 
+        [Fact]
+        public async Task Should_save_events_created_by_user_aggregate_rootAsync()
+        {
+            var userId = new UserId(Guid.NewGuid());
+            var login = Login.Create("example@gmail.com");
+            var password = Password.Create("Test@21Tsd");
+            var name = Name.Create("Test", "Test");
+            var birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
+            var newPass = Password.Create("Test@21Tsd2332");
+            var user = new UserAggregateRoot(userId, login, password, name, birthDate);
+            user.Confirm();
+            user.ChangePassword(newPass);
 
+            var eventStore = new MongoEventStore(_settings);
+
+            foreach (var @event in user.GetUncomittedChanges())
+            {
+                await eventStore.Save(@event);
+            }
+
+            var retEvents = await eventStore.Get(userId);
+            var retEventsArray = retEvents.ToArray();
+
+            retEventsArray[0].Should().BeOfType<UserRegisteredEvent>();
+            retEventsArray[1].Should().BeOfType<UserRegistrationConfirmedEvent>();
+            retEventsArray[2].Should().BeOfType<UserChangedPasswordEvent>();
         }
 
 
