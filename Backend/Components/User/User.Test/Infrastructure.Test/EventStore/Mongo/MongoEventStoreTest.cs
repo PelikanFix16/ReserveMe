@@ -61,12 +61,19 @@ namespace Infrastructure.Test.EventStore.Mongo
             await eventStore.Save(domainEventsList[2]);
 
             var eventStoreEventsReturn = await eventStore.Get(userId);
-
+            var eventStoreEventsReturnArray = eventStoreEventsReturn.ToArray();
             var user = new UserAggregateRoot();
 
             user.LoadFromHistory(eventStoreEventsReturn);
 
-            user?.Login?.Value.Should().Be(newLogin.Value);
+            user!.Login!.Value.Should().Be(newLogin.Value);
+            eventStoreEventsReturnArray[0].Version.Should().Be(0);
+            eventStoreEventsReturnArray[1].Version.Should().Be(1);
+            eventStoreEventsReturnArray[2].Version.Should().Be(2);
+            user!.Status.Should().Be(UserStatus.Activated);
+
+
+
 
         }
 

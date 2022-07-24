@@ -6,10 +6,10 @@ namespace User.Domain.User.Events
     public class UserRegisteredEvent : DomainEvent
     {
 
-        public Login Login { get; }
-        public Password Password { get; }
-        public Name Name { get; }
-        public BirthDate BirthDate { get; }
+        public Login Login { get; private set; }
+        public Password Password { get; private set; }
+        public Name Name { get; private set; }
+        public BirthDate BirthDate { get; private set; }
 
 
 
