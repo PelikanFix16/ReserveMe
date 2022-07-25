@@ -1,5 +1,4 @@
 using SharedKernel.Domain.Event;
-using SharedKernel.Domain.UniqueKey;
 
 namespace User.Domain.User.Events
 {
