@@ -125,7 +125,7 @@ namespace Domain.Test.Aggregate
 
             act.Should()
                 .Throw<BusinessRuleValidationException>()
-                .WithMessage("User cannot change the same passwrod to same value");
+                .WithMessage("User cannot change the same password to same value");
 
 
         }
