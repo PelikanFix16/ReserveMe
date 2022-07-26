@@ -1,3 +1,4 @@
+#pragma warning disable RCS1213, IDE0051
 using SharedKernel.Domain.Aggregate;
 using User.Domain.User.Events;
 using User.Domain.User.Rules;
@@ -16,7 +17,6 @@ namespace User.Domain.User
         public DateTimeOffset DeletedDate { get; private set; }
         public UserStatus Status { get; private set; } = UserStatus.DeActivated;
 
-
         private void Apply(UserRegisteredEvent e)
         {
             Id = e.Key as UserId;
@@ -26,22 +26,27 @@ namespace User.Domain.User
             BirthDate = e.BirthDate;
             RegisteredDate = e.TimeStamp;
         }
+
         private void Apply(UserChangedPasswordEvent e)
         {
             Password = e.Password;
         }
+
         private void Apply(UserChangedLoginEvent e)
         {
             Login = e.Login;
         }
+
         private void Apply(UserRegistrationConfirmedEvent e)
         {
             Status = e.Status;
         }
+
         private void Apply(UserChangedNameEvent e)
         {
             Name = e.Name;
         }
+
         private void Apply(UserDeletedEvent e)
         {
             DeletedDate = e.TimeStamp;
@@ -50,11 +55,10 @@ namespace User.Domain.User
         public UserAggregateRoot(UserId id, Login login, Password password, Name name, BirthDate birthDate)
         {
             ApplyChange(new UserRegisteredEvent(id, login, password, name, birthDate, Version));
-
         }
+
         public UserAggregateRoot()
         {
-
         }
 
         public void Confirm()
@@ -62,15 +66,15 @@ namespace User.Domain.User
             CheckRule(new UserCannotBeConfirmedMoreThanOnceRule(Status));
             if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
+
             ApplyChange(new UserRegistrationConfirmedEvent(Id, UserStatus.Activated, Version));
-
         }
-
 
         public void ChangePassword(Password newPassword)
         {
             if (Password is null)
                 throw new NullReferenceException("Password cannot be null");
+
             if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
 
@@ -78,7 +82,6 @@ namespace User.Domain.User
             CheckRule(new UserCannotChangeSamePassword(Password, newPassword));
             ApplyChange(new UserChangedPasswordEvent(Id, newPassword, Version));
         }
-
 
         public void ChangeLogin(Login newLogin)
         {
@@ -90,29 +93,28 @@ namespace User.Domain.User
             CheckRule(new UserCannotBeModifiedWithoutConfirmation(Status));
             CheckRule(new UserCannotChangeSameLogin(Login, newLogin));
             ApplyChange(new UserChangedLoginEvent(Id, newLogin, Version));
-
         }
 
         public void ChangeName(Name newName)
         {
             if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
+
             if (Name is null)
                 throw new NullReferenceException("Name cannot be null");
+
             CheckRule(new UserCannotBeModifiedWithoutConfirmation(Status));
             CheckRule(new UserCannotChangeSameName(newName, Name));
             ApplyChange(new UserChangedNameEvent(Id, newName, Version));
-
         }
 
         public void Delete()
         {
             if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
+
             ApplyChange(new UserDeletedEvent(Id, Version));
         }
-
-
-
     }
 }
+#pragma warning restore RCS1213, IDE0051
