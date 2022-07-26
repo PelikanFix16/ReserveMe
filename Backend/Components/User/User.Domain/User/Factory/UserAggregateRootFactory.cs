@@ -8,52 +8,49 @@ namespace User.Domain.User.Factory
         private Login? _login;
         private Name? _name;
         private Password? _password;
-        private UserId _userId;
+        private readonly UserId _userId;
 
         public UserAggregateRootFactory()
         {
             _userId = new UserId(Guid.NewGuid());
         }
+
         public IUserAggregateRootFactory AddBirthDate(DateTimeOffset birthDate)
         {
-            BirthDate birthObject = BirthDate.Create(birthDate);
-            _birthDate = birthObject;
+            _birthDate = BirthDate.Create(birthDate);
             return this;
         }
 
         public IUserAggregateRootFactory AddLogin(string login)
         {
-            Login loginObject = Login.Create(login);
-            _login = loginObject;
+            _login = Login.Create(login);
             return this;
         }
 
         public IUserAggregateRootFactory AddName(string firstName, string lastName)
         {
-            Name nameObject = Name.Create(firstName, lastName);
-            _name = nameObject;
+            _name = Name.Create(firstName, lastName);
             return this;
         }
 
         public IUserAggregateRootFactory AddPassword(string password)
         {
-            Password passwordObject = Password.Create(password);
-            _password = passwordObject;
+            _password = Password.Create(password);
             return this;
         }
 
         public UserAggregateRoot Create()
-        {   
-            if(_birthDate is null)
+        {
+            if (_birthDate is null)
                 throw new NullReferenceException("Birth date cannot be null");
-            if(_login is null)
+            if (_login is null)
                 throw new NullReferenceException("Login cannot be null");
-            if(_name is null)
+            if (_name is null)
                 throw new NullReferenceException("Name cannot be null");
-            if(_password is null)
+            if (_password is null)
                 throw new NullReferenceException("Password cannot be null");
-            
-            return new UserAggregateRoot(_userId,_login,_password,_name,_birthDate);
+
+            return new UserAggregateRoot(_userId, _login, _password, _name, _birthDate);
         }
     }
 }

@@ -6,12 +6,13 @@ namespace User.Domain.User.Rules
     {
         public string Message => "User Registration cannot be confirmed more than once";
 
-        private readonly UserStatus Status;
+        private readonly UserStatus _status;
 
-        internal UserCannotBeConfirmedMoreThanOnceRule(UserStatus status){
-            Status = status;
+        internal UserCannotBeConfirmedMoreThanOnceRule(UserStatus status)
+        {
+            _status = status;
         }
 
-        public bool IsBroken() => Status == UserStatus.Activated;
+        public bool IsBroken() => _status == UserStatus.Activated;
     }
 }
