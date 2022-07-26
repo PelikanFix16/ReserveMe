@@ -11,16 +11,14 @@ using Xunit;
 
 namespace Application.Test.Commands.UserRegister
 {
-
-
     public class UserRegisterCommandValidatorTest
     {
-        private UserRegisterCommand command;
-        private IValidator<UserRegisterCommand> _validator;
+        private readonly UserRegisterCommand _command;
+        private readonly IValidator<UserRegisterCommand> _validator;
 
         public UserRegisterCommandValidatorTest()
         {
-            command = new UserRegisterCommand()
+            _command = new UserRegisterCommand()
             {
                 Name = new NameDto()
                 {
@@ -35,216 +33,170 @@ namespace Application.Test.Commands.UserRegister
         }
 
         [Fact]
-        public async Task Should_valid_user_register_command()
+        public async Task ShouldValidUserRegisterCommandAsync()
         {
-            ValidationResult result = await _validator.ValidateAsync(command);
+            var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeTrue();
-
-
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_login_is_not_email()
+        public async Task ShouldNotValidUserRegisterCommandIfLoginIsNotEmailAsync()
         {
-            command.Login = "badEmail";
+            _command.Login = "badEmail";
 
-
-            ValidationResult result = await _validator.ValidateAsync(command);
+            var result = await _validator.ValidateAsync(_command);
 
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_login_is_not_null()
+        public async Task ShouldNotValidUserRegisterCommandIfLoginIsNotNullAsync()
         {
-            command.Login = null;
+            _command.Login = null;
 
-            ValidationResult result = await _validator.ValidateAsync(command);
+            var result = await _validator.ValidateAsync(_command);
 
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_login_is_empty()
+        public async Task ShouldNotValidUserRegisterCommandIfLoginIsEmptyAsync()
         {
-            command.Login = "";
-            ValidationResult result = await _validator.ValidateAsync(command);
-
-            result.IsValid.Should().BeFalse();
-
-        }
-
-        [Fact]
-        public async Task Should_not_valid_user_register_command_if_first_name_is_null()
-        {
-            command.Name.FirstName = null;
-            ValidationResult result = await _validator.ValidateAsync(command);
-
-            result.IsValid.Should().BeFalse();
-
-        }
-
-        [Fact]
-        public async Task Should_not_valid_user_register_command_if_first_name_is_empty()
-        {
-            command.Name.FirstName = "";
-
-            ValidationResult result = await _validator.ValidateAsync(command);
+            _command.Login = "";
+            var result = await _validator.ValidateAsync(_command);
 
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_first_name_is_less_than_3_characters()
+        public async Task ShouldNotValidUserRegisterCommandIfFirstNameIsNullAsync()
         {
-
-            command.Name.FirstName = "te";
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
-            result.IsValid.Should().BeFalse();
-
-        }
-
-        [Fact]
-        public async Task Should_not_valid_user_register_command_if_first_name_is_more_than_50_characters()
-        {
-
-            command.Name.FirstName = string.Concat(Enumerable.Repeat("a", 51));
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
-            result.IsValid.Should().BeFalse();
-
-        }
-
-        [Fact]
-        public async Task Should_not_valid_user_register_command_if_last_name_is_null()
-        {
-            command.Name.LastName = null;
-            ValidationResult result = await _validator.ValidateAsync(command);
-
-            result.IsValid.Should().BeFalse();
-
-        }
-
-        [Fact]
-        public async Task Should_not_valid_user_register_command_if_last_name_is_empty()
-        {
-            command.Name.LastName = "";
-
-            ValidationResult result = await _validator.ValidateAsync(command);
+            _command.Name.FirstName = null;
+            var result = await _validator.ValidateAsync(_command);
 
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_last_name_is_less_than_3_characters()
+        public async Task ShouldNotValidUserRegisterCommandIfFirstNameIsEmptyAsync()
         {
+            _command.Name.FirstName = "";
 
-            command.Name.LastName = "te";
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
-            result.IsValid.Should().BeFalse();
-
-        }
-
-        [Fact]
-        public async Task Should_not_valid_user_register_command_if_last_name_is_more_than_50_characters()
-        {
-
-            command.Name.LastName = string.Concat(Enumerable.Repeat("a", 51));
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
-            result.IsValid.Should().BeFalse();
-
-        }
-
-        [Fact]
-        public async Task Should_not_valid_user_register_command_if_password_is_null()
-        {
-            command.Password = null;
-
-            ValidationResult result = await _validator.ValidateAsync(command);
+            var result = await _validator.ValidateAsync(_command);
 
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_password_is_empty()
+        public async Task ShouldNotValidUserRegisterCommandIfFirstNameIsLessThan3CharactersAsync()
         {
-            command.Password = "";
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
+            _command.Name.FirstName = "te";
+            var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_password_is_less_than_8_characters()
+        public async Task ShouldNotValidUserRegisterCommandIfFirstNameIsMoreThan50CharactersAsync()
         {
-            command.Password = string.Concat(Enumerable.Repeat("a", 7));
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
+            _command.Name.FirstName = string.Concat(Enumerable.Repeat("a", 51));
+            var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_password_is_more_than_50_characters()
+        public async Task ShouldNotValidUserRegisterCommandIfLastNameIsNullAsync()
         {
-            command.Password = string.Concat(Enumerable.Repeat("a", 51));
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
+            _command.Name.LastName = null;
+            var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_birth_date_is_null()
+        public async Task ShouldNotValidUserRegisterCommandIfLastNameIsEmptyAsync()
         {
-            command.BirthDate = DateTime.MinValue;
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
+            _command.Name.LastName = "";
+            var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_birth_date_is_less_than_12_years()
+        public async Task ShouldNotValidUserRegisterCommandIfLastNameIsLessThan3CharactersAsync()
         {
-            command.BirthDate = AppTime.Now().AddYears(-11);
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
+            _command.Name.LastName = "te";
+            var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_birth_date_is_more_than_120_years()
+        public async Task ShouldNotValidUserRegisterCommandIfLastNameIsMoreThan50CharactersAsync()
         {
-            command.BirthDate = AppTime.Now().AddYears(-121);
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
+            _command.Name.LastName = string.Concat(Enumerable.Repeat("a", 51));
+            var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
+
         [Fact]
-        public async Task Should_not_valid_user_register_command_if_birth_date_is_more_than_current_date()
+        public async Task ShouldNotValidUserRegisterCommandIfPasswordIsNullAsync()
         {
-            command.BirthDate = AppTime.Now();
-
-            ValidationResult result = await _validator.ValidateAsync(command);
-
+            _command.Password = null;
+            var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
 
+        [Fact]
+        public async Task ShouldNotValidUserRegisterCommandIfPasswordIsEmptyAsync()
+        {
+            _command.Password = "";
+            var result = await _validator.ValidateAsync(_command);
+            result.IsValid.Should().BeFalse();
+        }
 
+        [Fact]
+        public async Task ShouldNotValidUserRegisterCommandIfPasswordIsLessThan8CharactersAsync()
+        {
+            _command.Password = string.Concat(Enumerable.Repeat("a", 7));
+            var result = await _validator.ValidateAsync(_command);
+            result.IsValid.Should().BeFalse();
+        }
 
+        [Fact]
+        public async Task ShouldNotValidUserRegisterCommandIfPasswordIsMoreThan50CharactersAsync()
+        {
+            _command.Password = string.Concat(Enumerable.Repeat("a", 51));
+            var result = await _validator.ValidateAsync(_command);
+            result.IsValid.Should().BeFalse();
+        }
 
+        [Fact]
+        public async Task ShouldNotValidUserRegisterCommandIfBirthDateIsNullAsync()
+        {
+            _command.BirthDate = DateTime.MinValue;
+            var result = await _validator.ValidateAsync(_command);
+            result.IsValid.Should().BeFalse();
+        }
 
+        [Fact]
+        public async Task ShouldNotValidUserRegisterCommandIfBirthDateIsLessThan12YearsAsync()
+        {
+            _command.BirthDate = AppTime.Now().AddYears(-11);
+            var result = await _validator.ValidateAsync(_command);
+            result.IsValid.Should().BeFalse();
+        }
 
+        [Fact]
+        public async Task ShouldNotValidUserRegisterCommandIfBirthDateIsMoreThan120YearsAsync()
+        {
+            _command.BirthDate = AppTime.Now().AddYears(-121);
+            var result = await _validator.ValidateAsync(_command);
+            result.IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task ShouldNotValidUserRegisterCommandIfBirthDateIsMoreThanCurrentDateAsync()
+        {
+            _command.BirthDate = AppTime.Now();
+            var result = await _validator.ValidateAsync(_command);
+            result.IsValid.Should().BeFalse();
+        }
     }
 }
