@@ -3,7 +3,7 @@ using SharedKernel.Domain.ValueObjects;
 
 namespace User.Domain.ValueObjects
 {
-    public class Login : ValueObject
+    public sealed class Login : ValueObject
     {
         public string Value { get; private set; }
 
