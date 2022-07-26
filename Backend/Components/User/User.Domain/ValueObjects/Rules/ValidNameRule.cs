@@ -5,20 +5,21 @@ namespace User.Domain.ValueObjects.Rules
 {
     public class ValidNameRule : IBusinessRule
     {
-        private readonly string Name;
+        private readonly string _name;
 
         public string Message => "Name must be valid";
 
-        public ValidNameRule(string _name)
+        public ValidNameRule(string name)
         {
-            Name = _name;
+            _name = name;
         }
+
         public bool IsBroken()
         {
-            if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(_name))
                 return true;
 
-            return (!Regex.Match(Name, "^[A-Z][a-zA-Z]*$").Success);
+            return !Regex.Match(_name, "^[A-Z][a-zA-Z]*$").Success;
         }
     }
 }
