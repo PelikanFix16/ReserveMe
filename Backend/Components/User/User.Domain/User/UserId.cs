@@ -4,7 +4,8 @@ namespace User.Domain.User
 {
     public class UserId : AggregateKey
     {
-        public UserId(Guid key) : base(key)
+        public UserId(Guid key)
+            : base(key)
         {
         }
     }
