@@ -15,330 +15,274 @@ namespace Domain.Test.Aggregate
 {
     public class UserAggregateRootTest
     {
-
-        private string _login = "example@mail.com";
-        private string _password = "Test12@1!";
-        private string _firstName = "Test";
-        private string _lastName = "Test";
-        private DateTimeOffset _birthDate = AppTime.Now().AddYears(-18);
-        private UserAggregateRootFactory userFactory;
+        private readonly string _login = "example@mail.com";
+        private readonly string _password = "Test12@1!";
+        private readonly string _firstName = "Test";
+        private readonly string _lastName = "Test";
+        private readonly DateTimeOffset _birthDate = AppTime.Now().AddYears(-18);
+        private readonly UserAggregateRootFactory _userFactory;
 
         public UserAggregateRootTest()
         {
-            userFactory = new UserAggregateRootFactory();
-            userFactory.AddBirthDate(_birthDate)
+            _userFactory = new UserAggregateRootFactory();
+            _userFactory.AddBirthDate(_birthDate)
                 .AddLogin(_login)
                 .AddName(_firstName, _lastName)
                 .AddPassword(_password);
-
-
         }
 
         [Fact]
         public void Should_Create_User_with_event_UserRegisteredEvent()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-
-            IList<DomainEvent> _event = userAggregateRoot.GetUncommittedChanges().ToList();
-
-            _event.Count().Should().Be(1);
-            _event[0].Version.Should().Be(0);
+            var userAggregateRoot = _userFactory.Create();
+            IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
+            domainEvents.Count.Should().Be(1);
+            domainEvents[0].Version.Should().Be(0);
             userAggregateRoot.Login!.Value.Should().Be(_login);
             userAggregateRoot.Name!.FirstName.Should().Be(_firstName);
             userAggregateRoot.Name!.LastName.Should().Be(_lastName);
             userAggregateRoot.Password!.Value.Should().Be(_password);
-
-
         }
 
         [Fact]
-        public void Should_Confirm_New_User_with_event_UserRegistrationConfirmedEvent()
+        public void ShouldConfirmNewUserWithEventUserRegistrationConfirmedEvent()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
+            var userAggregateRoot = _userFactory.Create();
             userAggregateRoot.Confirm();
-
-            IList<DomainEvent> _event = userAggregateRoot.GetUncommittedChanges().ToList();
-
-            _event.Count().Should().Be(2);
-            _event[1].Version.Should().Be(1);
+            IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
+            domainEvents.Count.Should().Be(2);
+            domainEvents[1].Version.Should().Be(1);
             userAggregateRoot.Status.Should().Be(UserStatus.Activated);
-
-
         }
 
         [Fact]
-        public void Should_throw_exception_when_confirm_user_second_time()
+        public void ShouldThrowExceptionWhenConfirmUserSecondTime()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
+            var userAggregateRoot = _userFactory.Create();
             userAggregateRoot.Confirm();
-
             Action act = () => userAggregateRoot.Confirm();
-
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage("User Registration cannot be confirmed more than once");
-
         }
 
         [Fact]
-        public void Should_change_password_when_is_confirmed_and_should_create_event_UserChangedPasswordEvent()
+        public void ShouldChangePasswordWhenIsConfirmedAndShouldCreateEventUserChangedPasswordEvent()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-            string newPass = "Test12!test";
-            Password pass = Password.Create(newPass);
-
+            var userAggregateRoot = _userFactory.Create();
+            const string NewPass = "Test12!test";
+            var pass = Password.Create(NewPass);
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangePassword(pass);
-
             IList<DomainEvent> events = userAggregateRoot.GetUncommittedChanges().ToList();
-
-            events.Count().Should().Be(3);
+            events.Count.Should().Be(3);
             events[2].Version.Should().Be(2);
-            userAggregateRoot.Password!.Value.Should().Be(newPass);
-
+            userAggregateRoot.Password!.Value.Should().Be(NewPass);
         }
 
         [Fact]
-        public void Should_throw_exception_when_to_try_change_password_without_confirmation()
+        public void ShouldThrowExceptionWhenToTryChangePasswordWithoutConfirmation()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-            string newPass = "Test12!test";
-            Password pass = Password.Create(newPass);
-
+            var userAggregateRoot = _userFactory.Create();
+            const string NewPass = "Test12!test";
+            var pass = Password.Create(NewPass);
             Action act = () => userAggregateRoot.ChangePassword(pass);
-
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage("User cannot be modified without confirmation");
-
         }
 
         [Fact]
-        public void Should_throw_exception_when_user_try_change_password_using_same_password()
+        public void ShouldThrowExceptionWhenUserTryChangePasswordUsingSamePassword()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-
-            Password pass = Password.Create(_password);
-
+            var userAggregateRoot = _userFactory.Create();
+            var pass = Password.Create(_password);
             userAggregateRoot.Confirm();
             Action act = () => userAggregateRoot.ChangePassword(pass);
-
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage("User cannot change the same password to same value");
-
-
         }
 
         [Fact]
-        public void Should_change_login_when_is_confirmed_and_should_create_event_UserChangedLoginEvent()
+        public void ShouldChangeLoginWhenIsConfirmedAndShouldCreateEventUserChangedLoginEvent()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-            var newLogin = "test@gmail.com";
-            Login login = Login.Create(newLogin);
-
+            var userAggregateRoot = _userFactory.Create();
+            const string NewLogin = "test@gmail.com";
+            var login = Login.Create(NewLogin);
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangeLogin(login);
-
             IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
-
-            domainEvents.Count().Should().Be(3);
+            domainEvents.Count.Should().Be(3);
             domainEvents[2].Version.Should().Be(2);
-            userAggregateRoot.Login!.Value.Should().Be(newLogin);
-
-
+            userAggregateRoot.Login!.Value.Should().Be(NewLogin);
         }
 
         [Fact]
-        public void Should_throw_exception_when_to_try_change_login_without_confirmation()
+        public void ShouldThrowExceptionWhenToTryChangeLoginWithoutConfirmation()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-            var newLogin = "test@gmail.com";
-            Login login = Login.Create(newLogin);
-
+            var userAggregateRoot = _userFactory.Create();
+            const string NewLogin = "test@gmail.com";
+            var login = Login.Create(NewLogin);
             Action act = () => userAggregateRoot.ChangeLogin(login);
-
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage("User cannot be modified without confirmation");
         }
 
         [Fact]
-        public void Should_throw_exception_when_user_try_change_login_using_same_login()
+        public void ShouldThrowExceptionWhenUserTryChangeLoginUsingSameLogin()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-            Login login = Login.Create(_login);
-
+            var userAggregateRoot = _userFactory.Create();
+            var login = Login.Create(_login);
             userAggregateRoot.Confirm();
             Action act = () => userAggregateRoot.ChangeLogin(login);
-
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage("User Cannot change login to the same login");
-
         }
 
         [Fact]
-        public void Should_change_name_when_is_confirmed_and_should_create_event_UserChangedNameEvent()
+        public void ShouldChangeNameWhenIsConfirmedAndShouldCreateEventUserChangedNameEvent()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-            var FirstName = "Tomek";
-            var LastName = "Kowalski";
-
-            Name name = Name.Create(FirstName, LastName);
-
+            var userAggregateRoot = _userFactory.Create();
+            const string FirstName = "Tomek";
+            const string LastName = "Kowalski";
+            var name = Name.Create(FirstName, LastName);
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangeName(name);
-
             IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
-
-            domainEvents.Count().Should().Be(3);
+            domainEvents.Count.Should().Be(3);
             domainEvents[2].Version.Should().Be(2);
             userAggregateRoot.Name!.FirstName.Should().Be(FirstName);
             userAggregateRoot.Name!.LastName.Should().Be(LastName);
-
         }
 
         [Fact]
-        public void Should_throw_exception_when_to_try_change_name_without_confirmation()
+        public void ShouldThrowExceptionWhenToTryChangeNameWithoutConfirmation()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-            var FirstName = "Tomek";
-            var LastName = "Kowalski";
-
-            Name name = Name.Create(FirstName, LastName);
-
+            var userAggregateRoot = _userFactory.Create();
+            const string FirstName = "Tomek";
+            const string LastName = "Kowalski";
+            var name = Name.Create(FirstName, LastName);
             Action act = () => userAggregateRoot.ChangeName(name);
             act.Should()
-              .Throw<BusinessRuleValidationException>()
-              .WithMessage("User cannot be modified without confirmation");
-
+                .Throw<BusinessRuleValidationException>()
+                .WithMessage("User cannot be modified without confirmation");
         }
 
         [Fact]
-        public void Should_throw_exception_when_user_try_change_name_using_same_name()
+        public void ShouldThrowExceptionWhenUserTryChangeNameUsingSameName()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-            Name name = Name.Create(_firstName, _lastName);
+            var userAggregateRoot = _userFactory.Create();
+            var name = Name.Create(_firstName, _lastName);
             userAggregateRoot.Confirm();
             Action act = () => userAggregateRoot.ChangeName(name);
-
             act.Should()
-                    .Throw<BusinessRuleValidationException>()
-                    .WithMessage("User cannot change the same name");
-
-
+                .Throw<BusinessRuleValidationException>()
+                .WithMessage("User cannot change the same name");
         }
 
         [Fact]
-        public void Should_emit_event_UserDeletedEvent()
+        public void ShouldEmitEventUserDeletedEvent()
         {
-            UserAggregateRoot userAggregateRoot = userFactory.Create();
-
+            var userAggregateRoot = _userFactory.Create();
             userAggregateRoot.Delete();
-
             IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
-            DateTimeOffset deleteTime = domainEvents[1].TimeStamp;
-
-            domainEvents.Count().Should().Be(2);
+            var deleteTime = domainEvents[1].TimeStamp;
+            domainEvents
+                .Count
+                .Should()
+                .Be(2);
             userAggregateRoot.DeletedDate.Should().Be(deleteTime);
-
         }
 
         [Fact]
-        public void Should_Load_events_from_history_list_and_apply_changes_to_empty_aggregate()
+        public void ShouldLoadEventsFromHistoryListAndApplyChangesToEmptyAggregate()
         {
-            UserId userId = new UserId(Guid.NewGuid());
-            Login login = Login.Create(_login);
-            Password password = Password.Create(_password);
-            Name name = Name.Create(_firstName, _lastName);
-            BirthDate birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
+            var userId = new UserId(Guid.NewGuid());
+            var login = Login.Create(_login);
+            var password = Password.Create(_password);
+            var name = Name.Create(_firstName, _lastName);
+            var birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
 
+            var userRegisteredEvent = new UserRegisteredEvent(
+                userId,
+                login,
+                password,
+                name,
+                birthDate,
+                0);
 
-            UserRegisteredEvent userRegisteredEvent = new UserRegisteredEvent(userId,
-                                                                              login,
-                                                                              password,
-                                                                              name,
-                                                                              birthDate,
-                                                                              0);
-            UserRegistrationConfirmedEvent userRegistrationConfirmedEvent =
-                                new UserRegistrationConfirmedEvent(userId,
-                                                                   UserStatus.Activated,
-                                                                    1);
+            var userRegistrationConfirmedEvent =
+                                new UserRegistrationConfirmedEvent(
+                                    userId,
+                                    UserStatus.Activated,
+                                    1);
 
             var newLogin = Login.Create("somelogin@gmail.com");
+            var userChangedLoginEvent = new UserChangedLoginEvent(
+                userId,
+                newLogin,
+                2);
 
-            UserChangedLoginEvent userChangedLoginEvent = new UserChangedLoginEvent(userId,
-                                                                                    newLogin,
-                                                                                    2);
+            var domainEvents = new List<DomainEvent>
+            {
+                userRegisteredEvent,
+                userRegistrationConfirmedEvent,
+                userChangedLoginEvent
+            };
 
-            List<DomainEvent> domainEvents = new List<DomainEvent>();
-            domainEvents.Add(userRegisteredEvent);
-            domainEvents.Add(userRegistrationConfirmedEvent);
-            domainEvents.Add(userChangedLoginEvent);
-
-            UserAggregateRoot userAggregate = new UserAggregateRoot();
-
+            var userAggregate = new UserAggregateRoot();
             userAggregate.LoadFromHistory(domainEvents);
-
             userAggregate.Login!.Value.Should().Be(newLogin.Value);
             userAggregate.Version.Should().Be(3);
-
-
-
         }
 
         [Fact]
-        public void Should_Load_event_from_history_add_apply_new_event_from_aggregate_using_method_ChangePassword_event_should_have_current_version_and_new_password()
+        public void ShouldLoadEventFromHistoryAddApplyNewEventFromAggregateUsingMethodChangePassword()
         {
-            UserId userId = new UserId(Guid.NewGuid());
-            Login login = Login.Create(_login);
-            Password password = Password.Create(_password);
-            Name name = Name.Create(_firstName, _lastName);
-            BirthDate birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
+            var userId = new UserId(Guid.NewGuid());
+            var login = Login.Create(_login);
+            var password = Password.Create(_password);
+            var name = Name.Create(_firstName, _lastName);
+            var birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
 
-
-            UserRegisteredEvent userRegisteredEvent = new UserRegisteredEvent(userId,
-                                                                              login,
-                                                                              password,
-                                                                              name,
-                                                                              birthDate,
-                                                                              0);
-            UserRegistrationConfirmedEvent userRegistrationConfirmedEvent =
-                                new UserRegistrationConfirmedEvent(userId,
-                                                                   UserStatus.Activated,
-                                                                    1);
-
+            var userRegisteredEvent = new UserRegisteredEvent(
+                userId,
+                login,
+                password,
+                name,
+                birthDate,
+                0);
+            var userRegistrationConfirmedEvent =
+                                new UserRegistrationConfirmedEvent(
+                                    userId,
+                                    UserStatus.Activated,
+                                    1);
             var newLogin = Login.Create("somelogin@gmail.com");
 
-            UserChangedLoginEvent userChangedLoginEvent = new UserChangedLoginEvent(userId,
-                                                                                    newLogin,
-                                                                                    2);
+            var userChangedLoginEvent = new UserChangedLoginEvent(
+                userId,
+                newLogin,
+                2);
 
-            List<DomainEvent> domainEvents = new List<DomainEvent>();
-            domainEvents.Add(userRegisteredEvent);
-            domainEvents.Add(userRegistrationConfirmedEvent);
-            domainEvents.Add(userChangedLoginEvent);
+            var domainEvents = new List<DomainEvent>
+            {
+                userRegisteredEvent,
+                userRegistrationConfirmedEvent,
+                userChangedLoginEvent
+            };
 
-            UserAggregateRoot userAggregate = new UserAggregateRoot();
-
+            var userAggregate = new UserAggregateRoot();
             userAggregate.LoadFromHistory(domainEvents);
-
             var newPassword = Password.Create("testTest123@#1");
-
             userAggregate.ChangePassword(newPassword);
-
             IList<DomainEvent> newEvents = userAggregate.GetUncommittedChanges().ToList();
-
-            newEvents.Count().Should().Be(1);
+            newEvents.Count.Should().Be(1);
             newEvents[0].Version.Should().Be(3);
             userAggregate.Version.Should().Be(4);
             userAggregate.Password!.Value.Should().Be(newPassword.Value);
-
-
-
         }
-
-
     }
 }
