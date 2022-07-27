@@ -5,7 +5,7 @@ namespace SharedKernel.Application.Repositories.Aggregate
 {
     public interface IEventRepository
     {
-        Task Save(IEnumerable<DomainEvent> events);
-        Task<IEnumerable<DomainEvent>> Get(AggregateKey key);
+        Task SaveAsync(IEnumerable<DomainEvent> events);
+        Task<IEnumerable<DomainEvent>> GetAsync(AggregateKey key);
     }
 }

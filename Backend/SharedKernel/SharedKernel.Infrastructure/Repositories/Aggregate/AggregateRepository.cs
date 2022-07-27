@@ -22,7 +22,7 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
             foreach (var item in _aggregates)
             {
                 var events = item.Value.GetUncommittedChanges();
-                await _eventRepository.Save(events);
+                await _eventRepository.SaveAsync(events);
                 _aggregates.Remove(item);
             }
 
@@ -39,7 +39,7 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
                 return aggregate;
             }
 
-            var events = await _eventRepository.Get(key);
+            var events = await _eventRepository.GetAsync(key);
             aggregate.LoadFromHistory(events);
             return aggregate;
         }

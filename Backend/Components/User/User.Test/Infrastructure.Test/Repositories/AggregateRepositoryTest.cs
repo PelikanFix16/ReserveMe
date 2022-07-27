@@ -41,12 +41,12 @@ namespace Infrastructure.Test.Repositories
             {
                 userRegisteredEvent
             };
-            eventRepositoryMock.Setup(x => x.Get(It.IsAny<AggregateKey>())).ReturnsAsync(list);
+            eventRepositoryMock.Setup(x => x.GetAsync(It.IsAny<AggregateKey>())).ReturnsAsync(list);
             IAggregateRepository aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
             // When
             var userAggregate = await aggregateRepository.GetAsync<UserAggregateRoot>(_userId);
             // Then
-            eventRepositoryMock.Verify(x => x.Get(_userId), Times.Once());
+            eventRepositoryMock.Verify(x => x.GetAsync(_userId), Times.Once());
             userAggregate.Should().BeOfType<UserAggregateRoot>();
             userAggregate.Version.Should().Be(1);
         }
@@ -62,7 +62,7 @@ namespace Infrastructure.Test.Repositories
 
             var aggregate = await aggregateRepository.GetAsync<UserAggregateRoot>(_userId);
 
-            eventRepositoryMock.Verify(mock => mock.Get(_userId), Times.Never());
+            eventRepositoryMock.Verify(mock => mock.GetAsync(_userId), Times.Never());
 
             aggregate.Should().BeOfType<UserAggregateRoot>();
             aggregate.Version.Should().Be(1);
@@ -82,12 +82,12 @@ namespace Infrastructure.Test.Repositories
             //checking returns true
             result.Should().BeTrue();
             //checking we execute save function with this parameters
-            eventRepositoryMock.Verify(mock => mock.Save(user.GetUncommittedChanges()), Times.Once());
+            eventRepositoryMock.Verify(mock => mock.SaveAsync(user.GetUncommittedChanges()), Times.Once());
             // checking did dictionary is empty
 
             var userFromEvents = await aggregateRepository.GetAsync<UserAggregateRoot>(_userId);
             // if this execute we know that dictionary is empty
-            eventRepositoryMock.Verify(mock => mock.Get(_userId), Times.Once());
+            eventRepositoryMock.Verify(mock => mock.GetAsync(_userId), Times.Once());
         }
     }
 }

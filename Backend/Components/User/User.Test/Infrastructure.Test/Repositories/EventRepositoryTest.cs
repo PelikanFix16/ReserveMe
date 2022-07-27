@@ -41,7 +41,7 @@ namespace Infrastructure.Test.Repositories
             eventStoreMock.Setup(x => x.Get(userId)).ReturnsAsync(domainEventsList);
             IEventRepository eventRepository = new EventRepository(eventStoreMock.Object, publisherMock.Object);
             //Act
-            var events = await eventRepository.Get(userId);
+            var events = await eventRepository.GetAsync(userId);
             var eventsList = events.ToArray();
             //Assert
             var domainEvent = (UserRegisteredEvent)eventsList[0];
@@ -69,7 +69,7 @@ namespace Infrastructure.Test.Repositories
 
             IEventRepository eventRepository = new EventRepository(eventStoreMock.Object, publisherMock.Object);
 
-            await eventRepository.Save(domainEventsList);
+            await eventRepository.SaveAsync(domainEventsList);
 
             publisherMock.Verify(x => x.Publish(It.IsAny<DomainEvent>()), Times.Exactly(3));
             eventStoreMock.Verify(x => x.Save(It.IsAny<DomainEvent>()), Times.Exactly(3));

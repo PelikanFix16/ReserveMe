@@ -10,24 +10,25 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
     {
         private readonly IEventStoreRepository _eventStore;
         private readonly IPublishEvent _eventPublisher;
+
         public EventRepository(IEventStoreRepository eventStore, IPublishEvent eventPublisher)
         {
             _eventPublisher = eventPublisher;
             _eventStore = eventStore;
         }
-        public async Task<IEnumerable<DomainEvent>> Get(AggregateKey key)
+
+        public Task<IEnumerable<DomainEvent>> GetAsync(AggregateKey key)
         {
-            return await _eventStore.Get(key);
+            return _eventStore.Get(key);
         }
 
-        public async Task Save(IEnumerable<DomainEvent> events)
+        public async Task SaveAsync(IEnumerable<DomainEvent> events)
         {
             foreach (var @event in events)
             {
                 await _eventStore.Save(@event);
                 _eventPublisher.Publish(@event);
             }
-
         }
     }
 }
