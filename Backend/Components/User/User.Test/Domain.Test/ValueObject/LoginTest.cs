@@ -9,19 +9,16 @@ namespace Domain.Test.ValueObject
     public class LoginTest
     {
         [Fact]
-        public void Login_Should_throw_excetpion_if_login_is_not_email()
+        public void LoginShouldThrowExceptionIfLoginIsNotEmail()
         {
             //Arrange
-            var email = "test";
+            const string Email = "test";
             //Act
-            Action act = () => Login.Create(email);
-
+            Action act = () => Login.Create(Email);
             //Assert
-
             act.Should()
-               .Throw<BusinessRuleValidationException>()
-               .WithMessage("Login mest be an email");
-
+                .Throw<BusinessRuleValidationException>()
+                .WithMessage("Login must be an email");
         }
 
         [Fact]
