@@ -8,9 +8,8 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
 {
     public class AggregateRepository : IAggregateRepository
     {
-
-        private IDictionary<AggregateKey, AggregateRoot> _aggregates;
-        private IEventRepository _eventRepository;
+        private readonly IDictionary<AggregateKey, AggregateRoot> _aggregates;
+        private readonly IEventRepository _eventRepository;
 
         public AggregateRepository(IEventRepository eventRepository)
         {
@@ -18,31 +17,31 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
             _eventRepository = eventRepository;
         }
 
-        public async Task<bool> Commit()
+        public async Task<bool> CommitAsync()
         {
             foreach (var item in _aggregates)
             {
-                IEnumerable<DomainEvent> events = item.Value.GetUncommittedChanges();
+                var events = item.Value.GetUncommittedChanges();
                 await _eventRepository.Save(events);
                 _aggregates.Remove(item);
             }
+
             return true;
         }
 
-        public async Task<T> Get<T>(AggregateKey key) where T : AggregateRoot, new()
+        public async Task<T> GetAsync<T>(AggregateKey key) where T : AggregateRoot, new()
         {
-            T aggregate = new T();
+            var aggregate = new T();
             if (_aggregates.ContainsKey(key))
             {
-                IEnumerable<DomainEvent> _events = _aggregates[key].GetUncommittedChanges();
-                aggregate.LoadFromHistory(_events);
+                var domainEvents = _aggregates[key].GetUncommittedChanges();
+                aggregate.LoadFromHistory(domainEvents);
                 return aggregate;
             }
 
-            IEnumerable<DomainEvent> events = await _eventRepository.Get(key);
+            var events = await _eventRepository.Get(key);
             aggregate.LoadFromHistory(events);
             return aggregate;
-
         }
 
         public void Save(AggregateRoot aggregate, AggregateKey key)
@@ -51,7 +50,6 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
                 throw new AggregateVersionException("Version of aggregate cannot be lower than current");
 
             _aggregates[key] = aggregate;
-
         }
 
         private bool CheckVersionAggregate(AggregateRoot aggregate, AggregateKey key)
@@ -63,12 +61,7 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
                     rootCheckAggregate = item.Value;
             }
 
-            if (rootCheckAggregate == null || rootCheckAggregate.Version < aggregate.Version)
-                return true;
-            else
-                return false;
-
+            return rootCheckAggregate == null || rootCheckAggregate.Version < aggregate.Version;
         }
-
     }
 }

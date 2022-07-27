@@ -44,7 +44,7 @@ namespace Infrastructure.Test.Repositories
             eventRepositoryMock.Setup(x => x.Get(It.IsAny<AggregateKey>())).ReturnsAsync(list);
             IAggregateRepository aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
             // When
-            var userAggregate = await aggregateRepository.Get<UserAggregateRoot>(_userId);
+            var userAggregate = await aggregateRepository.GetAsync<UserAggregateRoot>(_userId);
             // Then
             eventRepositoryMock.Verify(x => x.Get(_userId), Times.Once());
             userAggregate.Should().BeOfType<UserAggregateRoot>();
@@ -60,7 +60,7 @@ namespace Infrastructure.Test.Repositories
 
             aggregateRepository.Save(user, _userId);
 
-            var aggregate = await aggregateRepository.Get<UserAggregateRoot>(_userId);
+            var aggregate = await aggregateRepository.GetAsync<UserAggregateRoot>(_userId);
 
             eventRepositoryMock.Verify(mock => mock.Get(_userId), Times.Never());
 
@@ -77,7 +77,7 @@ namespace Infrastructure.Test.Repositories
 
             aggregateRepository.Save(user, _userId);
 
-            var result = await aggregateRepository.Commit();
+            var result = await aggregateRepository.CommitAsync();
 
             //checking returns true
             result.Should().BeTrue();
@@ -85,7 +85,7 @@ namespace Infrastructure.Test.Repositories
             eventRepositoryMock.Verify(mock => mock.Save(user.GetUncommittedChanges()), Times.Once());
             // checking did dictionary is empty
 
-            var userFromEvents = await aggregateRepository.Get<UserAggregateRoot>(_userId);
+            var userFromEvents = await aggregateRepository.GetAsync<UserAggregateRoot>(_userId);
             // if this execute we know that dictionary is empty
             eventRepositoryMock.Verify(mock => mock.Get(_userId), Times.Once());
         }
