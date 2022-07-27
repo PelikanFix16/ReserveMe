@@ -20,7 +20,7 @@ namespace Infrastructure.Test.Repositories
     public class EventRepositoryTest
     {
         [Fact]
-        public async Task Passing_aggregate_key_to_event_store_should_return_domain_events_for_this_aggregateAsync()
+        public async Task PassingAggregateKeyToEventStoreShouldReturnDomainEventsForThisAggregateAsync()
         {
             //Arrange
             var eventStoreMock = new Mock<IEventStoreRepository>();
@@ -30,7 +30,6 @@ namespace Infrastructure.Test.Repositories
             var password = Password.Create("Test@21Tsd");
             var name = Name.Create("Test", "Test");
             var birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
-
 
             IList<DomainEvent> domainEventsList = new List<DomainEvent>()
             {
@@ -48,12 +47,10 @@ namespace Infrastructure.Test.Repositories
             var domainEvent = (UserRegisteredEvent)eventsList[0];
             domainEvent.Key.Should().Be(userId);
             domainEvent.Version.Should().Be(0);
-
-
         }
 
         [Fact]
-        public async Task Saving_domain_events_should_execute_event_publisher_function_and_execute_event_store_saveAsync()
+        public async Task SavingDomainEventsShouldExecuteEventPublisherFunctionAndExecuteEventStoreSaveAsync()
         {
             var eventStoreMock = new Mock<IEventStoreRepository>();
             var publisherMock = new Mock<IPublishEvent>();
@@ -76,7 +73,6 @@ namespace Infrastructure.Test.Repositories
 
             publisherMock.Verify(x => x.Publish(It.IsAny<DomainEvent>()), Times.Exactly(3));
             eventStoreMock.Verify(x => x.Save(It.IsAny<DomainEvent>()), Times.Exactly(3));
-
         }
     }
 }
