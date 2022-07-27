@@ -2,7 +2,6 @@ using System.Diagnostics;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
-using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using SharedKernel.Application.Repositories.EventStore;
 using SharedKernel.Domain.Aggregate;
@@ -32,18 +31,19 @@ namespace SharedKernel.Infrastructure.Repositories.EventStore.Mongo
                     ConventionRegistry.Register("IgnoreExtraElements", conventionPack, _ => true);
                 }
             }
+
             var mongoClient = new MongoClient(settings.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(settings.DatabaseName);
             _collection = mongoDatabase.GetCollection<DomainEvent>(settings.CollectionName);
         }
-        public async Task<IEnumerable<DomainEvent>> Get(AggregateKey key)
+
+        public async Task<IEnumerable<DomainEvent>> GetAsync(AggregateKey key)
         {
             var filter = Builders<DomainEvent>.Filter.Eq("Key", key);
-            var events = await _collection.Find(filter).SortBy(b => b.Version).ToListAsync();
-            return events;
+            return await _collection.Find(filter).SortBy(b => b.Version).ToListAsync();
         }
 
-        public async Task Save(DomainEvent @event)
+        public async Task SaveAsync(DomainEvent @event)
         {
             await _collection.InsertOneAsync(@event);
         }

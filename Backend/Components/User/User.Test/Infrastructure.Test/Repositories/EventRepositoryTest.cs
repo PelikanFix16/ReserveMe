@@ -38,7 +38,7 @@ namespace Infrastructure.Test.Repositories
                 new UserChangedLoginEvent(userId,login,2)
             };
 
-            eventStoreMock.Setup(x => x.Get(userId)).ReturnsAsync(domainEventsList);
+            eventStoreMock.Setup(x => x.GetAsync(userId)).ReturnsAsync(domainEventsList);
             IEventRepository eventRepository = new EventRepository(eventStoreMock.Object, publisherMock.Object);
             //Act
             var events = await eventRepository.GetAsync(userId);
@@ -72,7 +72,7 @@ namespace Infrastructure.Test.Repositories
             await eventRepository.SaveAsync(domainEventsList);
 
             publisherMock.Verify(x => x.Publish(It.IsAny<DomainEvent>()), Times.Exactly(3));
-            eventStoreMock.Verify(x => x.Save(It.IsAny<DomainEvent>()), Times.Exactly(3));
+            eventStoreMock.Verify(x => x.SaveAsync(It.IsAny<DomainEvent>()), Times.Exactly(3));
         }
     }
 }

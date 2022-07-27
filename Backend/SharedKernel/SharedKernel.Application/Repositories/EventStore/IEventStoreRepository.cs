@@ -5,8 +5,7 @@ namespace SharedKernel.Application.Repositories.EventStore
 {
     public interface IEventStoreRepository
     {
-         Task Save(DomainEvent @event);
-         Task<IEnumerable<DomainEvent>> Get(AggregateKey key);
-         
+        Task SaveAsync(DomainEvent @event);
+        Task<IEnumerable<DomainEvent>> GetAsync(AggregateKey key);
     }
 }

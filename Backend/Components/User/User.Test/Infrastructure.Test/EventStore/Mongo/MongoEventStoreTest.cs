@@ -30,9 +30,9 @@ namespace Infrastructure.Test.EventStore.Mongo
 
             var registeredEvent = new UserRegisteredEvent(userId, login, password, name, birthDate, 0);
 
-            await eventStore.Save(registeredEvent);
+            await eventStore.SaveAsync(registeredEvent);
 
-            var events = await eventStore.Get(userId);
+            var events = await eventStore.GetAsync(userId);
 
             events.Count().Should().BeGreaterThan(0);
         }
@@ -55,11 +55,11 @@ namespace Infrastructure.Test.EventStore.Mongo
             };
 
             var eventStore = new MongoEventStore(_settings);
-            await eventStore.Save(domainEventsList[0]);
-            await eventStore.Save(domainEventsList[1]);
-            await eventStore.Save(domainEventsList[2]);
+            await eventStore.SaveAsync(domainEventsList[0]);
+            await eventStore.SaveAsync(domainEventsList[1]);
+            await eventStore.SaveAsync(domainEventsList[2]);
 
-            var eventStoreEventsReturn = await eventStore.Get(userId);
+            var eventStoreEventsReturn = await eventStore.GetAsync(userId);
             var eventStoreEventsReturnArray = eventStoreEventsReturn.ToArray();
             var user = new UserAggregateRoot();
 
@@ -89,10 +89,10 @@ namespace Infrastructure.Test.EventStore.Mongo
 
             foreach (var @event in user.GetUncommittedChanges())
             {
-                await eventStore.Save(@event);
+                await eventStore.SaveAsync(@event);
             }
 
-            var retEvents = await eventStore.Get(userId);
+            var retEvents = await eventStore.GetAsync(userId);
             var retEventsArray = retEvents.ToArray();
 
             retEventsArray[0].Should().BeOfType<UserRegisteredEvent>();

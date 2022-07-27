@@ -19,14 +19,14 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
 
         public Task<IEnumerable<DomainEvent>> GetAsync(AggregateKey key)
         {
-            return _eventStore.Get(key);
+            return _eventStore.GetAsync(key);
         }
 
         public async Task SaveAsync(IEnumerable<DomainEvent> events)
         {
             foreach (var @event in events)
             {
-                await _eventStore.Save(@event);
+                await _eventStore.SaveAsync(@event);
                 _eventPublisher.Publish(@event);
             }
         }
