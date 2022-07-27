@@ -8,46 +8,38 @@ namespace Domain.Test.ValueObject
 {
     public class NameTest
     {
-        private string exception_message = "Name must be valid";
+        private readonly string _exception_message = "Name must be valid";
 
         [Fact]
-        public void Name_should_throw_exception_when_contains_letters_and_numbers()
+        public void NameShouldThrowExceptionWhenContainsLettersAndNumbers()
         {
-            var firstName = "Tes1t12";
-            var LastName = "test2";
-
-            Action act = () => Name.Create(firstName, LastName);
-
+            const string FirstName = "Tes1t12";
+            const string LastName = "test2";
+            Action act = () => Name.Create(FirstName, LastName);
             act.Should()
                 .Throw<BusinessRuleValidationException>()
-                .WithMessage(exception_message);
-
+                .WithMessage(_exception_message);
         }
 
         [Fact]
-        public void Name_Should_throw_exception_when_name_or_LastName_starts_with_lowercase_letters()
+        public void NameShouldThrowExceptionWhenNameOrLastNameStartsWithLowercaseLetters()
         {
-            var firstName = "test";
-            var lastName = "test";
-
-            Action act = () => Name.Create(firstName, lastName);
-
+            const string FirstName = "test";
+            const string LastName = "test";
+            Action act = () => Name.Create(FirstName, LastName);
             act.Should()
                 .Throw<BusinessRuleValidationException>()
-                .WithMessage(exception_message);
+                .WithMessage(_exception_message);
         }
 
         [Fact]
-        public void Name_should_be_correct_when_starts_with_uppercase_letters_and_witchout_numbers()
+        public void NameShouldBeCorrectWhenStartsWithUppercaseLettersAndWithoutNumbers()
         {
-            var firstName = "Test";
-            var lastName = "Test";
-
-            Name name = Name.Create(firstName, lastName);
-
-            name.FirstName.Should().Be(firstName);
-            name.LastName.Should().Be(lastName);
-            
+            const string FirstName = "Test";
+            const string LastName = "Test";
+            var name = Name.Create(FirstName, LastName);
+            name.FirstName.Should().Be(FirstName);
+            name.LastName.Should().Be(LastName);
         }
     }
 }
