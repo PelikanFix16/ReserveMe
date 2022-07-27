@@ -21,6 +21,5 @@ namespace Infrastructure.Test.EventBus.Rabbit
                 Password = Password
             };
         }
-
     }
 }
