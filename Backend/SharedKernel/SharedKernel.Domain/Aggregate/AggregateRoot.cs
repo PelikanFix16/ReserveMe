@@ -51,6 +51,7 @@ namespace SharedKernel.Domain.Aggregate
                     _changes.Add(@event);
                     //   Version = ++@event.Version;
                 }
+
                 Version++;
             }
         }
