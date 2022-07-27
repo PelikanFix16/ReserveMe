@@ -1,9 +1,9 @@
+#pragma warning disable RCS1194
 namespace SharedKernel.Domain.BusinessRule
 {
     public class BusinessRuleValidationException : Exception
     {
         public IBusinessRule BrokenRule { get; }
-
         public string Details { get; }
 
         public BusinessRuleValidationException(IBusinessRule brokenRule)
@@ -19,3 +19,4 @@ namespace SharedKernel.Domain.BusinessRule
         }
     }
 }
+#pragma warning restore RCS1194
