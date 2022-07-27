@@ -1,3 +1,4 @@
+#pragma warning disable CA1822
 using SharedKernel.Domain.BusinessRule;
 
 namespace SharedKernel.Domain.EntityBase
@@ -11,3 +12,4 @@ namespace SharedKernel.Domain.EntityBase
         }
     }
 }
+#pragma warning restore CA1822
