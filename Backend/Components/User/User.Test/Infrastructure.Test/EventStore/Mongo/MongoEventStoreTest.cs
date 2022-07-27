@@ -18,7 +18,7 @@ namespace Infrastructure.Test.EventStore.Mongo
         private readonly MongoSettings _settings = MongoSettingsLocalDatabase.GetConfig();
 
         [Fact]
-        public async Task Should_save_domain_event_to_mongoAsync()
+        public async Task ShouldSaveDomainEventToMongoAsync()
         {
             var eventStore = new MongoEventStore(_settings);
 
@@ -35,11 +35,10 @@ namespace Infrastructure.Test.EventStore.Mongo
             var events = await eventStore.Get(userId);
 
             events.Count().Should().BeGreaterThan(0);
-
         }
 
         [Fact]
-        public async Task Should_rebuild_aggregate_from_event_store_eventsAsync()
+        public async Task ShouldRebuildAggregateFromEventStoreEventsAsync()
         {
             var userId = new UserId(Guid.NewGuid());
             var login = Login.Create("example@gmail.com");
@@ -71,8 +70,6 @@ namespace Infrastructure.Test.EventStore.Mongo
             eventStoreEventsReturnArray[1].Version.Should().Be(1);
             eventStoreEventsReturnArray[2].Version.Should().Be(2);
             user!.Status.Should().Be(UserStatus.Activated);
-
-
         }
 
         [Fact]
@@ -102,8 +99,5 @@ namespace Infrastructure.Test.EventStore.Mongo
             retEventsArray[1].Should().BeOfType<UserRegistrationConfirmedEvent>();
             retEventsArray[2].Should().BeOfType<UserChangedPasswordEvent>();
         }
-
-
-
     }
 }
