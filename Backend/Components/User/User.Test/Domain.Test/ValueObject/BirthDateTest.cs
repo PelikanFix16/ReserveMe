@@ -9,68 +9,58 @@ namespace Domain.Test.ValueObject
 {
     public class BirthDateTest
     {
-        private string birth_date_message =
+        private readonly string _birth_date_message =
                             "Birth date should be between 12 and 120 year old";
+
         [Fact]
-        public void User_Should_throw_exception_when_be_younger_than_12_years()
+        public void UserShouldThrowExceptionWhenBeYoungerThan12Years()
         {
             //Arrange
-            DateTimeOffset Young_User = AppTime.Now().AddYears(-11);
+            var young_User = AppTime.Now().AddYears(-11);
+            Action act = () => BirthDate.Create(young_User);
+            act.Should()
+                .Throw<BusinessRuleValidationException>()
+                .WithMessage(_birth_date_message);
+        }
 
+        [Fact]
+        public void UserShouldThrowExceptionWhenBeOlderThan120Years()
+        {
+            var old_user = AppTime.Now().AddYears(-121);
 
-            Action act = () => BirthDate.Create(Young_User);
+            Action act = () => BirthDate.Create(old_user);
 
             act.Should()
                 .Throw<BusinessRuleValidationException>()
-                .WithMessage(birth_date_message);
-
+                .WithMessage(_birth_date_message);
         }
 
         [Fact]
-        public void User_Should_throw_exception_when_be_older_than_120_years()
+        public void UserShouldCreateWhenBeOlderOrEqualTo12Years()
         {
-            DateTimeOffset Old_user = AppTime.Now().AddYears(-121);
-
-            Action act = () => BirthDate.Create(Old_user);
-
-            act.Should()
-                .Throw<BusinessRuleValidationException>()
-                .WithMessage(birth_date_message);
+            var correct_user = AppTime.Now().AddYears(-12);
+            var birthDate = BirthDate.Create(correct_user);
+            birthDate.Value.Should().Be(correct_user);
         }
 
         [Fact]
-        public void User_should_create_when_be_older_or_equal_to_12_years()
+        public void UserShouldCreateWhenBeOlderOrEqualTo120Years()
         {
-            DateTimeOffset correct_user = AppTime.Now().AddYears(-12);
-
-            BirthDate birthdate = BirthDate.Create(correct_user);
-
-            birthdate.Value.Should().Be(correct_user);
-
-
+            var correct_user = AppTime.Now().AddYears(-120);
+            var birthDate = BirthDate.Create(correct_user);
+            birthDate.Value.Should().Be(correct_user);
         }
 
         [Fact]
-        public void User_should_create_when_be_older_or_equal_to_120_years()
+        public void UserShouldNotCreateIfBirthDateIsMoreOrEqualCurrentDate()
         {
-            DateTimeOffset correct_user = AppTime.Now().AddYears(-120);
-
-            BirthDate birthdate = BirthDate.Create(correct_user);
-
-            birthdate.Value.Should().Be(correct_user);
-        }
-
-        [Fact]
-        public void User_hould_not_create_if_birth_date_is_more_or_equal_current_date()
-        {
-            DateTimeOffset currentDate = DateTimeOffset.Now;
+            var currentDate = DateTimeOffset.Now;
 
             Action act = () => BirthDate.Create(currentDate);
 
             act.Should()
                 .Throw<BusinessRuleValidationException>()
-                .WithMessage(birth_date_message);
-
+                .WithMessage(_birth_date_message);
         }
     }
 }
