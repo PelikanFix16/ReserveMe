@@ -4,6 +4,6 @@ namespace SharedKernel.Application.Repositories.EventBus
 {
     public interface IHandleEvent
     {
-         Task Handle(DomainEvent @event);
+        Task HandleAsync(DomainEvent @event);
     }
 }
