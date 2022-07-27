@@ -6,5 +6,15 @@ namespace SharedKernel.Application.Repositories.Exceptions
             : base(message)
         {
         }
+
+        public EventSaveException()
+            : base()
+        {
+        }
+
+        public EventSaveException(string? message, Exception? innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }
