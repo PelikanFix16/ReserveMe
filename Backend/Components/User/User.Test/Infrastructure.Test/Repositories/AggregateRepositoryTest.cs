@@ -18,83 +18,76 @@ namespace Infrastructure.Test.Repositories
 {
     public class AggregateRepositoryTest
     {
-        private UserId userId = new UserId(Guid.NewGuid());
-        private Login login = Login.Create("test@gmail.com");
-        private Password password = Password.Create("Test@21Tsd");
-        private Name name = Name.Create("Test", "Test");
-        private BirthDate birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
+        private readonly UserId _userId = new(Guid.NewGuid());
+        private readonly Login _login = Login.Create("test@gmail.com");
+        private readonly Password _password = Password.Create("Test@21Tsd");
+        private readonly Name _name = Name.Create("Test", "Test");
+        private readonly BirthDate _birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
 
         [Fact]
-        public async Task Aggregate_Repository_should_return_aggregate_with_one_event_registered_from_event_repository_when_call_get_method()
+        public async Task AggregateRepositoryShouldReturnAggregateWithOneEventRegisteredFromEventRepositoryWhenCallGetMethodAsync()
         {
             // Given
-            Mock<IEventRepository> eventRepositoryMock = new Mock<IEventRepository>();
-            UserRegisteredEvent userRegisteredEvent = new UserRegisteredEvent(
-                userId,
-                login,
-                password,
-                name,
-                birthDate,
+            var eventRepositoryMock = new Mock<IEventRepository>();
+            var userRegisteredEvent = new UserRegisteredEvent(
+                _userId,
+                _login,
+                _password,
+                _name,
+                _birthDate,
                 0
             );
-            IList<DomainEvent> list = new List<DomainEvent>();
-            list.Add(userRegisteredEvent);
+            IList<DomainEvent> list = new List<DomainEvent>
+            {
+                userRegisteredEvent
+            };
             eventRepositoryMock.Setup(x => x.Get(It.IsAny<AggregateKey>())).ReturnsAsync(list);
-            IAggregateRepository _aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
+            IAggregateRepository aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
             // When
-            var userAggregate = await _aggregateRepository.Get<UserAggregateRoot>(userId);
+            var userAggregate = await aggregateRepository.Get<UserAggregateRoot>(_userId);
             // Then
-            eventRepositoryMock.Verify(x => x.Get(userId), Times.Once());
+            eventRepositoryMock.Verify(x => x.Get(_userId), Times.Once());
             userAggregate.Should().BeOfType<UserAggregateRoot>();
             userAggregate.Version.Should().Be(1);
-
         }
 
         [Fact]
-        public async Task Aggregate_repository_should_save_aggregate_to_local_dictionary_when_pass_witch_correct_aggregate_version()
+        public async Task AggregateRepositoryShouldSaveAggregateToLocalDictionaryWhenPassWitchCorrectAggregateVersionAsync()
         {
-            Mock<IEventRepository> eventRepositoryMock = new Mock<IEventRepository>();
-            UserAggregateRoot user = new UserAggregateRoot(userId, login, password, name, birthDate);
-            IAggregateRepository _aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
+            var eventRepositoryMock = new Mock<IEventRepository>();
+            var user = new UserAggregateRoot(_userId, _login, _password, _name, _birthDate);
+            IAggregateRepository aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
 
-            _aggregateRepository.Save(user, userId);
+            aggregateRepository.Save(user, _userId);
 
-            var aggregate = await _aggregateRepository.Get<UserAggregateRoot>(userId);
+            var aggregate = await aggregateRepository.Get<UserAggregateRoot>(_userId);
 
-            eventRepositoryMock.Verify(mock => mock.Get(userId), Times.Never());
+            eventRepositoryMock.Verify(mock => mock.Get(_userId), Times.Never());
 
             aggregate.Should().BeOfType<UserAggregateRoot>();
             aggregate.Version.Should().Be(1);
-
-
         }
 
-
         [Fact]
-        public async Task Aggregate_repository_should_commit_aggregate_events_to_event_repository_and_delete_from_local_direcotry()
+        public async Task AggregateRepositoryShouldCommitAggregateEventsToEventRepositoryAndDeleteFromLocalDirectoryAsync()
         {
-            Mock<IEventRepository> eventRepositoryMock = new Mock<IEventRepository>();
-            UserAggregateRoot user = new UserAggregateRoot(userId, login, password, name, birthDate);
-            IAggregateRepository _aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
+            var eventRepositoryMock = new Mock<IEventRepository>();
+            var user = new UserAggregateRoot(_userId, _login, _password, _name, _birthDate);
+            IAggregateRepository aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
 
-            _aggregateRepository.Save(user, userId);
+            aggregateRepository.Save(user, _userId);
 
-            var result = await _aggregateRepository.Commit();
+            var result = await aggregateRepository.Commit();
 
-            //checking returns true 
+            //checking returns true
             result.Should().BeTrue();
             //checking we execute save function with this parameters
             eventRepositoryMock.Verify(mock => mock.Save(user.GetUncommittedChanges()), Times.Once());
             // checking did dictionary is empty
 
-            var userFromEvents = await _aggregateRepository.Get<UserAggregateRoot>(userId);
+            var userFromEvents = await aggregateRepository.Get<UserAggregateRoot>(_userId);
             // if this execute we know that dictionary is empty
-            eventRepositoryMock.Verify(mock => mock.Get(userId), Times.Once());
-
-
+            eventRepositoryMock.Verify(mock => mock.Get(_userId), Times.Once());
         }
-
-
-
     }
 }
