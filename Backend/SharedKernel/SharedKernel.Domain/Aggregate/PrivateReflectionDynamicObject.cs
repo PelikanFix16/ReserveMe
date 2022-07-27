@@ -38,7 +38,7 @@ namespace SharedKernel.Domain.Aggregate
         {
             try
             {
-                // Try to incoke the method
+                // Try to invoke the method
                 return type.InvokeMember(
                     name,
                     BindingFlags.InvokeMethod | BindingFlag,
