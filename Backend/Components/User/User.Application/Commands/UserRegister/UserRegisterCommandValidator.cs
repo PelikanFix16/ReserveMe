@@ -7,7 +7,7 @@ namespace User.Application.Commands.UserRegister
     {
         public UserRegisterCommandValidator()
         {
-            RuleFor(c => c.Login)
+            RuleFor(c => c.Login.Login)
                 .NotNull()
                 .WithMessage("Login cannot be null")
                 .NotEmpty()
@@ -34,7 +34,7 @@ namespace User.Application.Commands.UserRegister
                 .MaximumLength(50)
                 .WithMessage("Maximum Length of Last name cannot be more than 50 characters");
 
-            RuleFor(c => c.Password)
+            RuleFor(c => c.Password.Password)
                 .NotNull()
                 .WithMessage("Password cannot be null")
                 .NotEmpty()
@@ -44,7 +44,7 @@ namespace User.Application.Commands.UserRegister
                 .MaximumLength(50)
                 .WithMessage("Maximum Length of Password cannot be more than 50 characters");
 
-            RuleFor(c => c.BirthDate)
+            RuleFor(c => c.BirthDate.BirthDate)
                 .NotNull()
                 .WithMessage("Birth date cannot be null")
                 .NotEmpty()

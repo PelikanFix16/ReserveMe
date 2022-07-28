@@ -5,15 +5,15 @@ namespace User.Application.Commands.UserRegister
 {
     public class UserRegisterCommand : IRequest<UserRegisterDto>
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public NameDto Name { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public DateTime BirthDate { get; set; }
+        public LoginDto Login { get; set; }
+        public PasswordDto Password { get; set; }
+        public BirthDateDto BirthDate { get; set; }
 
         public UserRegisterCommand()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid();
         }
     }
 }

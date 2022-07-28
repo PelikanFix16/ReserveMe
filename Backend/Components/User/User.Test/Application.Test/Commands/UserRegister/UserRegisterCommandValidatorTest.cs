@@ -25,9 +25,9 @@ namespace Application.Test.Commands.UserRegister
                     FirstName = "Test",
                     LastName = "Test"
                 },
-                Login = "test@example.com",
-                Password = "someStrong!Password12",
-                BirthDate = AppTime.Now().AddYears(-18)
+                Login = new LoginDto() { Login = "test@example.com" },
+                Password = new PasswordDto() { Password = "someStrong!Password12" },
+                BirthDate = new BirthDateDto() { BirthDate = AppTime.Now().AddYears(-18) }
             };
             _validator = new UserRegisterCommandValidator();
         }
@@ -42,7 +42,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfLoginIsNotEmailAsync()
         {
-            _command.Login = "badEmail";
+            _command.Login.Login = "badEmail";
 
             var result = await _validator.ValidateAsync(_command);
 
@@ -52,7 +52,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfLoginIsNotNullAsync()
         {
-            _command.Login = null;
+            _command.Login.Login = null;
 
             var result = await _validator.ValidateAsync(_command);
 
@@ -62,7 +62,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfLoginIsEmptyAsync()
         {
-            _command.Login = "";
+            _command.Login.Login = "";
             var result = await _validator.ValidateAsync(_command);
 
             result.IsValid.Should().BeFalse();
@@ -138,7 +138,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfPasswordIsNullAsync()
         {
-            _command.Password = null;
+            _command.Password.Password = null;
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -146,7 +146,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfPasswordIsEmptyAsync()
         {
-            _command.Password = "";
+            _command.Password.Password = "";
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -154,7 +154,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfPasswordIsLessThan8CharactersAsync()
         {
-            _command.Password = string.Concat(Enumerable.Repeat("a", 7));
+            _command.Password.Password = string.Concat(Enumerable.Repeat("a", 7));
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -162,7 +162,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfPasswordIsMoreThan50CharactersAsync()
         {
-            _command.Password = string.Concat(Enumerable.Repeat("a", 51));
+            _command.Password.Password = string.Concat(Enumerable.Repeat("a", 51));
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -170,7 +170,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfBirthDateIsNullAsync()
         {
-            _command.BirthDate = DateTime.MinValue;
+            _command.BirthDate.BirthDate = DateTime.MinValue;
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -178,7 +178,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfBirthDateIsLessThan12YearsAsync()
         {
-            _command.BirthDate = AppTime.Now().AddYears(-11);
+            _command.BirthDate.BirthDate = AppTime.Now().AddYears(-11);
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -186,7 +186,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfBirthDateIsMoreThan120YearsAsync()
         {
-            _command.BirthDate = AppTime.Now().AddYears(-121);
+            _command.BirthDate.BirthDate = AppTime.Now().AddYears(-121);
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -194,7 +194,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfBirthDateIsMoreThanCurrentDateAsync()
         {
-            _command.BirthDate = AppTime.Now();
+            _command.BirthDate.BirthDate = AppTime.Now();
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
