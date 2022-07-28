@@ -8,7 +8,5 @@ namespace User.Domain.User.Factory
         IUserAggregateRootFactory AddLogin(string login);
         IUserAggregateRootFactory AddPassword(string password);
         IUserAggregateRootFactory AddBirthDate(DateTimeOffset birthDate);
-
-
     }
 }
