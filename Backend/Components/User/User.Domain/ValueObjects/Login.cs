@@ -18,7 +18,6 @@ namespace User.Domain.ValueObjects
             return new Login(login);
         }
 
-
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Value;
