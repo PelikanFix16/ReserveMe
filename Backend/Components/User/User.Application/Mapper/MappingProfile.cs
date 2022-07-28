@@ -18,7 +18,7 @@ namespace User.Application.Mapper
             CreateMap<LoginDto, Login>().ConstructUsing(x => Login.Create(x.Login));
             CreateMap<PasswordDto, Password>().ConstructUsing(x => Password.Create(x.Password));
             CreateMap<BirthDateDto, BirthDate>().ConstructUsing(x => BirthDate.Create(x.BirthDate));
-
+            CreateMap<Name, NameDto>();
             CreateMap<UserRegisterCommand, UserAggregateRoot>().AfterMap((src, dest, context) =>
             {
                 var userId = context.Mapper.Map<UserId>(src.Id);
@@ -28,6 +28,13 @@ namespace User.Application.Mapper
                 var birthDate = context.Mapper.Map<BirthDate>(src.BirthDate);
                 dest = new UserAggregateRoot(userId, login, password, name, birthDate);
             });
+
+            CreateMap<UserAggregateRoot, UserRegisterDto>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(y => y.Id.Key.ToString()))
+                .ForMember(
+                    x => x.Name,
+                    opt => opt.MapFrom(y => y.Name))
+                .ForMember(x => x.Login, opt => opt.MapFrom(y => y.Login.Value));
         }
     }
 }
