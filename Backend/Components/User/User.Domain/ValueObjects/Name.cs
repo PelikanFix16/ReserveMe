@@ -3,7 +3,7 @@ using User.Domain.ValueObjects.Rules;
 
 namespace User.Domain.ValueObjects
 {
-    public class Name : ValueObject
+    public sealed class Name : ValueObject
     {
         public string FirstName { get; private set; }
         public string LastName { get; private set; }

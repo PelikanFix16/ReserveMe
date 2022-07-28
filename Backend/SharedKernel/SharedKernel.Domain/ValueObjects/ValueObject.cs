@@ -6,25 +6,22 @@ namespace SharedKernel.Domain.ValueObjects
     {
         protected static bool EqualOperator(ValueObject left, ValueObject right)
         {
-
-
-
-            if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
+            if (left is null ^ right is null)
             {
                 return false;
             }
 
-            return ReferenceEquals(left, null) || left.Equals(right);
+            return left is null || left.Equals(right);
         }
 
         protected static bool NotEqualOperator(ValueObject left, ValueObject right)
         {
-            return !(EqualOperator(left, right));
+            return !EqualOperator(left, right);
         }
 
         protected static void CheckRule(IBusinessRule rule)
         {
-            if(rule.IsBroken())
+            if (rule.IsBroken())
                 throw new BusinessRuleValidationException(rule);
         }
 
@@ -45,20 +42,18 @@ namespace SharedKernel.Domain.ValueObjects
         public override int GetHashCode()
         {
             return GetEqualityComponents()
-                .Select(x => x != null ? x.GetHashCode() : 0)
+                .Select(x => (x?.GetHashCode()) ?? 0)
                 .Aggregate((x, y) => x ^ y);
         }
 
         public static bool operator ==(ValueObject one, ValueObject two)
         {
-            return one?.Equals(two) ?? (one is null && two is null ? true : false);
+            return one?.Equals(two) ?? (one is null && two is null);
         }
 
         public static bool operator !=(ValueObject one, ValueObject two)
         {
-            return !(one?.Equals(two) ?? (one is null && two is null ? true : false));
+            return !(one?.Equals(two) ?? (one is null && two is null));
         }
-
-
     }
 }

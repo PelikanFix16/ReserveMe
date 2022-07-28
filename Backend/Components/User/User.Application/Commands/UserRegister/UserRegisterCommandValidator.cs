@@ -14,7 +14,7 @@ namespace User.Application.Commands.UserRegister
                 .WithMessage("Email address is required")
                 .EmailAddress()
                 .WithMessage("A valid email is required");
-            
+
             RuleFor(c => c.Name.FirstName)
                 .NotNull()
                 .WithMessage("First name cannot be null")
@@ -53,11 +53,8 @@ namespace User.Application.Commands.UserRegister
                 .WithMessage("Birth date must be greater than or equal to 12 years")
                 .GreaterThan(AppTime.Now().AddYears(-120))
                 .WithMessage("Birth Date must be less than or equal to 120 years");
-                // .LessThan(AppTime.Now())
-                // .WithMessage("Birth Date must be lower than current date");
-
-                
-
+            // .LessThan(AppTime.Now())
+            // .WithMessage("Birth Date must be lower than current date");
 
         }
     }

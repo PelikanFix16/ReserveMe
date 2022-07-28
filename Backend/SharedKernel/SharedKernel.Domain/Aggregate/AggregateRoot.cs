@@ -5,7 +5,8 @@ namespace SharedKernel.Domain.Aggregate
 {
     public abstract class AggregateRoot : Entity
     {
-        private readonly List<DomainEvent> _changes = new List<DomainEvent>();
+        private readonly List<DomainEvent> _changes = new();
+
         public int Version { get; protected set; }
 
         public IEnumerable<DomainEvent> GetUncommittedChanges()
@@ -15,6 +16,7 @@ namespace SharedKernel.Domain.Aggregate
                 return _changes.ToArray();
             }
         }
+
         public void MarkChangesAsCommitted()
         {
             lock (_changes)
@@ -22,6 +24,7 @@ namespace SharedKernel.Domain.Aggregate
                 _changes.Clear();
             }
         }
+
         public void LoadFromHistory(IEnumerable<DomainEvent> history)
         {
             foreach (var e in history)
@@ -48,11 +51,9 @@ namespace SharedKernel.Domain.Aggregate
                     _changes.Add(@event);
                     //   Version = ++@event.Version;
                 }
+
                 Version++;
             }
         }
-
-
-
     }
 }

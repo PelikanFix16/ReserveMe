@@ -26,7 +26,6 @@ namespace SharedKernel.Infrastructure.Repositories.MessageBus.Rabbit
 
         public void Publish(DomainEvent @event)
         {
-
             using var connection = _factory.CreateConnection();
             using var channel = connection.CreateModel();
             var eventName = @event.SelectQueue();
@@ -36,7 +35,6 @@ namespace SharedKernel.Infrastructure.Repositories.MessageBus.Rabbit
             var properties = channel.CreateBasicProperties();
             properties.Persistent = true;
             channel.BasicPublish("", eventName, properties, body);
-
         }
     }
 }

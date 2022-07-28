@@ -9,70 +9,66 @@ namespace Domain.Test.Factory
 {
     public class UserAggregateFactoryTest
     {
-        private IUserAggregateRootFactory userFactory = new UserAggregateRootFactory();
-        private DateTimeOffset BirthDate = AppTime.Now().AddYears(-18);
+        private readonly IUserAggregateRootFactory _userFactory = new UserAggregateRootFactory();
+        private readonly DateTimeOffset _birthDate = AppTime.Now().AddYears(-18);
+        private readonly string _firstName = "John";
+        private readonly string _lastName = "Doe";
+        private readonly string _login = "20hubert01@gmail.com";
+        private readonly string _password = "testTestow@1!";
 
-        private string FirstName = "John";
-        private string LastName = "Doe";
-        private string Login = "20hubert01@gmail.com";
-        private string Password = "testTestow@1!";
-
-        public void User_Aggregate_Facotry_Should_Create_Name_Without_Exception()
+        [Fact]
+        public void UserAggregateFactoryShouldCreateNameWithoutException()
         {
-            //Arrange
-            //Act 
-            Action addName = () => userFactory.AddName(FirstName, LastName);
+            Action addName = () => _userFactory.AddName(_firstName, _lastName);
             addName.Should().NotThrow();
         }
 
         [Fact]
-        public void User_Aggregate_Factory_Should_Create_Login_Without_Exception()
+        public void UserAggregateFactoryShouldCreateLoginWithoutException()
         {
-            //Arrange     
+            //Arrange
             //Act
-            Action addLogin = () => userFactory.AddLogin(Login);
+            Action addLogin = () => _userFactory.AddLogin(_login);
             addLogin.Should().NotThrow();
         }
 
         [Fact]
-        public void User_Aggregate_Factory_Should_Create_Password_Without_Exception()
-        {
-            //Arrange         
-            //Act
-            Action addPassword = () => userFactory.AddPassword(Password);
-            //Assert
-            addPassword.Should().NotThrow();
-
-        }
-
-        [Fact]
-        public void User_Aggregate_Facotry_Should_Create_BirthDate_Without_Exception()
+        public void UserAggregateFactoryShouldCreatePasswordWithoutException()
         {
             //Arrange
             //Act
-            Action addBirthdate = () => userFactory.AddBirthDate(BirthDate);
+            Action addPassword = () => _userFactory.AddPassword(_password);
             //Assert
-            addBirthdate.Should().NotThrow();
+            addPassword.Should().NotThrow();
         }
+
         [Fact]
-        public void User_Aggregate_Facotry_Should_Create_UserAggregateRoot_Without_Exception()
+        public void UserAggregateFactoryShouldCreateBirthDateWithoutException()
         {
+            //Arrange
+            //Act
+            Action addBirthDate = () => _userFactory.AddBirthDate(_birthDate);
+            //Assert
+            addBirthDate.Should().NotThrow();
+        }
 
-            IUserAggregateRootFactory _userFactory = new UserAggregateRootFactory();
-            _userFactory.AddBirthDate(BirthDate);
-            _userFactory.AddPassword(Password);
-            _userFactory.AddLogin(Login);
-            _userFactory.AddName(FirstName, LastName);
-            UserAggregateRoot user = _userFactory.Create();
-
+        [Fact]
+        public void UserAggregateFactoryShouldCreateUserAggregateRootWithoutException()
+        {
+            var userFactory = new UserAggregateRootFactory();
+            userFactory.AddBirthDate(_birthDate);
+            userFactory.AddPassword(_password);
+            userFactory.AddLogin(_login);
+            userFactory.AddName(_firstName, _lastName);
+            var user = userFactory.Create();
+            //Assert
             user.Id.Should().NotBeNull();
-            user.Login!.Value.Should().Be(Login);
-            user.Name!.FirstName.Should().Be(FirstName);
-            user.Name!.LastName.Should().Be(LastName);
-            user.Password!.Value.Should().Be(Password);
-            user.BirthDate!.Value.Should().Be(BirthDate);
+            user.Login!.Value.Should().Be(_login);
+            user.Name!.FirstName.Should().Be(_firstName);
+            user.Name!.LastName.Should().Be(_lastName);
+            user.Password!.Value.Should().Be(_password);
+            user.BirthDate!.Value.Should().Be(_birthDate);
             user.RegisteredDate.Day.Should().Be(AppTime.Now().Day);
-
         }
     }
 }

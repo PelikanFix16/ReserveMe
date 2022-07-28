@@ -3,7 +3,7 @@ using User.Domain.ValueObjects.Rules;
 
 namespace User.Domain.ValueObjects
 {
-    public class BirthDate : ValueObject
+    public sealed class BirthDate : ValueObject
     {
         public DateTimeOffset Value { get; private set; }
 

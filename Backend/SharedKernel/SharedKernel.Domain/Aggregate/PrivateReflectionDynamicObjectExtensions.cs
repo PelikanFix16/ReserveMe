@@ -6,6 +6,5 @@ namespace SharedKernel.Domain.Aggregate
         {
             return PrivateReflectionDynamicObject.WrapObjectIfNeeded(o);
         }
-
     }
 }

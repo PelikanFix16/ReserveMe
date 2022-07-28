@@ -6,12 +6,13 @@ namespace SharedKernel.Domain.Aggregate
     internal class PrivateReflectionDynamicObject : DynamicObject
     {
         public object? RealObject { get; set; }
-        private const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+        private const BindingFlags BindingFlag = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
         internal static object? WrapObjectIfNeeded(object? o)
         {
             // Don't wrap primitive types, which don't have many interesting internal APIs
-            if (o == null || o.GetType().IsPrimitive || o is string)
+            if (o?.GetType().IsPrimitive != false || o is string)
                 return o;
 
             return new PrivateReflectionDynamicObject() { RealObject = o };
@@ -20,11 +21,13 @@ namespace SharedKernel.Domain.Aggregate
         // Called when a method is called
         public override bool TryInvokeMember(InvokeMemberBinder binder, object?[]? args, out object? result)
         {
-            if (args == null) throw new ArgumentNullException("args");
-            if (RealObject == null) throw new ArgumentNullException("object");
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
+
+            if (RealObject == null)
+                throw new ArgumentNullException($"RealObject {RealObject}");
 
             result = InvokeMemberOnType(RealObject.GetType(), RealObject, binder.Name, args);
-
             // Wrap the sub object if necessary. This allows nested anonymous objects to work.
             result = WrapObjectIfNeeded(result);
 
@@ -35,10 +38,10 @@ namespace SharedKernel.Domain.Aggregate
         {
             try
             {
-                // Try to incoke the method
+                // Try to invoke the method
                 return type.InvokeMember(
                     name,
-                    BindingFlags.InvokeMethod | bindingFlags,
+                    BindingFlags.InvokeMethod | BindingFlag,
                     null,
                     target,
                     args);

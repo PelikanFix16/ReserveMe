@@ -8,27 +8,22 @@ namespace User.Domain.ValueObjects.Rules
         private readonly DateTimeOffset _birthDate;
 
         public string Message => "Birth date should be between 12 and 120 year old";
-        
-        private int minRequiredBirthDate = 12;
-        private int maxRequiredBirthDate = 120;
+
+        private readonly int _minRequiredBirthDate = 12;
+        private readonly int _maxRequiredBirthDate = 120;
 
         public BirthDateRule(DateTimeOffset birthDate)
         {
             _birthDate = birthDate;
         }
+
         public bool IsBroken()
         {
             var currentYear = AppTime.Now().Year;
             var birthDateYear = _birthDate.Year;
-            var oldYears = currentYear + maxRequiredBirthDate;
-            var youngYears = currentYear + minRequiredBirthDate;
             var birthDateInYears = Math.Abs(currentYear - birthDateYear);
-            //var cleanDate = _birthDate.DateTime;
-
-            bool retVal = (birthDateInYears < minRequiredBirthDate)
-                            ||  (birthDateInYears > maxRequiredBirthDate);
-                            //|| cleanDate >= AppTime.Now();
-            return retVal;
+            return (birthDateInYears < _minRequiredBirthDate)
+                || (birthDateInYears > _maxRequiredBirthDate);
         }
     }
 }

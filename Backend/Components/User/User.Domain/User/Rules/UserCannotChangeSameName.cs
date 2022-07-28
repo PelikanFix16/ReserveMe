@@ -9,11 +9,13 @@ namespace User.Domain.User.Rules
 
         private readonly Name _newName;
         private readonly Name _oldName;
-        public UserCannotChangeSameName(Name newName,Name oldName)
+
+        public UserCannotChangeSameName(Name newName, Name oldName)
         {
             _newName = newName;
             _oldName = oldName;
         }
+
         public bool IsBroken() => _newName == _oldName;
     }
 }

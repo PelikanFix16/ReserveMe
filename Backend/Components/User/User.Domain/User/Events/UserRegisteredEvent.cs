@@ -7,8 +7,11 @@ namespace User.Domain.User.Events
     {
 
         public Login Login { get; private set; }
+
         public Password Password { get; private set; }
+
         public Name Name { get; private set; }
+
         public BirthDate BirthDate { get; private set; }
 
 

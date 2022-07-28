@@ -28,8 +28,6 @@ namespace SharedKernel.Infrastructure.Repositories.MessageBus
             }
 
             return "NOT_FOUND";
-
-
         }
     }
 }

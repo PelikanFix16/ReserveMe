@@ -15,7 +15,7 @@ namespace Infrastructure.Test.EventBus.Rabbit
     public class PublishEventTest
     {
         [Fact]
-        public void Should_send_event_to_rabbit_queue()
+        public void ShouldSendEventToRabbitQueue()
         {
             // Arrange
             var eventBus = new PublishEvent(RabbitSettingsLocal.GetConfig());

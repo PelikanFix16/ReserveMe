@@ -9,29 +9,24 @@ namespace Domain.Test.ValueObject
     public class PasswordTest
     {
         [Fact]
-        public void Password_Should_Throw_exception_when_is_to_weak()
+        public void PasswordShouldThrowExceptionWhenIsToWeak()
         {
             //Arrange
-            var password = "test";
+            const string Password = "test";
             //Act
-            Action act = () => Password.Create(password);
+            Action act = () => User.Domain.ValueObjects.Password.Create(Password);
             //Assert
-
             act.Should()
-               .Throw<BusinessRuleValidationException>()
-               .WithMessage("Password is to weak");
-
+                .Throw<BusinessRuleValidationException>()
+                .WithMessage("Password is to weak");
         }
 
         [Fact]
-        public void Password_Should_Create_correct_when_password_is_strong(){
-            var password = "testT123@";
-
-            var pass = Password.Create(password);
-
-            pass.Value.Should().Be(password);
-            
-
+        public void PasswordShouldCreateCorrectWhenPasswordIsStrong()
+        {
+            const string Password = "testT123@";
+            var pass = User.Domain.ValueObjects.Password.Create(Password);
+            pass.Value.Should().Be(Password);
         }
     }
 }

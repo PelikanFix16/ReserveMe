@@ -4,26 +4,25 @@ namespace SharedKernel.Domain.BusinessRule.Rules
 {
     public class LoginMustBeEmailRule : IBusinessRule
     {
-
-        private readonly string Email;
-
+        private readonly string _email;
 
         public LoginMustBeEmailRule(string email)
         {
-            Email = email;
+            _email = email;
         }
 
-        public string Message => "Login mest be an email";
+        public string Message => "Login must be an email";
 
         public bool IsBroken()
         {
-            if (string.IsNullOrEmpty(Email))
+            if (string.IsNullOrEmpty(_email))
                 return true;
-            string validEmailPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
-        + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
-        + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
-            Regex reg = new Regex(validEmailPattern, RegexOptions.IgnoreCase);
-            bool validated = reg.IsMatch(Email);
+
+            const string ValidEmailPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
+                + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
+                + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+            var reg = new Regex(ValidEmailPattern, RegexOptions.IgnoreCase);
+            var validated = reg.IsMatch(_email);
             return !validated;
         }
     }

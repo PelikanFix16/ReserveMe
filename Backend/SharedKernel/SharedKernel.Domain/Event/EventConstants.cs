@@ -1,10 +1,7 @@
 namespace SharedKernel.Domain.Event
 {
-    public class EventConstants
+    public static class EventConstants
     {
         public const string USER_REGISTERED = "UserRegisteredEvent";
-
-
-
     }
 }

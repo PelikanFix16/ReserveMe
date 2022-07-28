@@ -4,6 +4,5 @@ namespace SharedKernel.Domain.Event
     {
         public int Version { get; set; }
         public DateTimeOffset TimeStamp { get; set; }
-
     }
 }
