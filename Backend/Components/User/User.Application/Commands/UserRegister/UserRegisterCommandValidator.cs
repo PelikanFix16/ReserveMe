@@ -42,7 +42,11 @@ namespace User.Application.Commands.UserRegister
                 .MinimumLength(8)
                 .WithMessage("Minimum Length of Password cannot be less than 8 characters")
                 .MaximumLength(50)
-                .WithMessage("Maximum Length of Password cannot be more than 50 characters");
+                .WithMessage("Maximum Length of Password cannot be more than 50 characters")
+                .Matches("[0-9]+")
+                .WithMessage("Password must contain at least one number")
+                .Matches("[A-Z]+")
+                .WithMessage("Password must contain at least one uppercase letter");
 
             RuleFor(c => c.BirthDate.BirthDate)
                 .NotNull()

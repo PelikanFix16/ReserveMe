@@ -144,6 +144,14 @@ namespace Application.Test.Commands.UserRegister
         }
 
         [Fact]
+        public async Task ShouldNotValidUserRegisterCommandIfPasswordIsWeakAsync()
+        {
+            _command.Password.Password = "test_mark_test2312";
+            var result = await _validator.ValidateAsync(_command);
+            result.IsValid.Should().BeFalse();
+        }
+
+        [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfPasswordIsEmptyAsync()
         {
             _command.Password.Password = "";
