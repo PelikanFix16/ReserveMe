@@ -47,8 +47,8 @@ namespace Infrastructure.Test.Repositories
             var userAggregate = await aggregateRepository.GetAsync<UserAggregateRoot>(_userId);
             // Then
             eventRepositoryMock.Verify(x => x.GetAsync(_userId), Times.Once());
-            userAggregate.Should().BeOfType<UserAggregateRoot>();
-            userAggregate.Version.Should().Be(1);
+            userAggregate.Value.Should().BeOfType<UserAggregateRoot>();
+            userAggregate.Value.Version.Should().Be(1);
         }
 
         [Fact]
@@ -64,8 +64,8 @@ namespace Infrastructure.Test.Repositories
 
             eventRepositoryMock.Verify(mock => mock.GetAsync(_userId), Times.Never());
 
-            aggregate.Should().BeOfType<UserAggregateRoot>();
-            aggregate.Version.Should().Be(1);
+            aggregate.Value.Should().BeOfType<UserAggregateRoot>();
+            aggregate.Value.Version.Should().Be(1);
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace Infrastructure.Test.Repositories
             var result = await aggregateRepository.CommitAsync();
 
             //checking returns true
-            result.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
             //checking we execute save function with this parameters
             eventRepositoryMock.Verify(mock => mock.SaveAsync(user.GetUncommittedChanges()), Times.Once());
             // checking did dictionary is empty

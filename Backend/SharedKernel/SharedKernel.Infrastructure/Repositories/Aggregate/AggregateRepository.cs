@@ -1,5 +1,6 @@
+using FluentResults;
 using SharedKernel.Application.Repositories.Aggregate;
-using SharedKernel.Application.Repositories.Exceptions;
+using SharedKernel.Application.Repositories.Errors;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
@@ -17,19 +18,26 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
             _eventRepository = eventRepository;
         }
 
-        public async Task<bool> CommitAsync()
+        public async Task<Result> CommitAsync()
         {
             foreach (var item in _aggregates)
             {
-                var events = item.Value.GetUncommittedChanges();
-                await _eventRepository.SaveAsync(events);
-                _aggregates.Remove(item);
+                try
+                {
+                    var events = item.Value.GetUncommittedChanges();
+                    await _eventRepository.SaveAsync(events);
+                    _aggregates.Remove(item);
+                }
+                catch (Exception)
+                {
+                    return Result.Fail(new SaveEventError());
+                }
             }
 
-            return true;
+            return Result.Ok();
         }
 
-        public async Task<T> GetAsync<T>(AggregateKey key) where T : AggregateRoot, new()
+        public async Task<Result<T>> GetAsync<T>(AggregateKey key) where T : AggregateRoot, new()
         {
             var aggregate = new T();
             if (_aggregates.ContainsKey(key))
@@ -39,17 +47,28 @@ namespace SharedKernel.Infrastructure.Repositories.Aggregate
                 return aggregate;
             }
 
-            var events = await _eventRepository.GetAsync(key);
-            aggregate.LoadFromHistory(events);
-            return aggregate;
+            try
+            {
+                var events = await _eventRepository.GetAsync(key);
+                if (!events.Any())
+                    return Result.Fail(new AggregateNotFoundError(key));
+
+                aggregate.LoadFromHistory(events);
+                return aggregate;
+            }
+            catch (Exception)
+            {
+                return Result.Fail(new GetEventError());
+            }
         }
 
-        public void Save(AggregateRoot aggregate, AggregateKey key)
+        public Result Save(AggregateRoot aggregate, AggregateKey key)
         {
             if (!CheckVersionAggregate(aggregate, key))
-                throw new AggregateVersionException("Version of aggregate cannot be lower than current");
+                return Result.Fail(new AggregateVersionError(key));
 
             _aggregates[key] = aggregate;
+            return Result.Ok();
         }
 
         private bool CheckVersionAggregate(AggregateRoot aggregate, AggregateKey key)
