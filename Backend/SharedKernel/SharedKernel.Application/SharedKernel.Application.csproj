@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="FluentResults" Version="3.10.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 
   <PropertyGroup>
