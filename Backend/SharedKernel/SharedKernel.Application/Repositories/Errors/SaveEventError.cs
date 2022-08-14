@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
+using SharedKernel.Application.Common;
 
 namespace SharedKernel.Application.Repositories.Errors
 {
-    public class SaveEventError : Error
+    public class SaveEventError : BaseError
     {
         private const string ErrorMessage = "Failed to save events to event repository";
         private const int Code = 503;
 
         public SaveEventError()
-            : base(ErrorMessage)
+            : base(ErrorMessage, Code)
         {
-            Metadata.Add("StatusCode", Code);
         }
     }
 }
