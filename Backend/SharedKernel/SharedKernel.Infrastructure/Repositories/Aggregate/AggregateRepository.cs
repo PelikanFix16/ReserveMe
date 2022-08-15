@@ -1,8 +1,7 @@
 using FluentResults;
+using SharedKernel.Application.Common.Errors.RepositoriesErrors;
 using SharedKernel.Application.Repositories.Aggregate;
-using SharedKernel.Application.Repositories.Errors;
 using SharedKernel.Domain.Aggregate;
-using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
 
 namespace SharedKernel.Infrastructure.Repositories.Aggregate
