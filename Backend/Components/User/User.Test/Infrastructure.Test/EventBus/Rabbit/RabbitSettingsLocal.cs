@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using SharedKernel.Infrastructure.Repositories.MessageBus.Rabbit;
 
 namespace Infrastructure.Test.EventBus.Rabbit
@@ -12,14 +13,15 @@ namespace Infrastructure.Test.EventBus.Rabbit
         private const string UserName = "guest";
         private const string Password = "guest";
 
-        public static RabbitSettings GetConfig()
+        public static IOptions<RabbitSettings> GetConfig()
         {
-            return new RabbitSettings
-            {
-                HostName = HostName,
-                UserName = UserName,
-                Password = Password
-            };
+            return Options.Create(
+                new RabbitSettings
+                {
+                    HostName = HostName,
+                    UserName = UserName,
+                    Password = Password
+                });
         }
     }
 }

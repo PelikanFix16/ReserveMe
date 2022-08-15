@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using SharedKernel.Application.Repositories.EventBus;
@@ -14,13 +15,14 @@ namespace SharedKernel.Infrastructure.Repositories.MessageBus.Rabbit
     {
         private readonly ConnectionFactory _factory;
 
-        public PublishEvent(RabbitSettings settings)
+        public PublishEvent(IOptions<RabbitSettings> settings)
         {
+            var settingsRabbit = settings.Value;
             _factory = new ConnectionFactory()
             {
-                HostName = settings.HostName,
-                UserName = settings.UserName,
-                Password = settings.Password
+                HostName = settingsRabbit.HostName,
+                UserName = settingsRabbit.UserName,
+                Password = settingsRabbit.Password
             };
         }
 
