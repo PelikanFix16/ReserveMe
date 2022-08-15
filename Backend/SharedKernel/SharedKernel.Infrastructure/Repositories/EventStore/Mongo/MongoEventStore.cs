@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
@@ -14,9 +15,11 @@ namespace SharedKernel.Infrastructure.Repositories.EventStore.Mongo
     {
         private readonly IMongoCollection<DomainEvent> _collection;
         private static readonly object s_lock = new();
+        private readonly MongoSettings _settings;
 
-        public MongoEventStore(MongoSettings settings)
+        public MongoEventStore(IOptions<MongoSettings> settings)
         {
+            _settings = settings.Value;
             lock (s_lock)
             {
                 if (!BsonClassMap.IsClassMapRegistered(typeof(DomainEvent)))
@@ -32,9 +35,9 @@ namespace SharedKernel.Infrastructure.Repositories.EventStore.Mongo
                 }
             }
 
-            var mongoClient = new MongoClient(settings.ConnectionString);
-            var mongoDatabase = mongoClient.GetDatabase(settings.DatabaseName);
-            _collection = mongoDatabase.GetCollection<DomainEvent>(settings.CollectionName);
+            var mongoClient = new MongoClient(_settings.ConnectionString);
+            var mongoDatabase = mongoClient.GetDatabase(_settings.DatabaseName);
+            _collection = mongoDatabase.GetCollection<DomainEvent>(_settings.CollectionName);
         }
 
         public async Task<IEnumerable<DomainEvent>> GetAsync(AggregateKey key)

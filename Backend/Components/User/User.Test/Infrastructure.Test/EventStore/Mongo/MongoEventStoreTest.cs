@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Extensions.Options;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Event;
 using SharedKernel.Infrastructure.Repositories.EventStore.Mongo;
@@ -15,7 +16,7 @@ namespace Infrastructure.Test.EventStore.Mongo
 {
     public class MongoEventStoreTest
     {
-        private readonly MongoSettings _settings = MongoSettingsLocalDatabase.GetConfig();
+        private readonly IOptions<MongoSettings> _settings = MongoSettingsLocalDatabase.GetConfig();
 
         [Fact]
         public async Task ShouldSaveDomainEventToMongoAsync()
