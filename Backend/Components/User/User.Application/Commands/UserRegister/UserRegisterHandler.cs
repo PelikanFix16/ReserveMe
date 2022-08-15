@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using FluentResults;
 using MediatR;
 using SharedKernel.Application.Repositories.Aggregate;
 using User.Domain.User;
 
 namespace User.Application.Commands.UserRegister
 {
-    public class UserRegisterHandler : IRequestHandler<UserRegisterCommand, UserRegisterDto>
+    public class UserRegisterHandler : IRequestHandler<UserRegisterCommand, Result<UserRegisterDto>>
     {
         private readonly IMapper _mapper;
         private readonly IAggregateRepository _aggregateRepository;
@@ -17,7 +18,7 @@ namespace User.Application.Commands.UserRegister
             _aggregateRepository = aggregateRepository;
         }
 
-        public async Task<UserRegisterDto> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UserRegisterDto>> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
         {
             var validator = new UserRegisterCommandValidator();
             var validatorResult = await validator.ValidateAsync(request, cancellationToken);

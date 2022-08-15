@@ -1,9 +1,10 @@
+using FluentResults;
 using MediatR;
 using User.Application.Mapper.Dto;
 
 namespace User.Application.Commands.UserRegister
 {
-    public class UserRegisterCommand : IRequest<UserRegisterDto>
+    public class UserRegisterCommand : IRequest<Result<UserRegisterDto>>
     {
         public Guid Id { get; set; }
         public NameDto Name { get; set; }
