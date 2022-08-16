@@ -13,11 +13,11 @@ namespace User.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly ISender _sender;
 
-        public AuthController(IMediator mediator)
+        public AuthController(ISender mediator)
         {
-            _mediator = mediator;
+            _sender = mediator;
         }
         [HttpGet]
         public async Task<IActionResult> GetAuthAsync()
@@ -43,7 +43,7 @@ namespace User.Api.Controllers
                 }
             };
 
-            var res = await _mediator.Send(userRegister);
+            var res = await _sender.Send(userRegister);
             return Ok("auth");
         }
     }
