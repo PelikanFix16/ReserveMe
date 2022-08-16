@@ -22,8 +22,28 @@ namespace User.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAuthAsync()
         {
+            var userRegister = new UserRegisterCommand
+            {
+                Name = new NameDto
+                {
+                    FirstName = "FirstName",
+                    LastName = "l"
+                },
+                Login = new LoginDto
+                {
+                    Login = "test@example.com"
+                },
+                Password = new PasswordDto
+                {
+                    Password = "Password21!@s"
+                },
+                BirthDate = new BirthDateDto
+                {
+                    BirthDate = new DateTime(2000, 1, 1)
+                }
+            };
 
-            // var res = await _mediator.Send(userRegister);
+            var res = await _mediator.Send(userRegister);
             return Ok("auth");
         }
     }
