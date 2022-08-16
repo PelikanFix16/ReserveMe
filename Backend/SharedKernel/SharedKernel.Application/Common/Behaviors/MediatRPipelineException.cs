@@ -15,7 +15,10 @@ namespace SharedKernel.Application.Common.Behaviors
         where TRequest : IRequest<TResponse>
         where TResponse : ResultBase<TResponse>, new()
     {
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(
+            TRequest request,
+            CancellationToken cancellationToken,
+            RequestHandlerDelegate<TResponse> next)
         {
             try
             {
