@@ -20,14 +20,6 @@ namespace User.Application.Commands.UserRegister
 
         public async Task<Result<UserRegisterDto>> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
         {
-            var validator = new UserRegisterCommandValidator();
-            var validatorResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validatorResult.IsValid)
-            {
-                throw new ValidationException("Invalid data");
-            }
-
             var userAggregate = _mapper.Map<UserAggregateRoot>(request);
             _aggregateRepository.Save(userAggregate, userAggregate.Id);
             await _aggregateRepository.CommitAsync();
