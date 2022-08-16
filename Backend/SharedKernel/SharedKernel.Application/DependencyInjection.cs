@@ -9,6 +9,7 @@ namespace SharedKernel.Application
         public static IServiceCollection AddSharedKernelApplication(
             this IServiceCollection services)
         {
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(MediatRPipelineValidation<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(MediatRPipelineException<,>));
 
             return services;
