@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using FluentAssertions;
+using FluentResults;
+using MediatR;
+using Moq;
+using SharedKernel.Application.Repositories.Aggregate;
+using SharedKernel.Domain;
+using SharedKernel.Domain.Aggregate;
+using SharedKernel.Domain.UniqueKey;
+using User.Application.Commands.UserRegister;
+using User.Application.Mapper;
+using User.Application.Mapper.Dto;
+using Xunit;
+
+namespace Application.Test.Commands.UserRegister
+{
+    public class UserRegisterHandlerTest
+    {
+        private readonly UserRegisterCommand _command;
+        public UserRegisterHandlerTest()
+        {
+            _command = new UserRegisterCommand()
+            {
+                Name = new NameDto()
+                {
+                    FirstName = "John",
+                    LastName = "Doe"
+                },
+                Login = new LoginDto()
+                {
+                    Login = "example@mail.com"
+                },
+                Password = new PasswordDto()
+                {
+                    Password = "te@test212sS"
+                },
+                BirthDate = new BirthDateDto()
+                {
+                    BirthDate = AppTime.Now().AddYears(-20)
+                }
+            };
+        }
+
+        [Fact]
+        public async Task UserRegisterHandlerShouldReturnUserRegisterDtoInResultObjectAsync()
+        {
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var mapper = configuration.CreateMapper();
+            var aggregateRepositoryMock = new Mock<IAggregateRepository>();
+            aggregateRepositoryMock.Setup(x => x.Save(
+                It.IsAny<AggregateRoot>(),
+                It.IsAny<AggregateKey>()))
+                .Returns(Result.Ok());
+
+            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object);
+            var x = await handler.Handle(_command, new System.Threading.CancellationToken());
+            // check handler return result ok object
+            x.IsSuccess.Should().BeTrue();
+            // check handler return properly user register dto object
+            x.Value.Login.Should().Be(_command.Login.Login);
+            x.Value.Name.FirstName.Should().Be(_command.Name.FirstName);
+            x.Value.Id.Should().NotBeEmpty();
+            x.Value.Id.Should().Be(_command.Id.ToString());
+        }
+
+        [Fact]
+        public async Task UserRegisterHandlerShouldCallSaveMethodInAggregateRepositoryAsync()
+        {
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var mapper = configuration.CreateMapper();
+            var aggregateRepositoryMock = new Mock<IAggregateRepository>();
+            aggregateRepositoryMock.Setup(x => x.Save(
+                It.IsAny<AggregateRoot>(),
+                It.IsAny<AggregateKey>()))
+                .Returns(Result.Ok());
+            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object);
+            var x = await handler.Handle(_command, new System.Threading.CancellationToken());
+
+            aggregateRepositoryMock.Verify(
+                x => x.Save(
+                    It.IsAny<AggregateRoot>(),
+                    It.IsAny<AggregateKey>()),
+                Times.Once);
+        }
+
+        [Fact]
+        public async Task UserRegisterHandlerShouldCallCommitAsyncMethodInAggregateRepositoryAsync()
+        {
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var mapper = configuration.CreateMapper();
+            var aggregateRepositoryMock = new Mock<IAggregateRepository>();
+            aggregateRepositoryMock.Setup(x => x.Save(
+                It.IsAny<AggregateRoot>(),
+                It.IsAny<AggregateKey>()))
+                .Returns(Result.Ok());
+            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object);
+            var x = await handler.Handle(_command, new System.Threading.CancellationToken());
+
+            aggregateRepositoryMock.Verify(
+                x => x.CommitAsync(),
+                Times.Once);
+        }
+    }
+}
