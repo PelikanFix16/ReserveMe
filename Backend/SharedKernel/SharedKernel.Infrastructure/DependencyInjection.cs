@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Common.Interfaces.Security;
 using SharedKernel.Application.Repositories.Aggregate;
 using SharedKernel.Application.Repositories.EventBus;
 using SharedKernel.Application.Repositories.EventStore;
 using SharedKernel.Infrastructure.Repositories.Aggregate;
 using SharedKernel.Infrastructure.Repositories.EventStore.Mongo;
 using SharedKernel.Infrastructure.Repositories.MessageBus.Rabbit;
+using SharedKernel.Infrastructure.Security;
 
 namespace SharedKernel.Infrastructure
 {
@@ -25,6 +27,7 @@ namespace SharedKernel.Infrastructure
             services.AddSingleton<IPublishEvent, PublishEvent>();
             services.AddSingleton<IEventRepository, EventRepository>();
             services.AddSingleton<IAggregateRepository, AggregateRepository>();
+            services.AddSingleton<IPasswordHash, PasswordHash>();
             return services;
         }
     }

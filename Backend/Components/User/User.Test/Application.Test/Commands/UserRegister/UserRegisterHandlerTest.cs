@@ -7,6 +7,7 @@ using FluentAssertions;
 using FluentResults;
 using MediatR;
 using Moq;
+using SharedKernel.Application.Common.Interfaces.Security;
 using SharedKernel.Application.Repositories.Aggregate;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Aggregate;
@@ -21,6 +22,7 @@ namespace Application.Test.Commands.UserRegister
     public class UserRegisterHandlerTest
     {
         private readonly UserRegisterCommand _command;
+
         public UserRegisterHandlerTest()
         {
             _command = new UserRegisterCommand()
@@ -50,13 +52,16 @@ namespace Application.Test.Commands.UserRegister
         {
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = configuration.CreateMapper();
+            var mockHashPassword = new Mock<IPasswordHash>();
+            mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
+                .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
             aggregateRepositoryMock.Setup(x => x.Save(
                 It.IsAny<AggregateRoot>(),
                 It.IsAny<AggregateKey>()))
                 .Returns(Result.Ok());
 
-            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object);
+            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object, mockHashPassword.Object);
             var x = await handler.Handle(_command, new System.Threading.CancellationToken());
             // check handler return result ok object
             x.IsSuccess.Should().BeTrue();
@@ -72,12 +77,15 @@ namespace Application.Test.Commands.UserRegister
         {
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = configuration.CreateMapper();
+            var mockHashPassword = new Mock<IPasswordHash>();
+            mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
+                .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
             aggregateRepositoryMock.Setup(x => x.Save(
                 It.IsAny<AggregateRoot>(),
                 It.IsAny<AggregateKey>()))
                 .Returns(Result.Ok());
-            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object);
+            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object, mockHashPassword.Object);
             var x = await handler.Handle(_command, new System.Threading.CancellationToken());
 
             aggregateRepositoryMock.Verify(
@@ -93,11 +101,14 @@ namespace Application.Test.Commands.UserRegister
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = configuration.CreateMapper();
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
+            var mockHashPassword = new Mock<IPasswordHash>();
+            mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
+                .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             aggregateRepositoryMock.Setup(x => x.Save(
                 It.IsAny<AggregateRoot>(),
                 It.IsAny<AggregateKey>()))
                 .Returns(Result.Ok());
-            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object);
+            var handler = new UserRegisterHandler(mapper, aggregateRepositoryMock.Object, mockHashPassword.Object);
             var x = await handler.Handle(_command, new System.Threading.CancellationToken());
 
             aggregateRepositoryMock.Verify(
