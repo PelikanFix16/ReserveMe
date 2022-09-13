@@ -27,7 +27,7 @@ namespace User.Api.Controllers
                 Name = new NameDto
                 {
                     FirstName = "FirstName",
-                    LastName = "l"
+                    LastName = "LastName"
                 },
                 Login = new LoginDto
                 {

@@ -21,8 +21,8 @@ namespace SharedKernel.Infrastructure
         {
             services.Configure<MongoSettings>(configurationManager.GetSection(MongoSettings.SectionName));
             services.Configure<RabbitSettings>(configurationManager.GetSection(RabbitSettings.SectionName));
-            services.AddScoped<IEventStoreRepository, MongoEventStore>();
-            services.AddScoped<IPublishEvent, PublishEvent>();
+            services.AddSingleton<IEventStoreRepository, MongoEventStore>();
+            services.AddSingleton<IPublishEvent, PublishEvent>();
             services.AddSingleton<IEventRepository, EventRepository>();
             services.AddSingleton<IAggregateRepository, AggregateRepository>();
             return services;
