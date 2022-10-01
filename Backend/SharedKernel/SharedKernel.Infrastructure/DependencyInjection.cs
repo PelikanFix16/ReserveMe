@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Application.Common.Interfaces.Security;
-using SharedKernel.Application.Repositories.Aggregate;
-using SharedKernel.Application.Repositories.EventBus;
-using SharedKernel.Application.Repositories.EventStore;
-using SharedKernel.Infrastructure.Repositories.Aggregate;
 using SharedKernel.Infrastructure.Repositories.EventStore.Mongo;
 using SharedKernel.Infrastructure.Security;
+using SharedKernel.InterfaceAdapters;
+using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
 
 namespace SharedKernel.Infrastructure
 {
@@ -22,8 +17,7 @@ namespace SharedKernel.Infrastructure
         {
             services.Configure<MongoSettings>(configurationManager.GetSection(MongoSettings.SectionName));
             services.AddSingleton<IEventStoreRepository, MongoEventStore>();
-            services.AddSingleton<IEventRepository, EventRepository>();
-            services.AddSingleton<IAggregateRepository, AggregateRepository>();
+            services.AddSharedKernelInterfaceAdapters();
             services.AddSingleton<IPasswordHash, PasswordHash>();
             return services;
         }
