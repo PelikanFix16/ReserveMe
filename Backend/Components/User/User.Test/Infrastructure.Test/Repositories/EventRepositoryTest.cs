@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using SharedKernel.Application.Repositories.Aggregate;
-using SharedKernel.Application.Repositories.EventBus;
-using SharedKernel.Application.Repositories.EventStore;
+using SharedKernel.Application.Common.Event;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Event;
-using SharedKernel.Infrastructure.Repositories.Aggregate;
+using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
+using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventBus;
+using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
+using SharedKernel.SharedKernel.InterfaceAdapters.Repositories.Aggregate;
 using User.Domain.User;
 using User.Domain.User.Events;
 using User.Domain.ValueObjects;
@@ -71,7 +72,7 @@ namespace Infrastructure.Test.Repositories
 
             await eventRepository.SaveAsync(domainEventsList);
 
-            publisherMock.Verify(x => x.PublishAsync(It.IsAny<DomainEvent>()), Times.Exactly(3));
+            publisherMock.Verify(x => x.PublishAsync(It.IsAny<SharedEvent>()), Times.Exactly(3));
             eventStoreMock.Verify(x => x.SaveAsync(It.IsAny<DomainEvent>()), Times.Exactly(3));
         }
     }
