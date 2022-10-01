@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedKernel.Test", "Shared
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Test", "SharedKernel\SharedKernel.Test\Application.Test\Application.Test.csproj", "{24538329-3FCF-44E5-B931-773AC8C0746C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.InterfaceAdapters", "SharedKernel\SharedKernel.InterfaceAdapters\SharedKernel.InterfaceAdapters.csproj", "{F5EBBE16-EF9D-4E15-97F8-B55C405DFAD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{24538329-3FCF-44E5-B931-773AC8C0746C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24538329-3FCF-44E5-B931-773AC8C0746C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24538329-3FCF-44E5-B931-773AC8C0746C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5EBBE16-EF9D-4E15-97F8-B55C405DFAD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5EBBE16-EF9D-4E15-97F8-B55C405DFAD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5EBBE16-EF9D-4E15-97F8-B55C405DFAD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5EBBE16-EF9D-4E15-97F8-B55C405DFAD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2C5AF2B9-C9B0-409E-A013-0F7487591B2A} = {4E599FC7-4C40-4C50-969C-C16DAB4D637F}
@@ -104,5 +110,6 @@ Global
 		{84F7A945-2311-44D4-94FF-C6BDC91B4934} = {2C5AF2B9-C9B0-409E-A013-0F7487591B2A}
 		{51FF8834-B116-42B4-A1EE-F91E17F52BBC} = {E5A8BDF0-EB0E-4158-9781-BDDD1AA90A2D}
 		{24538329-3FCF-44E5-B931-773AC8C0746C} = {51FF8834-B116-42B4-A1EE-F91E17F52BBC}
+		{F5EBBE16-EF9D-4E15-97F8-B55C405DFAD9} = {E5A8BDF0-EB0E-4158-9781-BDDD1AA90A2D}
 	EndGlobalSection
 EndGlobal
