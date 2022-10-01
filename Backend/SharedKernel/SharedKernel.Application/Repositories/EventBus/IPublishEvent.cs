@@ -4,6 +4,6 @@ namespace SharedKernel.Application.Repositories.EventBus
 {
     public interface IPublishEvent
     {
-        void Publish(DomainEvent @event);
+        Task PublishAsync(DomainEvent @event);
     }
 }

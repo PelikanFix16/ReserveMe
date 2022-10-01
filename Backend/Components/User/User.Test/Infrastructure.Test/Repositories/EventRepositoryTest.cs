@@ -71,7 +71,7 @@ namespace Infrastructure.Test.Repositories
 
             await eventRepository.SaveAsync(domainEventsList);
 
-            publisherMock.Verify(x => x.Publish(It.IsAny<DomainEvent>()), Times.Exactly(3));
+            publisherMock.Verify(x => x.PublishAsync(It.IsAny<DomainEvent>()), Times.Exactly(3));
             eventStoreMock.Verify(x => x.SaveAsync(It.IsAny<DomainEvent>()), Times.Exactly(3));
         }
     }
