@@ -10,7 +10,6 @@ using SharedKernel.Application.Repositories.EventBus;
 using SharedKernel.Application.Repositories.EventStore;
 using SharedKernel.Infrastructure.Repositories.Aggregate;
 using SharedKernel.Infrastructure.Repositories.EventStore.Mongo;
-using SharedKernel.Infrastructure.Repositories.MessageBus.Rabbit;
 using SharedKernel.Infrastructure.Security;
 
 namespace SharedKernel.Infrastructure
@@ -22,9 +21,7 @@ namespace SharedKernel.Infrastructure
             ConfigurationManager configurationManager)
         {
             services.Configure<MongoSettings>(configurationManager.GetSection(MongoSettings.SectionName));
-            services.Configure<RabbitSettings>(configurationManager.GetSection(RabbitSettings.SectionName));
             services.AddSingleton<IEventStoreRepository, MongoEventStore>();
-            services.AddSingleton<IPublishEvent, PublishEvent>();
             services.AddSingleton<IEventRepository, EventRepository>();
             services.AddSingleton<IAggregateRepository, AggregateRepository>();
             services.AddSingleton<IPasswordHash, PasswordHash>();
