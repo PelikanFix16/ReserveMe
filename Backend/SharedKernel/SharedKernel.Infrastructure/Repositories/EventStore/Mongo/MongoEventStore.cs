@@ -4,10 +4,9 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
-using SharedKernel.Application.Repositories.EventStore;
-using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
+using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
 
 namespace SharedKernel.Infrastructure.Repositories.EventStore.Mongo
 {
