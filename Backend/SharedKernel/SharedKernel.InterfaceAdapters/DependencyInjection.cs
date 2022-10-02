@@ -14,8 +14,8 @@ namespace SharedKernel.InterfaceAdapters
         public static IServiceCollection AddSharedKernelInterfaceAdapters(
             this IServiceCollection services)
         {
-            services.AddSingleton<IEventRepository, EventRepository>();
-            services.AddSingleton<IAggregateRepository, AggregateRepository>();
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<IAggregateRepository, AggregateRepository>();
             return services;
         }
     }
