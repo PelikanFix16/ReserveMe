@@ -42,7 +42,7 @@ namespace SharedKernel.SharedKernel.InterfaceAdapters.Repositories.Aggregate
         {
             return new SharedEvent()
             {
-                EventName = nameof(@event),
+                EventName = @event.GetType().Name,
                 EventData = JsonConvert.SerializeObject(@event)
             };
         }
