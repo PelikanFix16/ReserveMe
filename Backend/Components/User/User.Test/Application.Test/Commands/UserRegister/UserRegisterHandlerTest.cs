@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using FluentResults;
-using MediatR;
 using Moq;
-using SharedKernel.Application.Common.Interfaces.Security;
 using SharedKernel.Application.Repositories.Aggregate;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
 using User.Application.Commands.UserRegister;
+using User.Application.Interfaces.Security;
 using User.Application.Mapper;
 using User.Application.Mapper.Dto;
 using Xunit;
@@ -52,7 +51,7 @@ namespace Application.Test.Commands.UserRegister
         {
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = configuration.CreateMapper();
-            var mockHashPassword = new Mock<IPasswordHash>();
+            var mockHashPassword = new Mock<ISecurityHash>();
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
@@ -77,7 +76,7 @@ namespace Application.Test.Commands.UserRegister
         {
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = configuration.CreateMapper();
-            var mockHashPassword = new Mock<IPasswordHash>();
+            var mockHashPassword = new Mock<ISecurityHash>();
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
@@ -101,7 +100,7 @@ namespace Application.Test.Commands.UserRegister
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = configuration.CreateMapper();
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
-            var mockHashPassword = new Mock<IPasswordHash>();
+            var mockHashPassword = new Mock<ISecurityHash>();
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             aggregateRepositoryMock.Setup(x => x.Save(
