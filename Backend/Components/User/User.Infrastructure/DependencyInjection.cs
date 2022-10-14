@@ -23,7 +23,7 @@ namespace User.Infrastructure
                 x.UsingRabbitMq((context, rmqCfg) =>
                 {
                     rmqCfg.ReceiveEndpoint(
-                        UserRegisteredEventConsumer.UserRegisteredEventName,
+                        "user-registered",
                         e => e.Consumer<UserRegisteredEventConsumer>(context));
                 });
             });

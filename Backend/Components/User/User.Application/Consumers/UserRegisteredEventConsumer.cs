@@ -10,7 +10,6 @@ namespace User.Application.Consumers
 {
     public class UserRegisteredEventConsumer : IConsumer<SharedEvent>
     {
-        public const string UserRegisteredEventName = nameof(EventConstants.USER_REGISTERED);
 
         public async Task Consume(ConsumeContext<SharedEvent> context)
         {
