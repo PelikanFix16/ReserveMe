@@ -15,7 +15,7 @@ namespace Domain.Test.ValueObject
         {
             const string FirstName = "Tes1t12";
             const string LastName = "test2";
-            Action act = () => Name.Create(FirstName, LastName);
+            Action act = () => new Name(FirstName, LastName);
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage(_exception_message);
@@ -26,7 +26,7 @@ namespace Domain.Test.ValueObject
         {
             const string FirstName = "test";
             const string LastName = "test";
-            Action act = () => Name.Create(FirstName, LastName);
+            Action act = () => new Name(FirstName, LastName);
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage(_exception_message);
@@ -37,7 +37,7 @@ namespace Domain.Test.ValueObject
         {
             const string FirstName = "Test";
             const string LastName = "Test";
-            var name = Name.Create(FirstName, LastName);
+            var name = new Name(FirstName, LastName);
             name.FirstName.Should().Be(FirstName);
             name.LastName.Should().Be(LastName);
         }

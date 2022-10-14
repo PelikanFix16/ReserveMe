@@ -14,7 +14,7 @@ namespace Domain.Test.ValueObject
             //Arrange
             const string Password = "test";
             //Act
-            Action act = () => User.Domain.ValueObjects.Password.Create(Password);
+            Action act = () => new User.Domain.ValueObjects.Password(Password);
             //Assert
             act.Should()
                 .Throw<BusinessRuleValidationException>()
@@ -25,7 +25,7 @@ namespace Domain.Test.ValueObject
         public void PasswordShouldCreateCorrectWhenPasswordIsStrong()
         {
             const string Password = "testT123@";
-            var pass = User.Domain.ValueObjects.Password.Create(Password);
+            var pass = new User.Domain.ValueObjects.Password(Password);
             pass.Value.Should().Be(Password);
         }
     }

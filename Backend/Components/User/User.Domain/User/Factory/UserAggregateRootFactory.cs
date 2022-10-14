@@ -17,25 +17,25 @@ namespace User.Domain.User.Factory
 
         public IUserAggregateRootFactory AddBirthDate(DateTimeOffset birthDate)
         {
-            _birthDate = BirthDate.Create(birthDate);
+            _birthDate = new BirthDate(birthDate);
             return this;
         }
 
         public IUserAggregateRootFactory AddLogin(string login)
         {
-            _login = Login.Create(login);
+            _login = new Login(login);
             return this;
         }
 
         public IUserAggregateRootFactory AddName(string firstName, string lastName)
         {
-            _name = Name.Create(firstName, lastName);
+            _name = new Name(firstName, lastName);
             return this;
         }
 
         public IUserAggregateRootFactory AddPassword(string password)
         {
-            _password = Password.Create(password);
+            _password = new Password(password);
             return this;
         }
 
