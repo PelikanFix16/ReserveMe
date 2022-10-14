@@ -4,9 +4,6 @@
     <ProjectReference Include="..\SharedKernel.Application\SharedKernel.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
