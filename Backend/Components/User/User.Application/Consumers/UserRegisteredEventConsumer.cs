@@ -13,7 +13,7 @@ namespace User.Application.Consumers
 
         public async Task Consume(ConsumeContext<SharedEvent> context)
         {
-            Console.WriteLine($"Event received: {context.Message.EventName}");
+            Console.WriteLine($"Event received: {context.Message.EventData}");
         }
     }
 }

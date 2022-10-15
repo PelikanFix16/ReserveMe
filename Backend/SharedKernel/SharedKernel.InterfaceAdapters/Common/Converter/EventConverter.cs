@@ -40,6 +40,8 @@ namespace SharedKernel.InterfaceAdapters.Common.Converter
 
         public static StoreEvent DomainToStoreEvent(DomainEvent domainEvent)
         {
+            var assembly = domainEvent.GetType().Assembly.GetName().Name ?? "";
+
             return new StoreEvent()
             {
                 EventId = domainEvent.Key.Key,
@@ -47,7 +49,7 @@ namespace SharedKernel.InterfaceAdapters.Common.Converter
                 EventData = JsonConvert.SerializeObject(domainEvent),
                 EventDate = domainEvent.TimeStamp,
                 Version = domainEvent.Version,
-                AssemblyName = domainEvent.GetType().Assembly.GetName().Name
+                AssemblyName = assembly
             };
         }
 
