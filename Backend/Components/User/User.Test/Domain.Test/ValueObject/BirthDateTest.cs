@@ -17,7 +17,7 @@ namespace Domain.Test.ValueObject
         {
             //Arrange
             var young_User = AppTime.Now().AddYears(-11);
-            Action act = () => BirthDate.Create(young_User);
+            Action act = () => new BirthDate(young_User);
             act.Should()
                 .Throw<BusinessRuleValidationException>()
                 .WithMessage(_birth_date_message);
@@ -28,7 +28,7 @@ namespace Domain.Test.ValueObject
         {
             var old_user = AppTime.Now().AddYears(-121);
 
-            Action act = () => BirthDate.Create(old_user);
+            Action act = () => new BirthDate(old_user);
 
             act.Should()
                 .Throw<BusinessRuleValidationException>()
@@ -39,7 +39,7 @@ namespace Domain.Test.ValueObject
         public void UserShouldCreateWhenBeOlderOrEqualTo12Years()
         {
             var correct_user = AppTime.Now().AddYears(-12);
-            var birthDate = BirthDate.Create(correct_user);
+            var birthDate = new BirthDate(correct_user);
             birthDate.Value.Should().Be(correct_user);
         }
 
@@ -47,7 +47,7 @@ namespace Domain.Test.ValueObject
         public void UserShouldCreateWhenBeOlderOrEqualTo120Years()
         {
             var correct_user = AppTime.Now().AddYears(-120);
-            var birthDate = BirthDate.Create(correct_user);
+            var birthDate = new BirthDate(correct_user);
             birthDate.Value.Should().Be(correct_user);
         }
 
@@ -56,7 +56,7 @@ namespace Domain.Test.ValueObject
         {
             var currentDate = DateTimeOffset.Now;
 
-            Action act = () => BirthDate.Create(currentDate);
+            Action act = () => new BirthDate(currentDate);
 
             act.Should()
                 .Throw<BusinessRuleValidationException>()

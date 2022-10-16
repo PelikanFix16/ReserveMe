@@ -14,10 +14,10 @@ namespace User.Application.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<NameDto, Name>().ConstructUsing(x => Name.Create(x.FirstName, x.LastName));
-            CreateMap<LoginDto, Login>().ConstructUsing(x => Login.Create(x.Login));
-            CreateMap<PasswordDto, Password>().ConstructUsing(x => Password.Create(x.Password));
-            CreateMap<BirthDateDto, BirthDate>().ConstructUsing(x => BirthDate.Create(x.BirthDate));
+            CreateMap<NameDto, Name>().ConstructUsing(x => new Name(x.FirstName, x.LastName));
+            CreateMap<LoginDto, Login>().ConstructUsing(x => new Login(x.Login));
+            CreateMap<PasswordDto, Password>().ConstructUsing(x => new Password(x.Password));
+            CreateMap<BirthDateDto, BirthDate>().ConstructUsing(x => new BirthDate(x.BirthDate));
             CreateMap<Name, NameDto>();
             CreateMap<UserRegisterCommand, UserAggregateRoot>().AfterMap((src, dest, context) =>
             {

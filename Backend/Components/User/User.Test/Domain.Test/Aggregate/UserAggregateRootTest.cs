@@ -71,7 +71,7 @@ namespace Domain.Test.Aggregate
         {
             var userAggregateRoot = _userFactory.Create();
             const string NewPass = "Test12!test";
-            var pass = Password.Create(NewPass);
+            var pass = new Password(NewPass);
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangePassword(pass);
             IList<DomainEvent> events = userAggregateRoot.GetUncommittedChanges().ToList();
@@ -85,7 +85,7 @@ namespace Domain.Test.Aggregate
         {
             var userAggregateRoot = _userFactory.Create();
             const string NewPass = "Test12!test";
-            var pass = Password.Create(NewPass);
+            var pass = new Password(NewPass);
             Action act = () => userAggregateRoot.ChangePassword(pass);
             act.Should()
                 .Throw<BusinessRuleValidationException>()
@@ -96,7 +96,7 @@ namespace Domain.Test.Aggregate
         public void ShouldThrowExceptionWhenUserTryChangePasswordUsingSamePassword()
         {
             var userAggregateRoot = _userFactory.Create();
-            var pass = Password.Create(_password);
+            var pass = new Password(_password);
             userAggregateRoot.Confirm();
             Action act = () => userAggregateRoot.ChangePassword(pass);
             act.Should()
@@ -109,7 +109,7 @@ namespace Domain.Test.Aggregate
         {
             var userAggregateRoot = _userFactory.Create();
             const string NewLogin = "test@gmail.com";
-            var login = Login.Create(NewLogin);
+            var login = new Login(NewLogin);
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangeLogin(login);
             IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
@@ -123,7 +123,7 @@ namespace Domain.Test.Aggregate
         {
             var userAggregateRoot = _userFactory.Create();
             const string NewLogin = "test@gmail.com";
-            var login = Login.Create(NewLogin);
+            var login = new Login(NewLogin);
             Action act = () => userAggregateRoot.ChangeLogin(login);
             act.Should()
                 .Throw<BusinessRuleValidationException>()
@@ -134,7 +134,7 @@ namespace Domain.Test.Aggregate
         public void ShouldThrowExceptionWhenUserTryChangeLoginUsingSameLogin()
         {
             var userAggregateRoot = _userFactory.Create();
-            var login = Login.Create(_login);
+            var login = new Login(_login);
             userAggregateRoot.Confirm();
             Action act = () => userAggregateRoot.ChangeLogin(login);
             act.Should()
@@ -148,7 +148,7 @@ namespace Domain.Test.Aggregate
             var userAggregateRoot = _userFactory.Create();
             const string FirstName = "Tomek";
             const string LastName = "Kowalski";
-            var name = Name.Create(FirstName, LastName);
+            var name = new Name(FirstName, LastName);
             userAggregateRoot.Confirm();
             userAggregateRoot.ChangeName(name);
             IList<DomainEvent> domainEvents = userAggregateRoot.GetUncommittedChanges().ToList();
@@ -164,7 +164,7 @@ namespace Domain.Test.Aggregate
             var userAggregateRoot = _userFactory.Create();
             const string FirstName = "Tomek";
             const string LastName = "Kowalski";
-            var name = Name.Create(FirstName, LastName);
+            var name = new Name(FirstName, LastName);
             Action act = () => userAggregateRoot.ChangeName(name);
             act.Should()
                 .Throw<BusinessRuleValidationException>()
@@ -175,7 +175,7 @@ namespace Domain.Test.Aggregate
         public void ShouldThrowExceptionWhenUserTryChangeNameUsingSameName()
         {
             var userAggregateRoot = _userFactory.Create();
-            var name = Name.Create(_firstName, _lastName);
+            var name = new Name(_firstName, _lastName);
             userAggregateRoot.Confirm();
             Action act = () => userAggregateRoot.ChangeName(name);
             act.Should()
@@ -201,10 +201,10 @@ namespace Domain.Test.Aggregate
         public void ShouldLoadEventsFromHistoryListAndApplyChangesToEmptyAggregate()
         {
             var userId = new UserId(Guid.NewGuid());
-            var login = Login.Create(_login);
-            var password = Password.Create(_password);
-            var name = Name.Create(_firstName, _lastName);
-            var birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
+            var login = new Login(_login);
+            var password = new Password(_password);
+            var name = new Name(_firstName, _lastName);
+            var birthDate = new BirthDate(AppTime.Now().AddYears(-18));
 
             var userRegisteredEvent = new UserRegisteredEvent(
                 userId,
@@ -220,7 +220,7 @@ namespace Domain.Test.Aggregate
                                     UserStatus.Activated,
                                     1);
 
-            var newLogin = Login.Create("somelogin@gmail.com");
+            var newLogin = new Login("somelogin@gmail.com");
             var userChangedLoginEvent = new UserChangedLoginEvent(
                 userId,
                 newLogin,
@@ -243,10 +243,10 @@ namespace Domain.Test.Aggregate
         public void ShouldLoadEventFromHistoryAddApplyNewEventFromAggregateUsingMethodChangePassword()
         {
             var userId = new UserId(Guid.NewGuid());
-            var login = Login.Create(_login);
-            var password = Password.Create(_password);
-            var name = Name.Create(_firstName, _lastName);
-            var birthDate = BirthDate.Create(AppTime.Now().AddYears(-18));
+            var login = new Login(_login);
+            var password = new Password(_password);
+            var name = new Name(_firstName, _lastName);
+            var birthDate = new BirthDate(AppTime.Now().AddYears(-18));
 
             var userRegisteredEvent = new UserRegisteredEvent(
                 userId,
@@ -260,7 +260,7 @@ namespace Domain.Test.Aggregate
                                     userId,
                                     UserStatus.Activated,
                                     1);
-            var newLogin = Login.Create("somelogin@gmail.com");
+            var newLogin = new Login("somelogin@gmail.com");
 
             var userChangedLoginEvent = new UserChangedLoginEvent(
                 userId,
@@ -276,7 +276,7 @@ namespace Domain.Test.Aggregate
 
             var userAggregate = new UserAggregateRoot();
             userAggregate.LoadFromHistory(domainEvents);
-            var newPassword = Password.Create("testTest123@#1");
+            var newPassword = new Password("testTest123@#1");
             userAggregate.ChangePassword(newPassword);
             IList<DomainEvent> newEvents = userAggregate.GetUncommittedChanges().ToList();
             newEvents.Count.Should().Be(1);

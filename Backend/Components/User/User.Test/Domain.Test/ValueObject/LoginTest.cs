@@ -14,7 +14,7 @@ namespace Domain.Test.ValueObject
             //Arrange
             const string Email = "test";
             //Act
-            Action act = () => Login.Create(Email);
+            Action act = () => new Login(Email);
             //Assert
             act.Should()
                 .Throw<BusinessRuleValidationException>()
@@ -25,10 +25,10 @@ namespace Domain.Test.ValueObject
         public void Login_Should_Create_if_login_is_valid()
         {
             //arrange
-            var email = "20hubert01@gmail.com";
+            const string email = "20hubert01@gmail.com";
 
             //Act
-            var login = Login.Create(email);
+            var login = new Login(email);
 
             //Assert
 
