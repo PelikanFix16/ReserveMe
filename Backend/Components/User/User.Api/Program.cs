@@ -1,3 +1,4 @@
+using System.Reflection;
 using User.Application;
 using User.Infrastructure;
 
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddUserApplication();
 builder.Services.AddUserInfrastructure(builder.Configuration);
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
