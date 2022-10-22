@@ -196,6 +196,32 @@ csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_members_in_anonymous_types = true
 csharp_new_line_between_query_expression_clauses = true
 
+# Summary comment multiline doc
+roslynator_doc_comment_summary_style = multi_line
+dotnet_diagnostic.RCS1253.severity = suggestion
+dotnet_diagnostic.RCS1100.severity = none
+
+# Add blank line between single-line declarations
+dotnet_diagnostic.rcs0012.severity = none
+
+# Use carriage return + linefeed as new line
+dotnet_diagnostic.rcs0044.severity = none
+
+# Use linefeed as new line
+dotnet_diagnostic.rcs0045.severity = none
+
+# Add braces
+dotnet_diagnostic.rcs1007.severity = none
+
+# Use read-only auto-implemented property
+dotnet_diagnostic.rcs1170.severity = none
+
+# Mark publicly visible type with DebuggerDisplay attribute
+dotnet_diagnostic.rcs1223.severity = none
+
+# Make parameter ref read-only
+dotnet_diagnostic.rcs1231.severity = none
+
 # Indentation preferences
 csharp_indent_block_contents = true
 csharp_indent_braces = false
@@ -307,7 +333,9 @@ dotnet_diagnostic.IDE2003.severity = warning
 # csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental
 dotnet_diagnostic.IDE2004.severity = warning
 
+
 [src/{VisualStudio}/**/*.{cs,vb}]
 # CA1822: Make member static
 # There is a risk of accidentally breaking an internal API that partners rely on though IVT.
 dotnet_code_quality.CA1822.api_surface = private
+
