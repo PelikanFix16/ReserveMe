@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SharedKernel.Application.Common.Event;
+using SharedKernel.Domain.Event;
 
-namespace SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventBus
+namespace SharedKernel.Application.Interfaces.Events
 {
-    public interface IPublishEvent
+    public interface IEventPublish
     {
         Task PublishAsync(SharedEvent @event);
     }
