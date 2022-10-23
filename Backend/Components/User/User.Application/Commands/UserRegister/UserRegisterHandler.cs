@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using FluentResults;
 using MediatR;
-using SharedKernel.Application.Repositories.Aggregate;
+using SharedKernel.Application.Interfaces.Repositories;
 using User.Application.Interfaces.Security;
 using User.Domain.User;
 

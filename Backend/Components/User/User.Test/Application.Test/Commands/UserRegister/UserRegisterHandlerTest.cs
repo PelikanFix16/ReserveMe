@@ -6,7 +6,7 @@ using AutoMapper;
 using FluentAssertions;
 using FluentResults;
 using Moq;
-using SharedKernel.Application.Repositories.Aggregate;
+using SharedKernel.Application.Interfaces.Repositories;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
