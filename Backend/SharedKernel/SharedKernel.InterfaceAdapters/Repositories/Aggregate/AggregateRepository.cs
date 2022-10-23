@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentResults;
 using SharedKernel.Application.Common.Errors.RepositoriesErrors;
-using SharedKernel.Application.Repositories.Aggregate;
+using SharedKernel.Application.Interfaces.Repositories;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
 using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
