@@ -1,4 +1,9 @@
-namespace SharedKernel.Infrastructure.Repositories.EventStore.Mongo
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SharedKernel.Infrastructure.EventStore
 {
     public class MongoSettings
     {

@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
@@ -5,7 +9,7 @@ using MongoDB.Driver;
 using SharedKernel.InterfaceAdapters.Dto;
 using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
 
-namespace SharedKernel.Infrastructure.Repositories.EventStore.Mongo
+namespace SharedKernel.Infrastructure.EventStore
 {
     public class MongoEventStore : IEventStoreRepository
     {
@@ -42,4 +46,5 @@ namespace SharedKernel.Infrastructure.Repositories.EventStore.Mongo
             await _collection.InsertOneAsync(@event);
         }
     }
+
 }
