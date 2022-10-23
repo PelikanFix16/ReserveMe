@@ -1,10 +1,10 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Infrastructure.Repositories.EventStore.Mongo;
-using SharedKernel.Infrastructure.Repositories.MessageBus;
+using SharedKernel.Application.Interfaces.Events;
+using SharedKernel.Infrastructure.EventStore;
+using SharedKernel.Infrastructure.MessageBus;
 using SharedKernel.InterfaceAdapters;
-using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventBus;
 using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
 
 namespace SharedKernel.Infrastructure
@@ -18,7 +18,7 @@ namespace SharedKernel.Infrastructure
             services.Configure<MongoSettings>(configurationManager.GetSection(MongoSettings.SectionName));
 
             services.AddSingleton<IEventStoreRepository, MongoEventStore>();
-            services.AddTransient<IPublishEvent, PublishEvent>();
+            services.AddTransient<IEventPublish, PublishEvent>();
             services.AddSharedKernelInterfaceAdapters();
             return services;
         }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using SharedKernel.Application.Common.Event;
-using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventBus;
+using SharedKernel.Application.Interfaces.Events;
 
-namespace SharedKernel.Infrastructure.Repositories.MessageBus
+namespace SharedKernel.Infrastructure.MessageBus
 {
-    public class PublishEvent : IPublishEvent
+    public class PublishEvent : IEventPublish
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
