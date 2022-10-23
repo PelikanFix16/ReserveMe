@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using SharedKernel.Infrastructure.Repositories.EventStore.Mongo;
+using SharedKernel.Infrastructure.EventStore;
 
 namespace Infrastructure.Test.EventStore.Mongo
 {

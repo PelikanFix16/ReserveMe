@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
-using SharedKernel.Infrastructure.Repositories.EventStore.Mongo;
+using SharedKernel.Infrastructure.EventStore;
 using SharedKernel.InterfaceAdapters.Dto;
 using Xunit;
 
