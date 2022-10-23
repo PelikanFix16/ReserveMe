@@ -7,7 +7,7 @@ using Domain.Test.Mock.Events;
 using Domain.Test.Mock.ValueObjects;
 using FluentAssertions;
 using Moq;
-using SharedKernel.Application.Repositories.Aggregate;
+using SharedKernel.Application.Interfaces.Repositories;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
