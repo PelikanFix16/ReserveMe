@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FluentResults;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
 
-namespace SharedKernel.Application.Repositories.Aggregate
+namespace SharedKernel.Application.Interfaces.Repositories
 {
     public interface IAggregateRepository
     {
