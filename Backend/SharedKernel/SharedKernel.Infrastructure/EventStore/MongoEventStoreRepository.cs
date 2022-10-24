@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using SharedKernel.InterfaceAdapters.Dto;
-using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
+using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
 
 namespace SharedKernel.Infrastructure.EventStore
 {

@@ -6,7 +6,7 @@ using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
 using SharedKernel.InterfaceAdapters.Dto;
 
-namespace SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore
+namespace SharedKernel.InterfaceAdapters.Interfaces.Repositories
 {
     public interface IEventStoreRepository
     {

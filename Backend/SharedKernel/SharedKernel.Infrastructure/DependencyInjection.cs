@@ -5,7 +5,7 @@ using SharedKernel.Application.Interfaces.Events;
 using SharedKernel.Infrastructure.EventStore;
 using SharedKernel.Infrastructure.MessageBus;
 using SharedKernel.InterfaceAdapters;
-using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
+using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
 
 namespace SharedKernel.Infrastructure
 {
