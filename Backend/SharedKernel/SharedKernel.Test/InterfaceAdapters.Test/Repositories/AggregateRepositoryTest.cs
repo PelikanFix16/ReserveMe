@@ -11,8 +11,8 @@ using SharedKernel.Application.Interfaces.Repositories;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
-using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
-using SharedKernel.SharedKernel.InterfaceAdapters.Repositories.Aggregate;
+using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
+using SharedKernel.InterfaceAdapters.Repositories;
 using Xunit;
 
 namespace InterfaceAdapters.Test.Repositories
@@ -26,7 +26,7 @@ namespace InterfaceAdapters.Test.Repositories
         [Fact]
         public async Task AggregateRepositoryShouldReturnAggregateWithOneEventRegisteredFromEventRepositoryWhenCallGetMethodAsync()
         {
-            var eventRepositoryMock = new Mock<IEventRepository>();
+            var eventRepositoryMock = new Mock<IEventController>();
             var testCreatedEvent = new TestCreatedEvent(
                 _testId,
                 _testName,
@@ -52,7 +52,7 @@ namespace InterfaceAdapters.Test.Repositories
         [Fact]
         public async Task AggregateRepositoryShouldSaveAggregateToLocalDictionaryWhenPassWitchCorrectAggregateVersionAsync()
         {
-            var eventRepositoryMock = new Mock<IEventRepository>();
+            var eventRepositoryMock = new Mock<IEventController>();
             var test = new TestAggregateRoot(_testId, _testName, _testBirthDate);
             IAggregateRepository aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
 
@@ -69,7 +69,7 @@ namespace InterfaceAdapters.Test.Repositories
         [Fact]
         public async Task AggregateRepositoryShouldCommitAggregateEventsToEventRepositoryAndDeleteFromLocalDirectoryAsync()
         {
-            var eventRepositoryMock = new Mock<IEventRepository>();
+            var eventRepositoryMock = new Mock<IEventController>();
             var test = new TestAggregateRoot(_testId, _testName, _testBirthDate);
             IAggregateRepository aggregateRepository = new AggregateRepository(eventRepositoryMock.Object);
 

@@ -6,18 +6,11 @@ using Domain.Test.Mock.Events;
 using Domain.Test.Mock.ValueObjects;
 using FluentAssertions;
 using Moq;
-using SharedKernel.Application.Common.Event;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
-using SharedKernel.InterfaceAdapters.Common.Converter;
-using SharedKernel.InterfaceAdapters.Dto;
-using SharedKernel.InterfaceAdapters.Interfaces.Events;
-using SharedKernel.InterfaceAdapters.Interfaces.EventStore;
-using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
-using SharedKernel.InterfaceAdapters.Repositories.Event;
-using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
-using SharedKernel.SharedKernel.InterfaceAdapters.Repositories.Aggregate;
+using SharedKernel.InterfaceAdapters.EventsFlowController;
+using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
 using Xunit;
 
 namespace InterfaceAdapters.Test.Repositories
@@ -28,7 +21,7 @@ namespace InterfaceAdapters.Test.Repositories
         public async Task PassingAggregateKeyToEventRepositoryShouldReturnDomainEventsForThisAggregateAsync()
         {
             //Arrange
-            var eventStoreMock = new Mock<IEventStoreManager>();
+            var eventStoreMock = new Mock<IEventStoreManagerRepositories>();
             var publisherMock = new Mock<IEventDispatcher>();
             var testKey = new TestId(Guid.NewGuid());
             var login = new TestName("Test", "test2");
@@ -41,7 +34,7 @@ namespace InterfaceAdapters.Test.Repositories
                 testChangedNameEvent
             };
             eventStoreMock.Setup(x => x.GetAsync(It.IsAny<AggregateKey>())).ReturnsAsync(domainEventList);
-            IEventRepository eventRepository = new EventRepository(eventStoreMock.Object, publisherMock.Object);
+            IEventController eventRepository = new EventController(eventStoreMock.Object, publisherMock.Object);
             //Act
             var events = await eventRepository.GetAsync(testKey);
             //Assert
@@ -58,7 +51,7 @@ namespace InterfaceAdapters.Test.Repositories
         public async Task SavingDomainEventsShouldExecuteEventStoreManagerFunctionAndExecuteEventDispatcherAsync()
         {
             //Arrange
-            var eventStoreMock = new Mock<IEventStoreManager>();
+            var eventStoreMock = new Mock<IEventStoreManagerRepositories>();
             var publisherMock = new Mock<IEventDispatcher>();
             var testKey = new TestId(Guid.NewGuid());
             var login = new TestName("Test", "test2");
@@ -70,7 +63,7 @@ namespace InterfaceAdapters.Test.Repositories
                 testCreatedEvent,
                 testChangedNameEvent
             };
-            IEventRepository eventRepository = new EventRepository(eventStoreMock.Object, publisherMock.Object);
+            IEventController eventRepository = new EventController(eventStoreMock.Object, publisherMock.Object);
             //Act
             await eventRepository.SaveAsync(domainEventList);
             //Assert
