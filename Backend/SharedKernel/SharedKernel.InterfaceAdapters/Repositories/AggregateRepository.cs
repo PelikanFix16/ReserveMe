@@ -3,16 +3,16 @@ using SharedKernel.Application.Common.Errors.RepositoriesErrors;
 using SharedKernel.Application.Interfaces.Repositories;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
-using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
+using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
 
-namespace SharedKernel.SharedKernel.InterfaceAdapters.Repositories.Aggregate
+namespace SharedKernel.InterfaceAdapters.Repositories
 {
     public class AggregateRepository : IAggregateRepository
     {
         private readonly IDictionary<AggregateKey, AggregateRoot> _aggregates;
-        private readonly IEventRepository _eventRepository;
+        private readonly IEventController _eventRepository;
 
-        public AggregateRepository(IEventRepository eventRepository)
+        public AggregateRepository(IEventController eventRepository)
         {
             _aggregates = new Dictionary<AggregateKey, AggregateRoot>();
             _eventRepository = eventRepository;
