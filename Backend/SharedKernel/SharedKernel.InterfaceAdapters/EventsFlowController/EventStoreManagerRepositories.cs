@@ -4,19 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
-using SharedKernel.InterfaceAdapters.Dto;
-using SharedKernel.InterfaceAdapters.Interfaces.Events;
-using SharedKernel.InterfaceAdapters.Interfaces.EventStore;
-using SharedKernel.SharedKernel.InterfaceAdapters.Interfaces.EventStore;
+using SharedKernel.InterfaceAdapters.Interfaces.Converter;
+using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
+using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
 
-namespace SharedKernel.InterfaceAdapters.Common.Events
+namespace SharedKernel.InterfaceAdapters.EventsFlowController
 {
-    public class EventStoreManager : IEventStoreManager
+    public class EventStoreManagerRepositories : IEventStoreManagerRepositories
     {
         private readonly IEventStoreRepository _eventStoreRepository;
         private readonly IStoreEventConverter _converter;
 
-        public EventStoreManager(IEventStoreRepository eventStoreRepository, IStoreEventConverter converter)
+        public EventStoreManagerRepositories(IEventStoreRepository eventStoreRepository, IStoreEventConverter converter)
         {
             _eventStoreRepository = eventStoreRepository;
             _converter = converter;

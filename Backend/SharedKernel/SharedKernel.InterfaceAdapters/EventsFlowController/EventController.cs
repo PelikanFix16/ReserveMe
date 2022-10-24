@@ -1,17 +1,16 @@
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
-using SharedKernel.InterfaceAdapters.Interfaces.Events;
-using SharedKernel.InterfaceAdapters.Interfaces.EventStore;
-using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
+using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
 
-namespace SharedKernel.InterfaceAdapters.Repositories.Event
+
+namespace SharedKernel.InterfaceAdapters.EventsFlowController
 {
-    public class EventRepository : IEventRepository
+    public class EventController : IEventController
     {
-        private readonly IEventStoreManager _eventStoreManager;
+        private readonly IEventStoreManagerRepositories _eventStoreManager;
         private readonly IEventDispatcher _eventDispatcher;
 
-        public EventRepository(IEventStoreManager eventStoreManager, IEventDispatcher eventDispatcher)
+        public EventController(IEventStoreManagerRepositories eventStoreManager, IEventDispatcher eventDispatcher)
         {
             _eventStoreManager = eventStoreManager;
             _eventDispatcher = eventDispatcher;

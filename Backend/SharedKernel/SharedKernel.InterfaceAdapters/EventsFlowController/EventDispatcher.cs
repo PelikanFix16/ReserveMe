@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharedKernel.Application.Interfaces.Events;
 using SharedKernel.Domain.Event;
-using SharedKernel.InterfaceAdapters.Interfaces.Events;
+using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
 
-namespace SharedKernel.InterfaceAdapters.Common.Events
+namespace SharedKernel.InterfaceAdapters.EventsFlowController
 {
     public class EventDispatcher : IEventDispatcher
     {
