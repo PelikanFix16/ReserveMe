@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
 using SharedKernel.InterfaceAdapters.Dto;
-using SharedKernel.InterfaceAdapters.Interfaces.Events;
+using SharedKernel.InterfaceAdapters.Interfaces.Converter;
 
 namespace SharedKernel.InterfaceAdapters.Common.Converter
 {

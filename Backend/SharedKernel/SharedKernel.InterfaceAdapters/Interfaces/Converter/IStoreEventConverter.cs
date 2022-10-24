@@ -6,7 +6,7 @@ using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
 using SharedKernel.InterfaceAdapters.Dto;
 
-namespace SharedKernel.InterfaceAdapters.Interfaces.Events
+namespace SharedKernel.InterfaceAdapters.Interfaces.Converter
 {
     public interface IStoreEventConverter
     {
