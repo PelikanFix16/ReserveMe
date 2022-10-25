@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SharedKernel.Application.Interfaces.BaseError;
 
-namespace SharedKernel.Application.Common.Errors.BehaviorsErrors
+namespace SharedKernel.Application.Errors.BehaviorsErrors
 {
     public class ValidationError : BaseError
     {
@@ -13,6 +14,7 @@ namespace SharedKernel.Application.Common.Errors.BehaviorsErrors
             : base(FormatMessage(propertyName, message), Code)
         {
         }
+
         private static string FormatMessage(string propertyName, string message) => $"Error while validating {propertyName} - {message}";
     }
 }
