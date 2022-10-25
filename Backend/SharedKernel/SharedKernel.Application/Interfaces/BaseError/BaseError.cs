@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
 
-namespace SharedKernel.Application.Common.Errors
+namespace SharedKernel.Application.Interfaces.BaseError
 {
     public abstract class BaseError : Error
     {
