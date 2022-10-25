@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using FluentResults;
 using FluentValidation;
 using MediatR;
-using SharedKernel.Application.Common.Errors.BehaviorsErrors;
+using SharedKernel.Application.Errors.BehaviorsErrors;
 
-namespace SharedKernel.Application.Common.Behaviors
+namespace SharedKernel.Application.Behaviors
 {
     public class MediatRPipelineValidation<TRequest, TResponse> :
         IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
-        where TResponse : ResultBase<TResponse>, new()
+         where TRequest : IRequest<TResponse>
+         where TResponse : ResultBase<TResponse>, new()
     {
         private readonly IValidator<TRequest>? _validator;
 

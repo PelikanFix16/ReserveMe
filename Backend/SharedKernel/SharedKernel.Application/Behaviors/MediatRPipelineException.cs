@@ -4,11 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
 using MediatR;
-using MediatR.Pipeline;
-using SharedKernel.Application.Common.Errors.BehaviorsErrors;
+using SharedKernel.Application.Errors.BehaviorsErrors;
 using SharedKernel.Domain.BusinessRule;
 
-namespace SharedKernel.Application.Common.Behaviors
+namespace SharedKernel.Application.Behaviors
 {
     public class MediatRPipelineException<TRequest, TResponse> :
         IPipelineBehavior<TRequest, TResponse>
