@@ -1,4 +1,6 @@
-namespace SharedKernel.Application.Common.Errors.RepositoriesErrors
+using SharedKernel.Application.Interfaces.BaseError;
+
+namespace SharedKernel.Application.Errors.RepositoriesErrors
 {
     public class GetEventError : BaseError
     {

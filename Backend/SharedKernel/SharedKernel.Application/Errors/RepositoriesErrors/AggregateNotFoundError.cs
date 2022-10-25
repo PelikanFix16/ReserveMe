@@ -1,6 +1,7 @@
+using SharedKernel.Application.Interfaces.BaseError;
 using SharedKernel.Domain.UniqueKey;
 
-namespace SharedKernel.Application.Common.Errors.RepositoriesErrors
+namespace SharedKernel.Application.Errors.RepositoriesErrors
 {
     public class AggregateNotFoundError : BaseError
     {
