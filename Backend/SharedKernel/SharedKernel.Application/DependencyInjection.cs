@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Common.Behaviors;
+using SharedKernel.Application.Behaviors;
 
 namespace SharedKernel.Application
 {
