@@ -7,7 +7,7 @@ using FluentAssertions;
 using FluentResults;
 using MediatR;
 using Moq;
-using SharedKernel.Application.Common.Behaviors;
+using SharedKernel.Application.Behaviors;
 using Xunit;
 
 namespace Application.Test.Common.Behaviors
