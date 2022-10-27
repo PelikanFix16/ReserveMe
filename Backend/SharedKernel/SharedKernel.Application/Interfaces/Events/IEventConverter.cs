@@ -9,7 +9,7 @@ namespace SharedKernel.Application.Interfaces.Events
 {
     public interface IEventConverter
     {
-        public DomainEvent SharedEventToDomain(SharedEvent @event);
+        public T SharedEventToDomain<T>(SharedEvent @event) where T : DomainEvent;
         public SharedEvent DomainEventToShared(DomainEvent @event);
     }
 }

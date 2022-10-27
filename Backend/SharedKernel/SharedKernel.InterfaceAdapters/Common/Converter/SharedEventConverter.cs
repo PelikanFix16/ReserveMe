@@ -17,27 +17,20 @@ namespace SharedKernel.InterfaceAdapters.Common.Converter
             var assembly = @event.GetType().Assembly.GetName().Name ?? "";
             return new SharedEvent()
             {
-                EventName = @event.GetType().Namespace + "." + @event.GetType().Name,
+                EventName = @event.GetType().Name,
                 EventData = JsonConvert.SerializeObject(@event),
                 AssemblyName = assembly
             };
         }
 
-        public DomainEvent SharedEventToDomain(SharedEvent @event)
+        public T SharedEventToDomain<T>(SharedEvent @event) where T : DomainEvent
         {
-            var qualified = Assembly.CreateQualifiedName(@event.AssemblyName, @event.EventName);
-            var elementType = Type.GetType(qualified);
-            if (elementType is null)
-                throw new ArgumentException($"Type {@event.EventName} not found");
-
-            var domainObj = JsonConvert.DeserializeObject(@event.EventData, elementType);
+            Console.WriteLine(@event.EventData);
+            var domainObj = JsonConvert.DeserializeObject<T>(@event.EventData);
             if (domainObj is null)
                 throw new Exception("Could not convert store event to domain event");
 
-            if (domainObj is not DomainEvent obj)
-                throw new Exception("Could not convert store event to domain event");
-
-            return obj;
+            return domainObj;
         }
     }
 }
