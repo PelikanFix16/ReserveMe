@@ -7,10 +7,10 @@ namespace User.Domain.ValueObjects
     {
         public string Value { get; private set; }
 
-        public Login(string login)
+        public Login(string value)
         {
-            CheckRule(new LoginMustBeEmailRule(login));
-            Value = login;
+            CheckRule(new LoginMustBeEmailRule(value));
+            Value = value;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

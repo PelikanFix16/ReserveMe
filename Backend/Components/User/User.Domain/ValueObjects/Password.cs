@@ -7,10 +7,10 @@ namespace User.Domain.ValueObjects
     {
         public string Value { get; private set; }
 
-        public Password(string password)
+        public Password(string value)
         {
-            CheckRule(new PasswordMustBeStrongRule(password));
-            Value = password;
+            CheckRule(new PasswordMustBeStrongRule(value));
+            Value = value;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
