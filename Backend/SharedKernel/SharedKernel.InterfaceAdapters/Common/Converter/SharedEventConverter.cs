@@ -25,7 +25,6 @@ namespace SharedKernel.InterfaceAdapters.Common.Converter
 
         public T SharedEventToDomain<T>(SharedEvent @event) where T : DomainEvent
         {
-            Console.WriteLine(@event.EventData);
             var domainObj = JsonConvert.DeserializeObject<T>(@event.EventData);
             if (domainObj is null)
                 throw new Exception("Could not convert store event to domain event");
