@@ -18,7 +18,7 @@ namespace SharedKernel.InterfaceAdapters.Common.Converter
             {
                 EventName = @event.GetType().Name,
                 EventData = JsonConvert.SerializeObject(@event),
-                TypeName = @event.GetType()
+                EventTypeName = @event.GetType()
             };
         }
 

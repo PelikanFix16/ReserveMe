@@ -29,7 +29,7 @@ namespace Infrastructure.Test.Converter
             IEventConverter eventConverter = new SharedEventConverter();
             var sharedEvent = eventConverter.DomainEventToShared(userRegisteredEvent);
             sharedEvent.EventName.Should().Be("UserRegisteredEvent");
-            sharedEvent.TypeName.Should().Be(userRegisteredEvent.GetType());
+            sharedEvent.EventTypeName.Should().Be(userRegisteredEvent.GetType());
         }
 
         [Fact]

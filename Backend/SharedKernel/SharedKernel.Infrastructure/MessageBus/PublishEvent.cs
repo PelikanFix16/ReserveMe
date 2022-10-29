@@ -24,7 +24,7 @@ namespace SharedKernel.Infrastructure.MessageBus
         public async Task PublishAsync(SharedEvent @event)
         {
             var method = typeof(IEventConverter).GetMethod(nameof(IEventConverter.SharedEventToDomain));
-            var generic = method.MakeGenericMethod(@event.TypeName);
+            var generic = method.MakeGenericMethod(@event.EventTypeName);
             var domainEvent = generic.Invoke(_converter, new object[] { @event });
             await _publishEndpoint.Publish(domainEvent);
         }
