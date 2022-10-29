@@ -14,12 +14,11 @@ namespace SharedKernel.InterfaceAdapters.Common.Converter
     {
         public SharedEvent DomainEventToShared(DomainEvent @event)
         {
-            var assembly = @event.GetType().Assembly.GetName().Name ?? "";
             return new SharedEvent()
             {
                 EventName = @event.GetType().Name,
                 EventData = JsonConvert.SerializeObject(@event),
-                AssemblyName = assembly
+                TypeName = @event.GetType()
             };
         }
 

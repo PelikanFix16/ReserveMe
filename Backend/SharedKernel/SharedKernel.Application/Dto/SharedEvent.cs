@@ -9,6 +9,6 @@ namespace SharedKernel.Application.Common.Event
     {
         public string EventName { get; set; } = null!;
         public string EventData { get; set; } = null!;
-        public string AssemblyName { get; set; } = null!;
+        public Type TypeName { get; set; } = null!;
     }
 }
