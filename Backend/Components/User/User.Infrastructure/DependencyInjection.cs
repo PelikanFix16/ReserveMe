@@ -25,6 +25,8 @@ namespace User.Infrastructure
                     rmqCfg.ReceiveEndpoint(
                         "user-registered",
                         e => e.Consumer<UserRegisteredEventConsumer>(context));
+
+                    rmqCfg.UseNewtonsoftJsonDeserializer();
                 });
             });
             services.AddScoped<UserRegisteredEventConsumer>();
