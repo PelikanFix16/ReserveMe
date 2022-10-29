@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using MassTransit;
 using SharedKernel.Application.Common.Event;
 using SharedKernel.Domain.Event;
+using User.Domain.User.Events;
 
 namespace User.Application.Consumers
 {
-    public class UserRegisteredEventConsumer : IConsumer<SharedEvent>
+    public class UserRegisteredEventConsumer : IConsumer<UserRegisteredEvent>
     {
 
-        public async Task Consume(ConsumeContext<SharedEvent> context)
+        public async Task Consume(ConsumeContext<UserRegisteredEvent> context)
         {
-            Console.WriteLine($"Event received: {context.Message.EventData}");
+            Console.WriteLine($"Event received: {context.Message.Name.FirstName}");
         }
     }
 }
