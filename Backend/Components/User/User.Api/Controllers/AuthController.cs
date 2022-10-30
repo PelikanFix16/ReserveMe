@@ -7,7 +7,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using User.Api.Dto.User;
 using User.Application.Commands.UserRegister;
-using User.Application.Mapper.Dto;
 
 namespace User.Api.Controllers
 {
@@ -26,7 +25,7 @@ namespace User.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterUserAsync(UserRegisterRequest user)
         {
             var command = _mapper.Map<UserRegisterCommand>(user);
