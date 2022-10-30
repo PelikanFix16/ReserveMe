@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
+using SharedKernel.Domain.BusinessRule;
 
-namespace SharedKernel.Domain.BusinessRule.Rules
+namespace User.Domain.ValueObjects.Rules
 {
     public class PasswordMustBeStrongRule : IBusinessRule
     {

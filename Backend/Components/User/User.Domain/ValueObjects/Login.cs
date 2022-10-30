@@ -1,5 +1,5 @@
-using SharedKernel.Domain.BusinessRule.Rules;
 using SharedKernel.Domain.ValueObjects;
+using User.Domain.ValueObjects.Rules;
 
 namespace User.Domain.ValueObjects
 {
