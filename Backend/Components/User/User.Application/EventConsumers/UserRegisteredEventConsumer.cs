@@ -9,7 +9,7 @@ using User.Application.Interfaces.Repositories;
 using User.Application.Projections;
 using User.Domain.User.Events;
 
-namespace User.Application.Consumers
+namespace User.Application.EventConsumers
 {
     public class UserRegisteredEventConsumer : IConsumer<UserRegisteredEvent>
     {
@@ -22,16 +22,9 @@ namespace User.Application.Consumers
 
         public async Task Consume(ConsumeContext<UserRegisteredEvent> context)
         {
-            await Task.Delay(5000);
-            _repository.Save(new UserProjection
-            {
-                Id = context.Message.Key.Key,
-                Email = context.Message.Login.Value,
-                Password = context.Message.Password.Value,
-                Name = context.Message.Name.FirstName,
-                Surname = context.Message.Name.LastName
-            });
-            await _repository.SaveChangesAsync();
+            //ToDo: AutoMapper profile
+            // Map Event to Projection
+            //Save projection in database
         }
     }
 }

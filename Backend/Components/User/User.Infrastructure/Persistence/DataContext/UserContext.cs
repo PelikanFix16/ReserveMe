@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using User.Application.Projections;
 
-namespace User.Infrastructure.DataContext
+namespace User.Infrastructure.Persistence.DataContext
 {
     public class UserContext : DbContext
     {

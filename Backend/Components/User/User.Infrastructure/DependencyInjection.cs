@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure;
-using User.Application.Consumers;
+using User.Application.EventConsumers;
 using User.Application.Interfaces.Repositories;
 using User.Application.Interfaces.Security;
-using User.Infrastructure.DataContext;
-using User.Infrastructure.Repositories;
+using User.Infrastructure.Persistence.DataContext;
+using User.Infrastructure.Persistence.Repositories;
 using User.Infrastructure.Security;
 
 namespace User.Infrastructure

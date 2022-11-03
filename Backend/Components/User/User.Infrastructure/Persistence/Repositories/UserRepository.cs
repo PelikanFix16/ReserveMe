@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using User.Application.Interfaces.Repositories;
 using User.Application.Mapper.Dto;
 using User.Application.Projections;
-using User.Infrastructure.DataContext;
+using User.Infrastructure.Persistence.DataContext;
 
-namespace User.Infrastructure.Repositories
+namespace User.Infrastructure.Persistence.Repositories
 {
     public class UserRepository : IUserProjectionRepository
     {

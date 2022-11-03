@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using User.Infrastructure.DataContext;
+using User.Infrastructure.Persistence.DataContext;
 
 #nullable disable
 
-namespace User.Infrastructure.Migrations
+namespace User.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20221102222243_InitUserProjection")]
+    [Migration("20221103200431_InitUserProjection")]
     partial class InitUserProjection
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
