@@ -10,7 +10,7 @@ namespace User.Application.Interfaces.Repositories
     public interface IUserProjectionRepository
     {
         public Task<UserProjection> GetAsync(LoginDto loginDto);
-        public void Save(UserProjection userProjection);
+        public Task SaveAsync(UserProjection userProjection);
         public Task SaveChangesAsync();
     }
 }

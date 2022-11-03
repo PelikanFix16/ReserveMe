@@ -28,9 +28,9 @@ namespace User.Infrastructure.Repositories
             return user;
         }
 
-        public void Save(UserProjection userProjection)
+        public async Task SaveAsync(UserProjection userProjection)
         {
-            _context.Users.Add(userProjection);
+            await _context.Users.AddAsync(userProjection);
         }
 
         public async Task SaveChangesAsync()
