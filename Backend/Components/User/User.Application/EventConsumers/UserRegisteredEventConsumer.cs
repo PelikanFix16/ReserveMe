@@ -2,29 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MassTransit;
 using SharedKernel.Application.Common.Event;
 using SharedKernel.Domain.Event;
 using User.Application.Interfaces.Repositories;
-using User.Application.Projections;
+using User.Application.Interfaces.Services;
+using User.Application.Mapper.Projections;
 using User.Domain.User.Events;
 
 namespace User.Application.EventConsumers
 {
     public class UserRegisteredEventConsumer : IConsumer<UserRegisteredEvent>
     {
-        private readonly IUserProjectionRepository _repository;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserRegisteredEventConsumer(IUserProjectionRepository repository)
+        public UserRegisteredEventConsumer(IUserService userService, IMapper mapper)
         {
-            _repository = repository;
+            _userService = userService;
+            _mapper = mapper;
         }
 
         public async Task Consume(ConsumeContext<UserRegisteredEvent> context)
         {
-            //ToDo: AutoMapper profile
-            // Map Event to Projection
-            //Save projection in database
+            var projection = _mapper.Map<UserProjection>(context.Message);
+            await _userService.UserCreateAsync(projection);
         }
     }
 }
