@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace User.Application.Projections
+namespace User.Application.Mapper.Projections
 {
     public class UserProjection
     {

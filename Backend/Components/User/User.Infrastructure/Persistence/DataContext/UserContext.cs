@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using User.Application.Projections;
+using User.Application.Mapper.Projections;
 
 namespace User.Infrastructure.Persistence.DataContext
 {

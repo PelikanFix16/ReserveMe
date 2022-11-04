@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using User.Application.Interfaces.Repositories;
 using User.Application.Mapper.Dto;
-using User.Application.Projections;
+using User.Application.Mapper.Projections;
 using User.Infrastructure.Persistence.DataContext;
 
 namespace User.Infrastructure.Persistence.Repositories
