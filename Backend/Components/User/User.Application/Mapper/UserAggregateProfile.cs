@@ -10,9 +10,9 @@ using User.Domain.ValueObjects;
 
 namespace User.Application.Mapper
 {
-    public class MappingProfile : Profile
+    public class UserAggregateProfile : Profile
     {
-        public MappingProfile()
+        public UserAggregateProfile()
         {
             CreateMap<NameDto, Name>().ConstructUsing(x => new Name(x.FirstName, x.LastName));
             CreateMap<LoginDto, Login>().ConstructUsing(x => new Login(x.Login));

@@ -49,7 +49,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task UserRegisterHandlerShouldReturnUserRegisterDtoInResultObjectAsync()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<UserAggregateProfile>());
             var mapper = configuration.CreateMapper();
             var mockHashPassword = new Mock<ISecurityHash>();
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
@@ -74,7 +74,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task UserRegisterHandlerShouldCallSaveMethodInAggregateRepositoryAsync()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<UserAggregateProfile>());
             var mapper = configuration.CreateMapper();
             var mockHashPassword = new Mock<ISecurityHash>();
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
@@ -97,7 +97,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task UserRegisterHandlerShouldCallCommitAsyncMethodInAggregateRepositoryAsync()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<UserAggregateProfile>());
             var mapper = configuration.CreateMapper();
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
             var mockHashPassword = new Mock<ISecurityHash>();

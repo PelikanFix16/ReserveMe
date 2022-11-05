@@ -31,7 +31,7 @@ namespace Application.Test.Mapper
                 BirthDate = birthDateDto
             };
 
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<UserAggregateProfile>());
             var mapper = configuration.CreateMapper();
             var userAggregateRoot = mapper.Map<UserRegisterCommand, UserAggregateRoot>(userRegisterCommand);
             var eventsList = userAggregateRoot.GetUncommittedChanges().ToList();
@@ -56,7 +56,7 @@ namespace Application.Test.Mapper
                 .AddName(FirstName, LastName)
                 .AddPassword(Password)
                 .Create();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<UserAggregateProfile>());
             var mapper = configuration.CreateMapper();
             var userRegisterDto = mapper.Map<UserRegisterDto>(userAggregateRoot);
             userRegisterDto.Id.Should().Be(userAggregateRoot!.Id!.Key.ToString());
