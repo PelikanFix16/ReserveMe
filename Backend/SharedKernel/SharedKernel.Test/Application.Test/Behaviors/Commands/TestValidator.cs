@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 
-namespace Application.Test.Common.Behaviors.Commands
+namespace Application.Test.Behaviors.Commands
 {
     public class TestValidator : AbstractValidator<TestCommand>
     {

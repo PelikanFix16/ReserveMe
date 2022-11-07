@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Test.Common.Behaviors.Commands;
+using Application.Test.Behaviors.Commands;
 using FluentAssertions;
 using FluentResults;
 using MediatR;
@@ -10,7 +10,7 @@ using Moq;
 using SharedKernel.Application.Behaviors;
 using Xunit;
 
-namespace Application.Test.Common.Behaviors
+namespace Application.Test.Behaviors
 {
     public class MediatRPipelineValidationTest
     {

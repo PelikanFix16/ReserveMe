@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Test.Common.Behaviors.Commands;
-using Application.Test.Common.Behaviors.Exceptions;
+using Application.Test.Behaviors.Commands;
+using Application.Test.Behaviors.Exceptions;
 using FluentAssertions;
 using FluentResults;
 using MediatR;
@@ -12,7 +12,7 @@ using SharedKernel.Application.Behaviors;
 using SharedKernel.Domain.BusinessRule;
 using Xunit;
 
-namespace Application.Test.Common.Behaviors
+namespace Application.Test.Behaviors
 {
     public class MediatRPipelineExceptionTest
     {
