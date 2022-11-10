@@ -11,6 +11,5 @@ namespace User.Application.Interfaces.Services
     public interface IUserService
     {
         public Task<Result> UserCreateAsync(UserProjection userProjection);
-        public Task<Result<UserProjection>> GetUserAsync(LoginDto login);
     }
 }
