@@ -30,7 +30,11 @@ namespace User.Api.Controllers
         {
             var command = _mapper.Map<UserRegisterCommand>(user);
             var result = await _sender.Send(command);
-            return Ok(result);
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result.Reasons);
+
         }
     }
 }

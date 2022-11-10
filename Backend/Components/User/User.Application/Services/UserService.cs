@@ -14,15 +14,15 @@ namespace User.Application.Services
     {
         private readonly IUserProjectionRepository _repository;
 
-        public UserService(IUserProjectionRepository _repository)
+        public UserService(IUserProjectionRepository repository)
         {
-            this._repository = _repository;
+            this._repository = repository;
         }
 
         public async Task<Result<UserProjection>> GetUserAsync(LoginDto login)
         {
-            var userProjection = await _repository.GetAsync(login);
-            return Result.Ok(userProjection);
+            var projection = await _repository.GetAsync(login);
+            return projection;
         }
 
         public async Task<Result> UserCreateAsync(UserProjection userProjection)

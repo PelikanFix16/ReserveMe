@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using User.Application.Interfaces.Repositories;
 using User.Application.Mapper.Dto;
@@ -19,13 +20,10 @@ namespace User.Infrastructure.Persistence.Repositories
             _context = userContext;
         }
 
-        public async Task<UserProjection> GetAsync(LoginDto loginDto)
+        public async Task<Result<UserProjection>> GetAsync(LoginDto loginDto)
         {
             var user = await _context.Users.Where(x => x.Email == loginDto.Login).FirstOrDefaultAsync();
-            if (user is null)
-                throw new Exception("User not found");
-
-            return user;
+            return user ?? (Result<UserProjection>)Result.Fail("User not found");
         }
 
         public async Task SaveAsync(UserProjection userProjection)
