@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Infrastructure;
-using User.Application.EventConsumers;
 using User.Application.Interfaces.Repositories;
 using User.Application.Interfaces.Security;
 using User.Infrastructure.Persistence.DataContext;
@@ -22,18 +21,6 @@ namespace User.Infrastructure
             this IServiceCollection services,
             ConfigurationManager configuration)
         {
-            services.AddMassTransit(x =>
-            {
-                x.UsingRabbitMq((context, rmqCfg) =>
-                {
-                    rmqCfg.ReceiveEndpoint(
-                        "user-registered",
-                        e => e.Consumer<UserRegisteredEventConsumer>(context));
-
-                    rmqCfg.UseNewtonsoftJsonDeserializer();
-                });
-            });
-            services.AddScoped<UserRegisteredEventConsumer>();
             services.AddSingleton<ISecurityHash, SecurityHash>();
             services.AddSharedKernelInfrastructure(configuration);
             services.AddDbContext<UserContext>(
@@ -43,7 +30,6 @@ namespace User.Infrastructure
                         new MySqlServerVersion(new Version(8, 0, 29)))
             );
             services.AddTransient<IUserProjectionRepository, UserRepository>();
-
             return services;
         }
     }
