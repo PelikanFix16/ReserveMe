@@ -9,6 +9,8 @@ using SharedKernel.Application;
 using FluentValidation;
 using User.Application.Interfaces.Services;
 using User.Application.Services;
+using SharedKernel.Application.Interfaces.Events;
+using User.Application.EventHandlers.Local;
 
 namespace User.Application
 {
@@ -20,6 +22,7 @@ namespace User.Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IEventHandleBase, UserRegisteredEventHandler>();
             services.AddSharedKernelApplication();
             return services;
         }

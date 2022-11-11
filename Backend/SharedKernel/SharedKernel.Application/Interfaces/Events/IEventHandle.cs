@@ -7,8 +7,8 @@ using SharedKernel.Domain.Event;
 
 namespace SharedKernel.Application.Interfaces.Events
 {
-    public interface IEventHandle : IEventHandleBase
+    public interface IEventHandle<T> : IEventHandleBase where T : DomainEvent
     {
-        Task HandleAsync(SharedEvent @event);
+        Task HandleAsync(T @event);
     }
 }
