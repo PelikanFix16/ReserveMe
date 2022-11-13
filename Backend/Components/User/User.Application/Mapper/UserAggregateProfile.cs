@@ -35,6 +35,8 @@ namespace User.Application.Mapper
                     x => x.Name,
                     opt => opt.MapFrom(y => y.Name))
                 .ForMember(x => x.Login, opt => opt.MapFrom(y => y.Login.Value));
+
+            CreateMap<string, LoginDto>().ForMember(x => x.Login, opt => opt.MapFrom(y => y));
         }
     }
 }
