@@ -46,7 +46,8 @@ namespace SharedKernel.Application.LocalEventPublisher
                 if (handleMethod is null)
                     continue;
 
-                await (Task)handleMethod.Invoke(handler, new object[] { domainEvent });
+                var taskInvoke = handleMethod.Invoke(handler, new[] { domainEvent }) as Task ?? Task.CompletedTask;
+                await taskInvoke;
             }
         }
     }
