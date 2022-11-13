@@ -15,6 +15,7 @@ using User.Application.Interfaces.Repositories;
 using User.Application.Interfaces.Security;
 using User.Application.Mapper;
 using User.Application.Mapper.Dto;
+using User.Application.Mapper.Projections;
 using Xunit;
 
 namespace Application.Test.Commands.UserRegister
@@ -54,6 +55,8 @@ namespace Application.Test.Commands.UserRegister
             var mapper = configuration.CreateMapper();
             var mockHashPassword = new Mock<ISecurityHash>();
             var mockUserRepository = new Mock<IUserProjectionRepository>();
+            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<LoginDto>()))
+                .ReturnsAsync(Result.Fail<UserProjection>("User not found"));
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
@@ -84,6 +87,8 @@ namespace Application.Test.Commands.UserRegister
             var mapper = configuration.CreateMapper();
             var mockHashPassword = new Mock<ISecurityHash>();
             var mockUserRepository = new Mock<IUserProjectionRepository>();
+            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<LoginDto>()))
+                .ReturnsAsync(Result.Fail<UserProjection>("User not found"));
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
@@ -113,6 +118,8 @@ namespace Application.Test.Commands.UserRegister
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
             var mockHashPassword = new Mock<ISecurityHash>();
             var mockUserRepository = new Mock<IUserProjectionRepository>();
+            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<LoginDto>()))
+                .ReturnsAsync(Result.Fail<UserProjection>("User not found"));
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
             aggregateRepositoryMock.Setup(x => x.Save(
