@@ -1,10 +1,11 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedKernel.Application.Interfaces.Events;
 using SharedKernel.Infrastructure.EventStore;
 using SharedKernel.Infrastructure.MessageBus;
 using SharedKernel.InterfaceAdapters;
+using SharedKernel.InterfaceAdapters.EventsFlowController;
+using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
 using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
 
 namespace SharedKernel.Infrastructure

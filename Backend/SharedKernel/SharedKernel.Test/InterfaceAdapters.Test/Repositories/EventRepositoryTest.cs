@@ -11,6 +11,7 @@ using SharedKernel.Domain.Event;
 using SharedKernel.Domain.UniqueKey;
 using SharedKernel.InterfaceAdapters.EventsFlowController;
 using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
+using SharedKernel.InterfaceAdapters.Interfaces.Repositories;
 using Xunit;
 
 namespace InterfaceAdapters.Test.Repositories
@@ -21,7 +22,7 @@ namespace InterfaceAdapters.Test.Repositories
         public async Task PassingAggregateKeyToEventRepositoryShouldReturnDomainEventsForThisAggregateAsync()
         {
             //Arrange
-            var eventStoreMock = new Mock<IEventStoreManagerRepositories>();
+            var eventStoreMock = new Mock<IEventStoreRepository>();
             var publisherMock = new Mock<IEventDispatcher>();
             var testKey = new TestId(Guid.NewGuid());
             var login = new TestName("Test", "test2");
@@ -51,7 +52,7 @@ namespace InterfaceAdapters.Test.Repositories
         public async Task SavingDomainEventsShouldExecuteEventStoreManagerFunctionAndExecuteEventDispatcherAsync()
         {
             //Arrange
-            var eventStoreMock = new Mock<IEventStoreManagerRepositories>();
+            var eventStoreMock = new Mock<IEventStoreRepository>();
             var publisherMock = new Mock<IEventDispatcher>();
             var testKey = new TestId(Guid.NewGuid());
             var login = new TestName("Test", "test2");

@@ -29,6 +29,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SharedKernel.Infrastructure\SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\..\SharedKernel.InterfaceAdapters\SharedKernel.InterfaceAdapters.csproj" />
+    <ProjectReference Include="..\Domain.Test\Domain.Test.csproj" />
+    <ProjectReference Include="..\..\SharedKernel.Domain\SharedKernel.Domain.csproj" />
   </ItemGroup>
 
 </Project>
