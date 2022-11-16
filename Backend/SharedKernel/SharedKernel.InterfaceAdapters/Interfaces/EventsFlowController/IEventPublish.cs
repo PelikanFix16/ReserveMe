@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SharedKernel.Application.Common.Event;
 using SharedKernel.Domain.Event;
 
-namespace SharedKernel.Application.Interfaces.Events
+namespace SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController
 {
     public interface IEventPublish
     {
-        Task PublishAsync(SharedEvent @event);
+        Task PublishAsync(DomainEvent @event);
     }
 }
