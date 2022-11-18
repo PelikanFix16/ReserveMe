@@ -6,7 +6,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using User.Api.Dto.User;
-using User.Application.Commands.UserRegister;
+using User.Application.Cqrs.Commands.UserRegister;
+using User.Application.Cqrs.Queries.UserLogin;
 
 namespace User.Api.Controllers
 {
@@ -34,7 +35,17 @@ namespace User.Api.Controllers
                 return Ok(result);
 
             return BadRequest(result.Reasons);
+        }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUserAsync(UserLoginRequest user)
+        {
+            var query = _mapper.Map<UserLoginQuery>(user);
+            var result = await _sender.Send(query);
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result.Reasons);
         }
     }
 }
