@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using User.Application.Commands.UserRegister;
+using User.Application.Cqrs.Commands.UserRegister;
 using User.Application.Mapper.Dto;
 using User.Domain.User;
 using User.Domain.ValueObjects;
