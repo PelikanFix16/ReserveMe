@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using User.Api.Dto.User;
-using User.Application.Commands.UserRegister;
+using User.Application.Cqrs.Commands.UserRegister;
 
 namespace User.Api.Mapper
 {
-    public class MappingProfile : Profile
+    public class UserRegisterProfile : Profile
     {
-        public MappingProfile()
+        public UserRegisterProfile()
         {
             CreateMap<UserRegisterRequest, UserRegisterCommand>()
                 .ForMember(
