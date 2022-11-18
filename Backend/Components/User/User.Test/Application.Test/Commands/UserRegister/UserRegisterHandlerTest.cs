@@ -10,7 +10,7 @@ using SharedKernel.Application.Interfaces.Repositories;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
-using User.Application.Commands.UserRegister;
+using User.Application.Cqrs.Commands.UserRegister;
 using User.Application.Interfaces.Repositories;
 using User.Application.Interfaces.Security;
 using User.Application.Mapper;

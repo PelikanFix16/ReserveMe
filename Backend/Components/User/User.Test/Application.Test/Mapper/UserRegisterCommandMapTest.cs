@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using User.Application.Commands.UserRegister;
 using User.Application.Mapper.Dto;
 using AutoMapper;
 using Xunit;
@@ -11,6 +10,7 @@ using User.Domain.User;
 using FluentAssertions;
 using User.Domain.User.Factory;
 using SharedKernel.Domain;
+using User.Application.Cqrs.Commands.UserRegister;
 
 namespace Application.Test.Mapper
 {

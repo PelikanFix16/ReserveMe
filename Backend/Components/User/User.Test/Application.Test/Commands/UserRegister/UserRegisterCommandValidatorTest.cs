@@ -5,7 +5,7 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 using SharedKernel.Domain;
-using User.Application.Commands.UserRegister;
+using User.Application.Cqrs.Commands.UserRegister;
 using User.Application.Mapper.Dto;
 using Xunit;
 
