@@ -2,7 +2,7 @@ using FluentResults;
 using MediatR;
 using User.Application.Mapper.Dto;
 
-namespace User.Application.Commands.UserRegister
+namespace User.Application.Cqrs.Commands.UserRegister
 {
     public class UserRegisterCommand : IRequest<Result<UserRegisterDto>>
     {

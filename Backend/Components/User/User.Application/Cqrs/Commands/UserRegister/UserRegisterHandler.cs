@@ -8,7 +8,7 @@ using User.Application.Interfaces.Security;
 using User.Application.Mapper.Dto;
 using User.Domain.User;
 
-namespace User.Application.Commands.UserRegister
+namespace User.Application.Cqrs.Commands.UserRegister
 {
     public class UserRegisterHandler : IRequestHandler<UserRegisterCommand, Result<UserRegisterDto>>
     {
