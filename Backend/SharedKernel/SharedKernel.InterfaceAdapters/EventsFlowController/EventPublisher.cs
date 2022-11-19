@@ -25,6 +25,9 @@ namespace SharedKernel.InterfaceAdapters.EventsFlowController
                 if (handleMethod is null)
                     continue;
 
+                if (handleMethod.GetParameters().First().ParameterType != @event.GetType())
+                    continue;
+
                 var taskInvoke = handleMethod.Invoke(handler, new[] { @event }) as Task ?? Task.CompletedTask;
                 await taskInvoke;
             }
