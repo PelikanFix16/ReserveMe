@@ -23,6 +23,7 @@ namespace User.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEventHandleBase, UserRegisteredEventHandler>();
+            services.AddTransient<IEventHandleBase, UserRegisteredConfirmationEventHandler>();
             services.AddSharedKernelApplication();
             return services;
         }
