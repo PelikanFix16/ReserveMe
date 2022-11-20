@@ -10,7 +10,7 @@ using User.Domain.User;
 
 namespace User.Application.Cqrs.Commands.UserRegister
 {
-    public class UserRegisterHandler : IRequestHandler<UserRegisterCommand, Result<UserRegisterDto>>
+    public class UserRegisterHandler : IRequestHandler<UserRegisterCommand, Result<Guid>>
     {
         private readonly IMapper _mapper;
         private readonly IAggregateRepository _aggregateRepository;
@@ -29,10 +29,10 @@ namespace User.Application.Cqrs.Commands.UserRegister
             _repository = repository;
         }
 
-        public async Task<Result<UserRegisterDto>> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
         {
             var login = _mapper.Map<LoginDto>(request.Login);
-            var userProjection = await _repository.GetAsync(login);
+            var userProjection = await _repository.GetByEmailAsync(login);
             if (userProjection.IsSuccess)
                 return Result.Fail("User already exists");
 
@@ -40,7 +40,7 @@ namespace User.Application.Cqrs.Commands.UserRegister
             var userAggregate = _mapper.Map<UserAggregateRoot>(request);
             _aggregateRepository.Save(userAggregate, userAggregate.Id);
             await _aggregateRepository.CommitAsync();
-            return _mapper.Map<UserRegisterDto>(userAggregate);
+            return userAggregate.Id.Key;
         }
     }
 }
