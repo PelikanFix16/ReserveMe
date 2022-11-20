@@ -16,7 +16,10 @@ namespace User.Application.Cqrs.Queries.UserLogin
         private readonly IUserProjectionRepository _userRepository;
         private readonly ISecurityHash _security;
 
-        public UserLoginHandler(IMapper mapper, IUserProjectionRepository userRepository, ISecurityHash security)
+        public UserLoginHandler(
+            IMapper mapper,
+            IUserProjectionRepository userRepository,
+            ISecurityHash security)
         {
             _mapper = mapper;
             _userRepository = userRepository;
@@ -25,13 +28,16 @@ namespace User.Application.Cqrs.Queries.UserLogin
 
         public async Task<Result<UserLoginDto>> Handle(UserLoginQuery request, CancellationToken cancellationToken)
         {
-            var userProjection = await _userRepository.GetAsync(request.Login);
+            var userProjection = await _userRepository.GetByEmailAsync(request.Login);
 
             if (userProjection.IsFailed)
                 return Result.Fail("User not exists");
 
             if (!_security.VerifyHashedPassword(userProjection.Value.Password, request.Password.Password))
                 return Result.Fail("Password is incorrect");
+
+            if (!userProjection.Value.Verified)
+                return Result.Fail("User is not verified");
 
             var userLoginDto = _mapper.Map<UserLoginDto>(userProjection.Value);
             return Result.Ok(userLoginDto);
