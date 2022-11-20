@@ -12,5 +12,6 @@ namespace User.Application.Mapper.Projections
         public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        public bool Verified { get; set; }
     }
 }
