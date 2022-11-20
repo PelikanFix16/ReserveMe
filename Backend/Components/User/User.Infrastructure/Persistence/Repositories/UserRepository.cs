@@ -20,9 +20,15 @@ namespace User.Infrastructure.Persistence.Repositories
             _context = userContext;
         }
 
-        public async Task<Result<UserProjection>> GetAsync(LoginDto loginDto)
+        public async Task<Result<UserProjection>> GetByEmailAsync(LoginDto loginDto)
         {
             var user = await _context.Users.Where(x => x.Email == loginDto.Login).FirstOrDefaultAsync();
+            return user ?? (Result<UserProjection>)Result.Fail("User not found");
+        }
+
+        public async Task<Result<UserProjection>> GetByIdAsync(Guid id)
+        {
+            var user = await _context.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
             return user ?? (Result<UserProjection>)Result.Fail("User not found");
         }
 
