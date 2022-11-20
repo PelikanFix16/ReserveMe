@@ -29,14 +29,7 @@ namespace User.Application.Mapper
                 dest = new UserAggregateRoot(userId, login, password, name, birthDate);
             });
 
-            CreateMap<UserAggregateRoot, UserRegisterDto>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(y => y.Id.Key.ToString()))
-                .ForMember(
-                    x => x.Name,
-                    opt => opt.MapFrom(y => y.Name))
-                .ForMember(x => x.Login, opt => opt.MapFrom(y => y.Login.Value));
-
-            CreateMap<string, LoginDto>().ForMember(x => x.Login, opt => opt.MapFrom(y => y));
+            CreateMap<Guid, UserId>().ConstructUsing(x => new UserId(x));
         }
     }
 }
