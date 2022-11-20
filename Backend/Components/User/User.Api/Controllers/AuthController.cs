@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using User.Api.Dto.User;
 using User.Application.Cqrs.Commands.UserRegister;
+using User.Application.Cqrs.Commands.UserVerified;
 using User.Application.Cqrs.Queries.UserLogin;
 
 namespace User.Api.Controllers
@@ -30,6 +31,17 @@ namespace User.Api.Controllers
         public async Task<IActionResult> RegisterUserAsync(UserRegisterRequest user)
         {
             var command = _mapper.Map<UserRegisterCommand>(user);
+            var result = await _sender.Send(command);
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result.Reasons);
+        }
+
+        [HttpPost("verify/{id:guid}")]
+        public async Task<IActionResult> VerifyUserAsync(Guid id)
+        {
+            var command = new UserVerifiedCommand { Id = id };
             var result = await _sender.Send(command);
             if (result.IsSuccess)
                 return Ok(result);
