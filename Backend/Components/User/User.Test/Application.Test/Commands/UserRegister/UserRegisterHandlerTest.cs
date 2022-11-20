@@ -55,7 +55,7 @@ namespace Application.Test.Commands.UserRegister
             var mapper = configuration.CreateMapper();
             var mockHashPassword = new Mock<ISecurityHash>();
             var mockUserRepository = new Mock<IUserProjectionRepository>();
-            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<LoginDto>()))
+            mockUserRepository.Setup(x => x.GetByEmailAsync(It.IsAny<LoginDto>()))
                 .ReturnsAsync(Result.Fail<UserProjection>("User not found"));
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
@@ -74,10 +74,7 @@ namespace Application.Test.Commands.UserRegister
             // check handler return result ok object
             x.IsSuccess.Should().BeTrue();
             // check handler return properly user register dto object
-            x.Value.Login.Should().Be(_command.Login.Login);
-            x.Value.Name.FirstName.Should().Be(_command.Name.FirstName);
-            x.Value.Id.Should().NotBeEmpty();
-            x.Value.Id.Should().Be(_command.Id.ToString());
+            x.Value.Should().Be(_command.Id);
         }
 
         [Fact]
@@ -87,7 +84,7 @@ namespace Application.Test.Commands.UserRegister
             var mapper = configuration.CreateMapper();
             var mockHashPassword = new Mock<ISecurityHash>();
             var mockUserRepository = new Mock<IUserProjectionRepository>();
-            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<LoginDto>()))
+            mockUserRepository.Setup(x => x.GetByEmailAsync(It.IsAny<LoginDto>()))
                 .ReturnsAsync(Result.Fail<UserProjection>("User not found"));
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
@@ -118,7 +115,7 @@ namespace Application.Test.Commands.UserRegister
             var aggregateRepositoryMock = new Mock<IAggregateRepository>();
             var mockHashPassword = new Mock<ISecurityHash>();
             var mockUserRepository = new Mock<IUserProjectionRepository>();
-            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<LoginDto>()))
+            mockUserRepository.Setup(x => x.GetByEmailAsync(It.IsAny<LoginDto>()))
                 .ReturnsAsync(Result.Fail<UserProjection>("User not found"));
             mockHashPassword.Setup(x => x.HashPassword(It.IsAny<string>()))
                 .Returns("$2a$11$9zqYOv34D7LwBi0f8nAUuuup1O0m7t.pmOPDbrd4Nwcd5Iq9PR2qq");
