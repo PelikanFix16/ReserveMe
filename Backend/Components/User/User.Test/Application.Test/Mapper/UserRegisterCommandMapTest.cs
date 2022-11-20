@@ -42,27 +42,5 @@ namespace Application.Test.Mapper
             userAggregateRoot!.BirthDate!.Value.Should().Be(birthDateDto.BirthDate);
             eventsList.Count.Should().Be(1);
         }
-
-        [Fact]
-        public void ShouldMapFromUserAggregateRootToUserRegisterDto()
-        {
-            IUserAggregateRootFactory userFactory = new UserAggregateRootFactory();
-            const string Login = "john@exdample.com";
-            const string FirstName = "John";
-            const string LastName = "Doe";
-            const string Password = "testT21ssa!";
-            var userAggregateRoot = userFactory.AddBirthDate(AppTime.Now().AddYears(-20))
-                .AddLogin(Login)
-                .AddName(FirstName, LastName)
-                .AddPassword(Password)
-                .Create();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<UserAggregateProfile>());
-            var mapper = configuration.CreateMapper();
-            var userRegisterDto = mapper.Map<UserRegisterDto>(userAggregateRoot);
-            userRegisterDto.Id.Should().Be(userAggregateRoot!.Id!.Key.ToString());
-            userRegisterDto.Login.Should().Be(Login);
-            userRegisterDto.Name.FirstName.Should().Be(FirstName);
-            userRegisterDto.Name.LastName.Should().Be(LastName);
-        }
     }
 }
