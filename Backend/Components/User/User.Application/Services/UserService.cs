@@ -22,11 +22,22 @@ namespace User.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<Result> UserConfirmAsync(Guid id)
+        {
+            var userProjection = await _repository.GetByIdAsync(id);
+            if (userProjection.IsFailed)
+                return Result.Fail("User not found");
+
+            userProjection.Value.Verified = true;
+            await _repository.SaveChangesAsync();
+            return Result.Ok();
+        }
+
         public async Task<Result> UserCreateAsync(UserProjection userProjection)
         {
             // check user not exists in db
             var loginDto = _mapper.Map<LoginDto>(userProjection.Email);
-            var user = await _repository.GetAsync(loginDto);
+            var user = await _repository.GetByEmailAsync(loginDto);
             if (user.IsSuccess)
                 return Result.Fail("User already exists");
 

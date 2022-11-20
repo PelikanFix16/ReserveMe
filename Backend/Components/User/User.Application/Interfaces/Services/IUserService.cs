@@ -11,5 +11,6 @@ namespace User.Application.Interfaces.Services
     public interface IUserService
     {
         public Task<Result> UserCreateAsync(UserProjection userProjection);
+        public Task<Result> UserConfirmAsync(Guid id);
     }
 }
