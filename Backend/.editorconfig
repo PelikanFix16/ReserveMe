@@ -153,7 +153,10 @@ dotnet_naming_rule.members_should_be_pascal_case.symbols = all_members
 dotnet_naming_rule.members_should_be_pascal_case.style = pascal_case_style
 
 dotnet_naming_symbols.all_members.applicable_kinds = *
-
+dotnet_analyzer_diagnostic.category-roslynator.severity = default
+roslynator_analyzers.enabled_by_default = true
+roslynator_refactorings.enabled  = true
+roslynator_compiler_diagnostic_fixes.enabled = true
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 
 # error RS2008: Enable analyzer release tracking for the analyzer project containing rule '{0}'
