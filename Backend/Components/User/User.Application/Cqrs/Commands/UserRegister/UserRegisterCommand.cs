@@ -4,7 +4,7 @@ using User.Application.Mapper.Dto;
 
 namespace User.Application.Cqrs.Commands.UserRegister
 {
-    public class UserRegisterCommand : IRequest<Result<Guid>>
+    public class UserRegisterCommand : IRequest<Result>
     {
         public Guid Id { get; set; }
         public NameDto Name { get; set; }
