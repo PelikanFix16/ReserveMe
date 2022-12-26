@@ -4,5 +4,9 @@
     ],
     "cSpell.enableFiletypes": [
         "!csharp"
-    ]
+    ],
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true
+    }
 }
