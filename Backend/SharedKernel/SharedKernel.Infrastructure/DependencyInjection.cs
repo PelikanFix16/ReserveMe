@@ -1,8 +1,10 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Interfaces.Notification;
 using SharedKernel.Infrastructure.EventStore;
 using SharedKernel.Infrastructure.MessageBus;
+using SharedKernel.Infrastructure.Notification;
 using SharedKernel.InterfaceAdapters;
 using SharedKernel.InterfaceAdapters.EventsFlowController;
 using SharedKernel.InterfaceAdapters.Interfaces.EventsFlowController;
@@ -20,6 +22,7 @@ namespace SharedKernel.Infrastructure
 
             services.AddSingleton<IEventStoreRepository, MongoEventStore>();
             services.AddTransient<IEventPublish, PublishEvent>();
+            services.AddTransient<IEmailNotification, EmailNotification>();
             services.AddSharedKernelInterfaceAdapters();
             return services;
         }
