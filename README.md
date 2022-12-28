@@ -29,11 +29,11 @@
         docker run --name rabbitmq -p 5672:5672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest -d rabbitmq:latest
 
 7. Run migrations
-   
-    1. Install dotnet ef tools 
-   
+
+    1. Install dotnet ef tools
+
         https://learn.microsoft.com/en-us/ef/core/cli/dotnet
-    2. Run Migrations go to `Backend/Components/User/User.Infrastructure/Persistence/Migrations` and run : 
-   
+    2. Run Migrations go to `Backend/Components/User/User.Infrastructure/Persistence/Migrations` and run :
+
 
            dotnet ef database update -c UserContext -s ../../../User.Api
