@@ -33,7 +33,9 @@ namespace User.Api.Controllers
             var command = _mapper.Map<UserRegisterCommand>(user);
             var result = await _sender.Send(command);
             if (result.IsSuccess)
-                return Ok(result);
+                //testing purpose return id in real world application show some info to verify email or something
+                //It should be on client side so return result ok is fine - real world application
+                return Ok(command.Id);
 
             return BadRequest(result.Reasons);
         }
