@@ -3,11 +3,11 @@ using User.Domain.ValueObjects.Rules;
 
 namespace User.Domain.ValueObjects
 {
-    public sealed class Login : ValueObject
+    public sealed class Email : ValueObject
     {
         public string Value { get; private set; }
 
-        public Login(string value)
+        public Email(string value)
         {
             CheckRule(new LoginMustBeEmailRule(value));
             Value = value;

@@ -9,7 +9,7 @@ namespace User.Domain.User
     public class UserAggregateRoot : AggregateRoot
     {
         public UserId? Id { get; private set; }
-        public Login? Login { get; private set; }
+        public Email? Login { get; private set; }
         public Password? Password { get; private set; }
         public Name? Name { get; private set; }
         public BirthDate? BirthDate { get; private set; }
@@ -52,7 +52,7 @@ namespace User.Domain.User
             DeletedDate = e.TimeStamp;
         }
 
-        public UserAggregateRoot(UserId id, Login login, Password password, Name name, BirthDate birthDate)
+        public UserAggregateRoot(UserId id, Email login, Password password, Name name, BirthDate birthDate)
         {
             ApplyChange(new UserRegisteredEvent(id, login, password, name, birthDate, Version));
         }
@@ -83,7 +83,7 @@ namespace User.Domain.User
             ApplyChange(new UserChangedPasswordEvent(Id, newPassword, Version));
         }
 
-        public void ChangeLogin(Login newLogin)
+        public void ChangeLogin(Email newLogin)
         {
             if (Login is null)
                 throw new NullReferenceException("Login cannot be null");

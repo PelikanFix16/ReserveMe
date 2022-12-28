@@ -6,10 +6,10 @@ namespace User.Domain.User.Rules
     public class UserCannotChangeSameLogin : IBusinessRule
     {
         public string Message => "User Cannot change login to the same login";
-        private readonly Login _oldLogin;
-        private readonly Login _newLogin;
+        private readonly Email _oldLogin;
+        private readonly Email _newLogin;
 
-        public UserCannotChangeSameLogin(Login oldLogin, Login newLogin)
+        public UserCannotChangeSameLogin(Email oldLogin, Email newLogin)
         {
             _oldLogin = oldLogin;
             _newLogin = newLogin;

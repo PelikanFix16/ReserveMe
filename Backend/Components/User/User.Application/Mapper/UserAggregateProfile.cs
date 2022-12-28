@@ -15,7 +15,7 @@ namespace User.Application.Mapper
         public UserAggregateProfile()
         {
             CreateMap<NameDto, Name>().ConstructUsing(x => new Name(x.FirstName, x.LastName));
-            CreateMap<LoginDto, Login>().ConstructUsing(x => new Login(x.Login));
+            CreateMap<LoginDto, Email>().ConstructUsing(x => new Email(x.Login));
             CreateMap<PasswordDto, Password>().ConstructUsing(x => new Password(x.Password));
             CreateMap<BirthDateDto, BirthDate>().ConstructUsing(x => new BirthDate(x.BirthDate));
             CreateMap<Name, NameDto>();
@@ -23,7 +23,7 @@ namespace User.Application.Mapper
             {
                 var userId = context.Mapper.Map<UserId>(src.Id);
                 var name = context.Mapper.Map<Name>(src.Name);
-                var login = context.Mapper.Map<Login>(src.Login);
+                var login = context.Mapper.Map<Email>(src.Login);
                 var password = context.Mapper.Map<Password>(src.Password);
                 var birthDate = context.Mapper.Map<BirthDate>(src.BirthDate);
                 dest = new UserAggregateRoot(userId, login, password, name, birthDate);

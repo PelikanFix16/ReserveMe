@@ -27,7 +27,7 @@ namespace Infrastructure.Test.UserEventStore
         private readonly IEventController _eventController;
         private readonly IAggregateRepository _aggregateRepository;
         private readonly UserId _userId;
-        private readonly Login _login;
+        private readonly Email _login;
         private readonly Password _password;
         private readonly Name _name;
         private readonly BirthDate _birthDate;
@@ -39,7 +39,7 @@ namespace Infrastructure.Test.UserEventStore
             _eventController = new EventController(_eventStore, _eventDispatcher);
             _aggregateRepository = new AggregateRepository(_eventController);
             _userId = new UserId(Guid.NewGuid());
-            _login = new Login("test@example.com");
+            _login = new Email("test@example.com");
             _password = new Password("fewd@12@fFdf2a");
             _name = new Name("Test", "Name");
             _birthDate = new BirthDate(AppTime.Now().AddYears(-20));

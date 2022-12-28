@@ -5,7 +5,7 @@ namespace User.Domain.User.Factory
     public class UserAggregateRootFactory : IUserAggregateRootFactory
     {
         private BirthDate? _birthDate;
-        private Login? _login;
+        private Email? _login;
         private Name? _name;
         private Password? _password;
         private readonly UserId _userId;
@@ -23,7 +23,7 @@ namespace User.Domain.User.Factory
 
         public IUserAggregateRootFactory AddLogin(string login)
         {
-            _login = new Login(login);
+            _login = new Email(login);
             return this;
         }
 
