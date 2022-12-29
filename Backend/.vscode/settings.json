@@ -2,5 +2,9 @@
   "dotnet-test-explorer.testProjectPath": "**/*.Test.csproj",
   "cSpell.enableFiletypes": [
     "!csharp"
-  ]
+  ],
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true
+  }
 }
