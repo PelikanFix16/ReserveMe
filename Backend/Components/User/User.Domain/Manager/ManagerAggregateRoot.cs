@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharedKernel.Domain.Aggregate;
 using User.Domain.Manager.Events;
+using User.Domain.Manager.Rules;
 using User.Domain.ValueObjects;
 
 namespace User.Domain.Manager
@@ -54,7 +55,7 @@ namespace User.Domain.Manager
 
         public void Confirm()
         {
-            // Check rule for confirmation
+            CheckRule(new ManagerCannotBeConfirmedMoreThanOnceRule(Status));
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
@@ -63,7 +64,9 @@ namespace User.Domain.Manager
 
         public void Block()
         {
-            // Check rule for confirmation
+            CheckRule(new ManagerCannotBeModifiedWithoutConfirmationRule(Status));
+            CheckRule(new ManagerCannotBeBlockedMoreThanOnceRule(BlockedStatus));
+
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
@@ -71,7 +74,8 @@ namespace User.Domain.Manager
         }
         public void UnBlock()
         {
-            // Check rule for confirmation
+            CheckRule(new ManagerCannotBeModifiedWithoutConfirmationRule(Status));
+            CheckRule(new ManagerCannotBeUnblockedMoreThanOnceRule(BlockedStatus));
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
@@ -80,12 +84,13 @@ namespace User.Domain.Manager
 
         public void ChangeAddress(Address address)
         {
-            // Check rule for confirmation
+            CheckRule(new ManagerCannotBeModifiedWithoutConfirmationRule(Status));
+            CheckRule(new ManagerCannotChangeWhenBlockedRule(BlockedStatus));
+            CheckRule(new ManagerCannotChangeSameAddressRule(LocalAddress, address));
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
             ApplyChange(new ManagerAddressChangedEvent(Id, address, Version));
         }
-
     }
 }
