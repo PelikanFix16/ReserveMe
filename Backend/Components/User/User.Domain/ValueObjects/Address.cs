@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SharedKernel.Domain.ValueObjects;
+using User.Domain.ValueObjects.Rules;
 
 namespace User.Domain.ValueObjects
 {
@@ -20,6 +21,10 @@ namespace User.Domain.ValueObjects
             string zipCode)
         {
             //Check rules for feature
+            CheckRule(new StreetAddressRule(street));
+            CheckRule(new CityAddressRule(city));
+            CheckRule(new StateAddressRule(state));
+            CheckRule(new ZipCodeAddressRule(zipCode));
             Street = street;
             City = city;
             State = state;
