@@ -12,7 +12,7 @@ namespace User.Domain.Manager.Rules
         private readonly Address _address;
         private readonly Address _newAddress;
 
-        public string Message => "Manager cannot change same address";
+        public string Message => "Manager cannot be modified with the same address";
 
         public ManagerCannotChangeSameAddressRule(Address address, Address newAddress)
         {

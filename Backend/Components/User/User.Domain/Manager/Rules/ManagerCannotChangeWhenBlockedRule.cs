@@ -10,7 +10,7 @@ namespace User.Domain.Manager.Rules
     {
         private readonly BlockedStatus _blockedStatus;
 
-        public string Message => "Manager cannot change address when blocked";
+        public string Message => "Manager cannot be modified when blocked";
 
         public ManagerCannotChangeWhenBlockedRule(BlockedStatus status)
         {
