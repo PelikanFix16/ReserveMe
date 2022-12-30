@@ -43,6 +43,10 @@ namespace User.Domain.Manager
         {
             LocalAddress = e.Address;
         }
+        private void Apply(ManagerEmailChangedEvent e)
+        {
+            LocalEmail = e.Email;
+        }
 
         public ManagerAggregateRoot(ManagerId id, Address localAddress, Email localEmail)
         {
@@ -91,6 +95,17 @@ namespace User.Domain.Manager
                 throw new InvalidOperationException("Manager is not created yet");
 
             ApplyChange(new ManagerAddressChangedEvent(Id, address, Version));
+        }
+
+        public void ChangeEmail(Email email)
+        {
+            CheckRule(new ManagerCannotBeModifiedWithoutConfirmationRule(Status));
+            CheckRule(new ManagerCannotChangeWhenBlockedRule(BlockedStatus));
+            CheckRule(new ManagerCannotChangeSameEmailRule(LocalEmail, email));
+            if (Id is null)
+                throw new InvalidOperationException("Manager is not created yet");
+
+            ApplyChange(new ManagerEmailChangedEvent(Id, email, Version));
         }
     }
 }
