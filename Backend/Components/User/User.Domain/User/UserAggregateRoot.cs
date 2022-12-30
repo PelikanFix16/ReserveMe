@@ -78,8 +78,8 @@ namespace User.Domain.User
             if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
 
-            CheckRule(new UserCannotBeModifiedWithoutConfirmation(Status));
-            CheckRule(new UserCannotChangeSamePassword(Password, newPassword));
+            CheckRule(new UserCannotBeModifiedWithoutConfirmationRule(Status));
+            CheckRule(new UserCannotChangeSamePasswordRule(Password, newPassword));
             ApplyChange(new UserChangedPasswordEvent(Id, newPassword, Version));
         }
 
@@ -90,8 +90,8 @@ namespace User.Domain.User
             if (Id is null)
                 throw new NullReferenceException("Id cannot be null");
 
-            CheckRule(new UserCannotBeModifiedWithoutConfirmation(Status));
-            CheckRule(new UserCannotChangeSameLogin(Login, newLogin));
+            CheckRule(new UserCannotBeModifiedWithoutConfirmationRule(Status));
+            CheckRule(new UserCannotChangeSameLoginRule(Login, newLogin));
             ApplyChange(new UserChangedLoginEvent(Id, newLogin, Version));
         }
 
@@ -103,8 +103,8 @@ namespace User.Domain.User
             if (Name is null)
                 throw new NullReferenceException("Name cannot be null");
 
-            CheckRule(new UserCannotBeModifiedWithoutConfirmation(Status));
-            CheckRule(new UserCannotChangeSameName(newName, Name));
+            CheckRule(new UserCannotBeModifiedWithoutConfirmationRule(Status));
+            CheckRule(new UserCannotChangeSameNameRule(newName, Name));
             ApplyChange(new UserChangedNameEvent(Id, newName, Version));
         }
 

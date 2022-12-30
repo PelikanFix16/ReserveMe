@@ -2,13 +2,13 @@ using SharedKernel.Domain.BusinessRule;
 
 namespace User.Domain.User.Rules
 {
-    public class UserCannotBeModifiedWithoutConfirmation : IBusinessRule
+    public class UserCannotBeModifiedWithoutConfirmationRule : IBusinessRule
     {
         public string Message => "User cannot be modified without confirmation";
 
         private readonly UserStatus _status;
 
-        public UserCannotBeModifiedWithoutConfirmation(UserStatus status)
+        public UserCannotBeModifiedWithoutConfirmationRule(UserStatus status)
         {
             _status = status;
         }
