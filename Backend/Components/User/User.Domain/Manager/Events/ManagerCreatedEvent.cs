@@ -10,18 +10,12 @@ namespace User.Domain.Manager.Events
 {
     public class ManagerCreatedEvent : DomainEvent
     {
-        public Address Address { get; private set; }
-        public Email Email { get; private set; }
+        public Email Email { get; }
 
         public ManagerCreatedEvent(
             ManagerId key,
-            Address address,
             Email email,
             int version)
-            : base(key, version)
-        {
-            Address = address;
-            Email = email;
-        }
+            : base(key,version) => Email = email;
     }
 }

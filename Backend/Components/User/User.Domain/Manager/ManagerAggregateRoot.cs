@@ -12,7 +12,6 @@ namespace User.Domain.Manager
     public class ManagerAggregateRoot : AggregateRoot
     {
         public ManagerId? Id { get; private set; }
-        public Address LocalAddress { get; private set; } = null!;
         public Email LocalEmail { get; private set; } = null!;
         public ManagerStatus Status { get; private set; } = ManagerStatus.DeActivated;
         public BlockedStatus BlockedStatus { get; private set; } = BlockedStatus.UnBlocked;
@@ -21,7 +20,6 @@ namespace User.Domain.Manager
         private void Apply(ManagerCreatedEvent e)
         {
             Id = e.Key as ManagerId;
-            LocalAddress = e.Address;
             LocalEmail = e.Email;
             RegisteredDate = e.TimeStamp;
         }
@@ -39,18 +37,14 @@ namespace User.Domain.Manager
         {
             BlockedStatus = e.Status;
         }
-        private void Apply(ManagerAddressChangedEvent e)
-        {
-            LocalAddress = e.Address;
-        }
         private void Apply(ManagerEmailChangedEvent e)
         {
             LocalEmail = e.Email;
         }
 
-        public ManagerAggregateRoot(ManagerId id, Address localAddress, Email localEmail)
+        public ManagerAggregateRoot(ManagerId id,Email localEmail)
         {
-            ApplyChange(new ManagerCreatedEvent(id, localAddress, localEmail, Version));
+            ApplyChange(new ManagerCreatedEvent(id,localEmail,Version));
         }
 
         public ManagerAggregateRoot()
@@ -63,7 +57,7 @@ namespace User.Domain.Manager
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
-            ApplyChange(new ManagerConfirmedEvent(Id, ManagerStatus.Activated, Version));
+            ApplyChange(new ManagerConfirmedEvent(Id,ManagerStatus.Activated,Version));
         }
 
         public void Block()
@@ -74,7 +68,7 @@ namespace User.Domain.Manager
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
-            ApplyChange(new ManagerBlockedEvent(Id, BlockedStatus.Blocked, Version));
+            ApplyChange(new ManagerBlockedEvent(Id,BlockedStatus.Blocked,Version));
         }
         public void UnBlock()
         {
@@ -83,29 +77,18 @@ namespace User.Domain.Manager
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
-            ApplyChange(new ManagerUnBlockedEvent(Id, BlockedStatus.UnBlocked, Version));
-        }
-
-        public void ChangeAddress(Address address)
-        {
-            CheckRule(new ManagerCannotBeModifiedWithoutConfirmationRule(Status));
-            CheckRule(new ManagerCannotChangeWhenBlockedRule(BlockedStatus));
-            CheckRule(new ManagerCannotChangeSameAddressRule(LocalAddress, address));
-            if (Id is null)
-                throw new InvalidOperationException("Manager is not created yet");
-
-            ApplyChange(new ManagerAddressChangedEvent(Id, address, Version));
+            ApplyChange(new ManagerUnBlockedEvent(Id,BlockedStatus.UnBlocked,Version));
         }
 
         public void ChangeEmail(Email email)
         {
             CheckRule(new ManagerCannotBeModifiedWithoutConfirmationRule(Status));
             CheckRule(new ManagerCannotChangeWhenBlockedRule(BlockedStatus));
-            CheckRule(new ManagerCannotChangeSameEmailRule(LocalEmail, email));
+            CheckRule(new ManagerCannotChangeSameEmailRule(LocalEmail,email));
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
-            ApplyChange(new ManagerEmailChangedEvent(Id, email, Version));
+            ApplyChange(new ManagerEmailChangedEvent(Id,email,Version));
         }
     }
 }
