@@ -8,19 +8,13 @@ namespace User.Domain.Manager.Rules
 {
     public class ManagerCannotBeUnblockedMoreThanOnceRule : IBusinessRule
     {
-        private readonly BlockedStatus _blockedStatus;
+        private readonly ManagerBlockedStatus _blockedStatus;
 
         public string Message => "Manager cannot be unblocked more than once";
 
-        public ManagerCannotBeUnblockedMoreThanOnceRule(BlockedStatus status)
-        {
-            _blockedStatus = status;
-        }
+        public ManagerCannotBeUnblockedMoreThanOnceRule(ManagerBlockedStatus status) => _blockedStatus = status;
 
-        public bool IsBroken()
-        {
-            return _blockedStatus == BlockedStatus.UnBlocked;
-        }
+        public bool IsBroken() => _blockedStatus == ManagerBlockedStatus.UnBlocked;
     }
 
 }

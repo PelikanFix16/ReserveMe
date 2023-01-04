@@ -12,15 +12,9 @@ namespace User.Domain.Manager.Rules
 
         public string Message => "Manager cannot be modified without confirmation";
 
-        public ManagerCannotBeModifiedWithoutConfirmationRule(ManagerStatus status)
-        {
-            _status = status;
-        }
+        public ManagerCannotBeModifiedWithoutConfirmationRule(ManagerStatus status) => _status = status;
 
-        public bool IsBroken()
-        {
-            return _status == ManagerStatus.DeActivated;
-        }
+        public bool IsBroken() => _status == ManagerStatus.DeActivated;
     }
 
 }

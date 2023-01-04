@@ -9,14 +9,11 @@ namespace User.Domain.Manager.Events
 {
     public class ManagerBlockedEvent : DomainEvent
     {
-        public BlockedStatus Status { get; private set; }
+        public ManagerBlockedStatus Status { get; }
 
         public ManagerBlockedEvent(
             ManagerId key,
-            BlockedStatus status,
-            int version) : base(key, version)
-        {
-            Status = status;
-        }
+            ManagerBlockedStatus status,
+            int version) : base(key,version) => Status = status;
     }
 }

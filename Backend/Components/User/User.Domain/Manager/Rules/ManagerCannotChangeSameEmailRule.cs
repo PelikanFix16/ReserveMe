@@ -15,15 +15,12 @@ namespace User.Domain.Manager.Rules
         public string Message => "Manager cannot be modified with the same email";
 
 
-        public ManagerCannotChangeSameEmailRule(Email email, Email newEmail)
+        public ManagerCannotChangeSameEmailRule(Email email,Email newEmail)
         {
             _email = email;
             _newEmail = newEmail;
         }
 
-        public bool IsBroken()
-        {
-            return _email == _newEmail;
-        }
+        public bool IsBroken() => _email == _newEmail;
     }
 }

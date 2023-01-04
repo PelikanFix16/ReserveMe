@@ -8,19 +8,13 @@ namespace User.Domain.Manager.Rules
 {
     public class ManagerCannotChangeWhenBlockedRule : IBusinessRule
     {
-        private readonly BlockedStatus _blockedStatus;
+        private readonly ManagerBlockedStatus _blockedStatus;
 
         public string Message => "Manager cannot be modified when blocked";
 
-        public ManagerCannotChangeWhenBlockedRule(BlockedStatus status)
-        {
-            _blockedStatus = status;
-        }
+        public ManagerCannotChangeWhenBlockedRule(ManagerBlockedStatus status) => _blockedStatus = status;
 
-        public bool IsBroken()
-        {
-            return _blockedStatus == BlockedStatus.Blocked;
-        }
+        public bool IsBroken() => _blockedStatus == ManagerBlockedStatus.Blocked;
     }
 
 }

@@ -14,7 +14,7 @@ namespace User.Domain.Manager
         public ManagerId? Id { get; private set; }
         public Email LocalEmail { get; private set; } = null!;
         public ManagerStatus Status { get; private set; } = ManagerStatus.DeActivated;
-        public BlockedStatus BlockedStatus { get; private set; } = BlockedStatus.UnBlocked;
+        public ManagerBlockedStatus BlockedStatus { get; private set; } = ManagerBlockedStatus.UnBlocked;
         public DateTimeOffset RegisteredDate { get; private set; }
 
         private void Apply(ManagerCreatedEvent e)
@@ -24,28 +24,13 @@ namespace User.Domain.Manager
             RegisteredDate = e.TimeStamp;
         }
 
-        private void Apply(ManagerConfirmedEvent e)
-        {
-            Status = e.Status;
-        }
+        private void Apply(ManagerConfirmedEvent e) => Status = e.Status;
 
-        private void Apply(ManagerBlockedEvent e)
-        {
-            BlockedStatus = e.Status;
-        }
-        private void Apply(ManagerUnBlockedEvent e)
-        {
-            BlockedStatus = e.Status;
-        }
-        private void Apply(ManagerEmailChangedEvent e)
-        {
-            LocalEmail = e.Email;
-        }
+        private void Apply(ManagerBlockedEvent e) => BlockedStatus = e.Status;
+        private void Apply(ManagerUnBlockedEvent e) => BlockedStatus = e.Status;
+        private void Apply(ManagerEmailChangedEvent e) => LocalEmail = e.Email;
 
-        public ManagerAggregateRoot(ManagerId id,Email localEmail)
-        {
-            ApplyChange(new ManagerCreatedEvent(id,localEmail,Version));
-        }
+        public ManagerAggregateRoot(ManagerId id,Email localEmail) => ApplyChange(new ManagerCreatedEvent(id,localEmail,Version));
 
         public ManagerAggregateRoot()
         {
@@ -68,7 +53,7 @@ namespace User.Domain.Manager
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
-            ApplyChange(new ManagerBlockedEvent(Id,BlockedStatus.Blocked,Version));
+            ApplyChange(new ManagerBlockedEvent(Id,ManagerBlockedStatus.Blocked,Version));
         }
         public void UnBlock()
         {
@@ -77,7 +62,7 @@ namespace User.Domain.Manager
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 
-            ApplyChange(new ManagerUnBlockedEvent(Id,BlockedStatus.UnBlocked,Version));
+            ApplyChange(new ManagerUnBlockedEvent(Id,ManagerBlockedStatus.UnBlocked,Version));
         }
 
         public void ChangeEmail(Email email)

@@ -12,14 +12,8 @@ namespace User.Domain.Manager.Rules
 
         private readonly ManagerStatus _status;
 
-        public ManagerCannotBeConfirmedMoreThanOnceRule(ManagerStatus status)
-        {
-            _status = status;
-        }
+        public ManagerCannotBeConfirmedMoreThanOnceRule(ManagerStatus status) => _status = status;
 
-        public bool IsBroken()
-        {
-            return _status == ManagerStatus.Activated;
-        }
+        public bool IsBroken() => _status == ManagerStatus.Activated;
     }
 }
