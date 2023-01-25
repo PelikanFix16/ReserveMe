@@ -8,9 +8,9 @@ using MediatR;
 using User.Application.Interfaces.Repositories;
 using User.Application.Interfaces.Security;
 
-namespace User.Application.Cqrs.Queries.UserLogin
+namespace User.Application.Cqrs.Queries.User.UserLogin
 {
-    public class UserLoginHandler : IRequestHandler<UserLoginQuery, Result<UserLoginDto>>
+    public class UserLoginHandler : IRequestHandler<UserLoginQuery,Result<UserLoginDto>>
     {
         private readonly IMapper _mapper;
         private readonly IUserProjectionRepository _userRepository;
@@ -26,14 +26,14 @@ namespace User.Application.Cqrs.Queries.UserLogin
             _security = security;
         }
 
-        public async Task<Result<UserLoginDto>> Handle(UserLoginQuery request, CancellationToken cancellationToken)
+        public async Task<Result<UserLoginDto>> Handle(UserLoginQuery request,CancellationToken cancellationToken)
         {
             var userProjection = await _userRepository.GetByEmailAsync(request.Login);
 
             if (userProjection.IsFailed)
                 return Result.Fail("User not exists");
 
-            if (!_security.VerifyHashedPassword(userProjection.Value.Password, request.Password.Password))
+            if (!_security.VerifyHashedPassword(userProjection.Value.Password,request.Password.Password))
                 return Result.Fail("Password is incorrect");
 
             if (!userProjection.Value.Verified)

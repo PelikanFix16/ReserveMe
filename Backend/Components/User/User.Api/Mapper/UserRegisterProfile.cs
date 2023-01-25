@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using User.Api.Dto.User;
-using User.Application.Cqrs.Commands.UserRegister;
+using User.Application.Cqrs.Commands.User.UserRegister;
 
 namespace User.Api.Mapper
 {
@@ -12,10 +12,10 @@ namespace User.Api.Mapper
     {
         public UserRegisterProfile()
         {
-            CreateMap<UserRegisterRequest, UserRegisterCommand>()
+            CreateMap<UserRegisterRequest,UserRegisterCommand>()
                 .ForMember(
                     dest => dest.Name,
-                    opt => opt.MapFrom(src => new Application.Mapper.Dto.NameDto { FirstName = src.FirstName, LastName = src.LastName }))
+                    opt => opt.MapFrom(src => new Application.Mapper.Dto.NameDto { FirstName = src.FirstName,LastName = src.LastName }))
                 .ForMember(
                     dest => dest.Login,
                     opt => opt.MapFrom(src => new Application.Mapper.Dto.LoginDto { Login = src.Email }))

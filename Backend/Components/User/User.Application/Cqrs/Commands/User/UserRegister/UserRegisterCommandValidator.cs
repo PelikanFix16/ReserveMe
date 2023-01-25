@@ -1,7 +1,7 @@
 using FluentValidation;
 using SharedKernel.Domain;
 
-namespace User.Application.Cqrs.Commands.UserRegister
+namespace User.Application.Cqrs.Commands.User.UserRegister
 {
     public class UserRegisterCommandValidator : AbstractValidator<UserRegisterCommand>
     {

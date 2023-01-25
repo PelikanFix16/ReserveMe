@@ -9,9 +9,9 @@ using SharedKernel.Application.Interfaces.Repositories;
 using User.Application.Interfaces.Repositories;
 using User.Domain.User;
 
-namespace User.Application.Cqrs.Commands.UserVerified
+namespace User.Application.Cqrs.Commands.User.UserVerified
 {
-    public class UserVerifiedHandler : IRequestHandler<UserVerifiedCommand, Result>
+    public class UserVerifiedHandler : IRequestHandler<UserVerifiedCommand,Result>
     {
         private readonly IMapper _mapper;
         private readonly IAggregateRepository _aggregateRepository;
@@ -27,7 +27,7 @@ namespace User.Application.Cqrs.Commands.UserVerified
             _repository = repository;
         }
 
-        public async Task<Result> Handle(UserVerifiedCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UserVerifiedCommand request,CancellationToken cancellationToken)
         {
             var userProjection = await _repository.GetByIdAsync(request.Id);
             if (userProjection.IsFailed)
@@ -36,7 +36,7 @@ namespace User.Application.Cqrs.Commands.UserVerified
             var userId = _mapper.Map<UserId>(request.Id);
             var aggregateUser = (await _aggregateRepository.GetAsync<UserAggregateRoot>(userId)).Value;
             aggregateUser.Confirm();
-            _aggregateRepository.Save(aggregateUser, aggregateUser.Id);
+            _aggregateRepository.Save(aggregateUser,aggregateUser.Id);
             await _aggregateRepository.CommitAsync();
             return Result.Ok();
         }

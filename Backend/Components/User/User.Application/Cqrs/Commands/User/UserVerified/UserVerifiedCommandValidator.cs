@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 
-namespace User.Application.Cqrs.Commands.UserVerified
+namespace User.Application.Cqrs.Commands.User.UserVerified
 {
     public class UserVerifiedCommandValidator : AbstractValidator<UserVerifiedCommand>
     {

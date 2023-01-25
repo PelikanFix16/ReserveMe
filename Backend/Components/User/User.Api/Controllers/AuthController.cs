@@ -6,9 +6,9 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using User.Api.Dto.User;
-using User.Application.Cqrs.Commands.UserRegister;
-using User.Application.Cqrs.Commands.UserVerified;
-using User.Application.Cqrs.Queries.UserLogin;
+using User.Application.Cqrs.Commands.User.UserRegister;
+using User.Application.Cqrs.Commands.User.UserVerified;
+using User.Application.Cqrs.Queries.User.UserLogin;
 
 namespace User.Api.Controllers
 {

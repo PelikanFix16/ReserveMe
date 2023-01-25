@@ -8,9 +8,9 @@ using User.Application.Interfaces.Security;
 using User.Application.Mapper.Dto;
 using User.Domain.User;
 
-namespace User.Application.Cqrs.Commands.UserRegister
+namespace User.Application.Cqrs.Commands.User.UserRegister
 {
-    public class UserRegisterHandler : IRequestHandler<UserRegisterCommand, Result>
+    public class UserRegisterHandler : IRequestHandler<UserRegisterCommand,Result>
     {
         private readonly IMapper _mapper;
         private readonly IAggregateRepository _aggregateRepository;
@@ -29,7 +29,7 @@ namespace User.Application.Cqrs.Commands.UserRegister
             _repository = repository;
         }
 
-        public async Task<Result> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UserRegisterCommand request,CancellationToken cancellationToken)
         {
             var login = _mapper.Map<LoginDto>(request.Login);
             var userProjection = await _repository.GetByEmailAsync(login);
@@ -38,7 +38,7 @@ namespace User.Application.Cqrs.Commands.UserRegister
 
             request.Password.Password = _passwordHash.HashPassword(request.Password.Password);
             var userAggregate = _mapper.Map<UserAggregateRoot>(request);
-            _aggregateRepository.Save(userAggregate, userAggregate.Id);
+            _aggregateRepository.Save(userAggregate,userAggregate.Id);
             await _aggregateRepository.CommitAsync();
             return Result.Ok();
         }

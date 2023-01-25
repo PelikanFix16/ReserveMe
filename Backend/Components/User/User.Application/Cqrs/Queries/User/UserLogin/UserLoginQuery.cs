@@ -6,7 +6,7 @@ using FluentResults;
 using MediatR;
 using User.Application.Mapper.Dto;
 
-namespace User.Application.Cqrs.Queries.UserLogin
+namespace User.Application.Cqrs.Queries.User.UserLogin
 {
     public class UserLoginQuery : IRequest<Result<UserLoginDto>>
     {

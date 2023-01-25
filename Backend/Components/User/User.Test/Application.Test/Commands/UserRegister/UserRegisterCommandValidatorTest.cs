@@ -5,7 +5,7 @@ using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
 using SharedKernel.Domain;
-using User.Application.Cqrs.Commands.UserRegister;
+using User.Application.Cqrs.Commands.User.UserRegister;
 using User.Application.Mapper.Dto;
 using Xunit;
 
@@ -98,7 +98,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfFirstNameIsMoreThan50CharactersAsync()
         {
-            _command.Name.FirstName = string.Concat(Enumerable.Repeat("a", 51));
+            _command.Name.FirstName = string.Concat(Enumerable.Repeat("a",51));
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -130,7 +130,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfLastNameIsMoreThan50CharactersAsync()
         {
-            _command.Name.LastName = string.Concat(Enumerable.Repeat("a", 51));
+            _command.Name.LastName = string.Concat(Enumerable.Repeat("a",51));
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -162,7 +162,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfPasswordIsLessThan8CharactersAsync()
         {
-            _command.Password.Password = string.Concat(Enumerable.Repeat("a", 7));
+            _command.Password.Password = string.Concat(Enumerable.Repeat("a",7));
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }
@@ -170,7 +170,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfPasswordIsMoreThan50CharactersAsync()
         {
-            _command.Password.Password = string.Concat(Enumerable.Repeat("a", 51));
+            _command.Password.Password = string.Concat(Enumerable.Repeat("a",51));
             var result = await _validator.ValidateAsync(_command);
             result.IsValid.Should().BeFalse();
         }

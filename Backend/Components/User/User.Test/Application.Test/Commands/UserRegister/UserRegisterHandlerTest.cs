@@ -10,7 +10,7 @@ using SharedKernel.Application.Interfaces.Repositories;
 using SharedKernel.Domain;
 using SharedKernel.Domain.Aggregate;
 using SharedKernel.Domain.UniqueKey;
-using User.Application.Cqrs.Commands.UserRegister;
+using User.Application.Cqrs.Commands.User.UserRegister;
 using User.Application.Interfaces.Repositories;
 using User.Application.Interfaces.Security;
 using User.Application.Mapper;
@@ -70,7 +70,7 @@ namespace Application.Test.Commands.UserRegister
                 aggregateRepositoryMock.Object,
                 mockHashPassword.Object,
                 mockUserRepository.Object);
-            var x = await handler.Handle(_command, new System.Threading.CancellationToken());
+            var x = await handler.Handle(_command,new System.Threading.CancellationToken());
             // check handler return result ok object
             x.IsSuccess.Should().BeTrue();
             // check handler return properly user register dto object
@@ -98,7 +98,7 @@ namespace Application.Test.Commands.UserRegister
                 aggregateRepositoryMock.Object,
                 mockHashPassword.Object,
                 mockUserRepository.Object);
-            var x = await handler.Handle(_command, new System.Threading.CancellationToken());
+            var x = await handler.Handle(_command,new System.Threading.CancellationToken());
 
             aggregateRepositoryMock.Verify(
                 x => x.Save(
@@ -128,7 +128,7 @@ namespace Application.Test.Commands.UserRegister
                 aggregateRepositoryMock.Object,
                 mockHashPassword.Object,
                 mockUserRepository.Object);
-            var x = await handler.Handle(_command, new System.Threading.CancellationToken());
+            var x = await handler.Handle(_command,new System.Threading.CancellationToken());
 
             aggregateRepositoryMock.Verify(
                 x => x.CommitAsync(),

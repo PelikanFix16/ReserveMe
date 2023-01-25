@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using User.Application.Mapper.Dto;
 
-namespace User.Application.Cqrs.Queries.UserLogin
+namespace User.Application.Cqrs.Queries.User.UserLogin
 {
     public class UserLoginDto
     {
