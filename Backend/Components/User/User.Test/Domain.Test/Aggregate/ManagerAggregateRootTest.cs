@@ -29,7 +29,7 @@ namespace Domain.Test.Aggregate
             manager.LocalEmail.Should().NotBeNull();
             manager.LocalEmail.Should().Be(_email);
             manager.Status.Should().Be(ManagerStatus.DeActivated);
-            manager.BlockedStatus.Should().Be(BlockedStatus.UnBlocked);
+            manager.BlockedStatus.Should().Be(ManagerBlockedStatus.UnBlocked);
             manager.RegisteredDate.Should().BeCloseTo(AppTime.Now(),TimeSpan.FromSeconds(1));
         }
 
