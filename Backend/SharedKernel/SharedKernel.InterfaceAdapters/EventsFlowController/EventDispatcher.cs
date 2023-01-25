@@ -11,14 +11,11 @@ namespace SharedKernel.InterfaceAdapters.EventsFlowController
     {
         private readonly IEnumerable<IEventPublish> _eventsPublisher;
 
-        public EventDispatcher(IEnumerable<IEventPublish> eventsPublisher)
-        {
-            _eventsPublisher = eventsPublisher;
-        }
+        public EventDispatcher(IEnumerable<IEventPublish> eventsPublisher) => _eventsPublisher = eventsPublisher;
 
         public async Task DispatchAsync(DomainEvent @event)
         {
-            foreach (var eventsPublisher in _eventsPublisher)
+            foreach (IEventPublish eventsPublisher in _eventsPublisher)
             {
                 await eventsPublisher.PublishAsync(@event);
             }
