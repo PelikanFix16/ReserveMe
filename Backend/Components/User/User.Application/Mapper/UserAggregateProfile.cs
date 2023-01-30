@@ -15,7 +15,7 @@ namespace User.Application.Mapper
         public UserAggregateProfile()
         {
             CreateMap<NameDto,Name>().ConstructUsing(x => new Name(x.FirstName,x.LastName));
-            CreateMap<LoginDto,Email>().ConstructUsing(x => new Email(x.Login));
+            CreateMap<EmailDto,Email>().ConstructUsing(x => new Email(x.Email));
             CreateMap<PasswordDto,Password>().ConstructUsing(x => new Password(x.Password));
             CreateMap<BirthDateDto,BirthDate>().ConstructUsing(x => new BirthDate(x.BirthDate));
             CreateMap<Name,NameDto>();

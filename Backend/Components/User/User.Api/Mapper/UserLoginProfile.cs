@@ -14,7 +14,7 @@ namespace User.Api.Mapper
         public UserLoginProfile()
         {
             CreateMap<UserLoginRequest,UserLoginQuery>()
-                .ForMember(dest => dest.Login,opt => opt.MapFrom(src => new LoginDto { Login = src.Email }))
+                .ForMember(dest => dest.Login,opt => opt.MapFrom(src => new EmailDto { Email = src.Email }))
                 .ForMember(dest => dest.Password,opt => opt.MapFrom(src => new PasswordDto { Password = src.Password }));
         }
     }

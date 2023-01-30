@@ -16,7 +16,7 @@ namespace User.Application.Services
         private readonly IUserProjectionRepository _repository;
         private readonly IMapper _mapper;
 
-        public UserService(IUserProjectionRepository repository, IMapper mapper)
+        public UserService(IUserProjectionRepository repository,IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -36,7 +36,7 @@ namespace User.Application.Services
         public async Task<Result> UserCreateAsync(UserProjection userProjection)
         {
             // check user not exists in db
-            var loginDto = _mapper.Map<LoginDto>(userProjection.Email);
+            var loginDto = _mapper.Map<EmailDto>(userProjection.Email);
             var user = await _repository.GetByEmailAsync(loginDto);
             if (user.IsSuccess)
                 return Result.Fail("User already exists");

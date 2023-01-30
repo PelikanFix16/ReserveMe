@@ -18,7 +18,7 @@ namespace User.Api.Mapper
                     opt => opt.MapFrom(src => new Application.Mapper.Dto.NameDto { FirstName = src.FirstName,LastName = src.LastName }))
                 .ForMember(
                     dest => dest.Login,
-                    opt => opt.MapFrom(src => new Application.Mapper.Dto.LoginDto { Login = src.Email }))
+                    opt => opt.MapFrom(src => new Application.Mapper.Dto.EmailDto { Email = src.Email }))
                 .ForMember(
                     dest => dest.Password,
                     opt => opt.MapFrom(src => new Application.Mapper.Dto.PasswordDto { Password = src.Password }))

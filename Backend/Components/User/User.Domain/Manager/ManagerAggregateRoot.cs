@@ -12,7 +12,7 @@ namespace User.Domain.Manager
     public class ManagerAggregateRoot : AggregateRoot
     {
         public ManagerId? Id { get; private set; }
-        public Email LocalEmail { get; private set; } = null!;
+        public Email ManagerEmail { get; private set; } = null!;
         public ManagerStatus Status { get; private set; } = ManagerStatus.DeActivated;
         public ManagerBlockedStatus BlockedStatus { get; private set; } = ManagerBlockedStatus.UnBlocked;
         public DateTimeOffset RegisteredDate { get; private set; }
@@ -20,7 +20,7 @@ namespace User.Domain.Manager
         private void Apply(ManagerCreatedEvent e)
         {
             Id = e.Key as ManagerId;
-            LocalEmail = e.Email;
+            ManagerEmail = e.Email;
             RegisteredDate = e.TimeStamp;
         }
 
@@ -28,7 +28,7 @@ namespace User.Domain.Manager
 
         private void Apply(ManagerBlockedEvent e) => BlockedStatus = e.Status;
         private void Apply(ManagerUnBlockedEvent e) => BlockedStatus = e.Status;
-        private void Apply(ManagerEmailChangedEvent e) => LocalEmail = e.Email;
+        private void Apply(ManagerEmailChangedEvent e) => ManagerEmail = e.Email;
 
         public ManagerAggregateRoot(ManagerId id,Email localEmail) => ApplyChange(new ManagerCreatedEvent(id,localEmail,Version));
 
@@ -69,7 +69,7 @@ namespace User.Domain.Manager
         {
             CheckRule(new ManagerCannotBeModifiedWithoutConfirmationRule(Status));
             CheckRule(new ManagerCannotChangeWhenBlockedRule(BlockedStatus));
-            CheckRule(new ManagerCannotChangeSameEmailRule(LocalEmail,email));
+            CheckRule(new ManagerCannotChangeSameEmailRule(ManagerEmail,email));
             if (Id is null)
                 throw new InvalidOperationException("Manager is not created yet");
 

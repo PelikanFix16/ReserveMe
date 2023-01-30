@@ -8,13 +8,10 @@ namespace User.Application.Cqrs.Commands.User.UserRegister
     {
         public Guid Id { get; set; }
         public NameDto Name { get; set; }
-        public LoginDto Login { get; set; }
+        public EmailDto Login { get; set; }
         public PasswordDto Password { get; set; }
         public BirthDateDto BirthDate { get; set; }
 
-        public UserRegisterCommand()
-        {
-            Id = Guid.NewGuid();
-        }
+        public UserRegisterCommand() => Id = Guid.NewGuid();
     }
 }

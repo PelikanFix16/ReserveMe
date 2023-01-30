@@ -10,7 +10,7 @@ namespace User.Application.Cqrs.Queries.User.UserLogin
 {
     public class UserLoginQuery : IRequest<Result<UserLoginDto>>
     {
-        public LoginDto Login { get; set; }
+        public EmailDto Login { get; set; }
         public PasswordDto Password { get; set; }
     }
 }

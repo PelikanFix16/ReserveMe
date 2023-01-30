@@ -25,7 +25,7 @@ namespace Application.Test.Commands.UserRegister
                     FirstName = "Test",
                     LastName = "Test"
                 },
-                Login = new LoginDto() { Login = "test@example.com" },
+                Login = new EmailDto() { Email = "test@example.com" },
                 Password = new PasswordDto() { Password = "someStrong!Password12" },
                 BirthDate = new BirthDateDto() { BirthDate = AppTime.Now().AddYears(-18) }
             };
@@ -42,7 +42,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfLoginIsNotEmailAsync()
         {
-            _command.Login.Login = "badEmail";
+            _command.Login.Email = "badEmail";
 
             var result = await _validator.ValidateAsync(_command);
 
@@ -52,7 +52,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfLoginIsNotNullAsync()
         {
-            _command.Login.Login = null;
+            _command.Login.Email = null;
 
             var result = await _validator.ValidateAsync(_command);
 
@@ -62,7 +62,7 @@ namespace Application.Test.Commands.UserRegister
         [Fact]
         public async Task ShouldNotValidUserRegisterCommandIfLoginIsEmptyAsync()
         {
-            _command.Login.Login = "";
+            _command.Login.Email = "";
             var result = await _validator.ValidateAsync(_command);
 
             result.IsValid.Should().BeFalse();

@@ -20,7 +20,7 @@ namespace Application.Test.Mapper
         public void ShouldMapFromUserRegisterCommandToUserAggregateRoot()
         {
             var nameDto = new NameDto { FirstName = "Jon",LastName = "Doe" };
-            var loginDto = new LoginDto { Login = "jondoe@example.com" };
+            var loginDto = new EmailDto { Email = "jondoe@example.com" };
             var passwordDto = new PasswordDto { Password = "testT21ssa!" };
             var birthDateDto = new BirthDateDto { BirthDate = new DateTime(1980,1,1) };
             var userRegisterCommand = new UserRegisterCommand()
@@ -35,7 +35,7 @@ namespace Application.Test.Mapper
             var mapper = configuration.CreateMapper();
             var userAggregateRoot = mapper.Map<UserRegisterCommand,UserAggregateRoot>(userRegisterCommand);
             var eventsList = userAggregateRoot.GetUncommittedChanges().ToList();
-            userAggregateRoot!.Login!.Value.Should().Be(loginDto.Login);
+            userAggregateRoot!.Login!.Value.Should().Be(loginDto.Email);
             userAggregateRoot!.Password!.Value.Should().Be(passwordDto.Password);
             userAggregateRoot!.Name!.FirstName.Should().Be(nameDto.FirstName);
             userAggregateRoot!.Name!.LastName.Should().Be(nameDto.LastName);

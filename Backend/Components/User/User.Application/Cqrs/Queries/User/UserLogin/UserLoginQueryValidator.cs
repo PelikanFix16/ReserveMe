@@ -10,7 +10,7 @@ namespace User.Application.Cqrs.Queries.User.UserLogin
     {
         public UserLoginQueryValidator()
         {
-            RuleFor(c => c.Login.Login)
+            RuleFor(c => c.Login.Email)
                 .NotNull()
                 .WithMessage("Login cannot be null")
                 .NotEmpty()

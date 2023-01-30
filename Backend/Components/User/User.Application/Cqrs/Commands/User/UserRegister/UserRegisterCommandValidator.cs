@@ -7,7 +7,7 @@ namespace User.Application.Cqrs.Commands.User.UserRegister
     {
         public UserRegisterCommandValidator()
         {
-            RuleFor(c => c.Login.Login)
+            RuleFor(c => c.Login.Email)
                 .NotNull()
                 .WithMessage("Login cannot be null")
                 .NotEmpty()

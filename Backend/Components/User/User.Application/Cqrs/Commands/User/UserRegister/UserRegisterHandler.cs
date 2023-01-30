@@ -31,7 +31,7 @@ namespace User.Application.Cqrs.Commands.User.UserRegister
 
         public async Task<Result> Handle(UserRegisterCommand request,CancellationToken cancellationToken)
         {
-            var login = _mapper.Map<LoginDto>(request.Login);
+            var login = _mapper.Map<EmailDto>(request.Login);
             var userProjection = await _repository.GetByEmailAsync(login);
             if (userProjection.IsSuccess)
                 return Result.Fail("User already exists");

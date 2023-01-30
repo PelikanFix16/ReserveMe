@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace User.Application.Mapper.Dto
 {
-    public class LoginDto
+    public class EmailDto
     {
-        public string Login { get; set; }
+        public string Email { get; set; }
     }
 }

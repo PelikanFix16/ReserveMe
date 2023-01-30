@@ -11,7 +11,7 @@ namespace User.Application.Mapper
     {
         public DtoProfile()
         {
-            CreateMap<string, LoginDto>().ForMember(x => x.Login, opt => opt.MapFrom(y => y));
+            CreateMap<string,EmailDto>().ForMember(x => x.Email,opt => opt.MapFrom(y => y));
         }
     }
 }
