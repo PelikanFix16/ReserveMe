@@ -26,8 +26,8 @@ namespace Domain.Test.Aggregate
             manager.Should().BeOfType<ManagerAggregateRoot>();
             manager.Id.Should().NotBeNull();
             manager.Id.Should().Be(_managerId);
-            manager.LocalEmail.Should().NotBeNull();
-            manager.LocalEmail.Should().Be(_email);
+            manager.ManagerEmail.Should().NotBeNull();
+            manager.ManagerEmail.Should().Be(_email);
             manager.Status.Should().Be(ManagerStatus.DeActivated);
             manager.BlockedStatus.Should().Be(ManagerBlockedStatus.UnBlocked);
             manager.RegisteredDate.Should().BeCloseTo(AppTime.Now(),TimeSpan.FromSeconds(1));
@@ -129,7 +129,7 @@ namespace Domain.Test.Aggregate
             var newEmail = new Email("newEmail@example.com");
             manager.Confirm();
             manager.ChangeEmail(newEmail);
-            manager.LocalEmail.Should().Be(newEmail);
+            manager.ManagerEmail.Should().Be(newEmail);
             IList<DomainEvent> events = manager.GetUncommittedChanges().ToList();
             events.Should().NotBeNull();
             events.Should().HaveCount(3);
