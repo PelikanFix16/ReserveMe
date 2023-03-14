@@ -21,9 +21,10 @@ namespace User.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IEventHandleBase, UserRegisteredEventHandler>();
-            services.AddTransient<IEventHandleBase, UserRegisteredConfirmationEventHandler>();
+            services.AddTransient<IUserService,UserService>();
+            services.AddTransient<IEventHandleBase,UserRegisteredEventHandler>();
+            services.AddTransient<IEventHandleBase,UserRegisteredConfirmationEventHandler>();
+            services.AddTransient<IManagerService,ManagerService>();
             services.AddSharedKernelApplication();
             return services;
         }

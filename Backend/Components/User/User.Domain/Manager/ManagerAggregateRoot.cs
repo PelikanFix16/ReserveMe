@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SharedKernel.Domain.Aggregate;
 using User.Domain.Manager.Events;
 using User.Domain.Manager.Rules;
+using User.Domain.User;
 using User.Domain.ValueObjects;
 
 namespace User.Domain.Manager
@@ -12,6 +13,7 @@ namespace User.Domain.Manager
     public class ManagerAggregateRoot : AggregateRoot
     {
         public ManagerId? Id { get; private set; }
+        public UserId? UserId { get; private set; }
         public Email ManagerEmail { get; private set; } = null!;
         public ManagerStatus Status { get; private set; } = ManagerStatus.DeActivated;
         public ManagerBlockedStatus BlockedStatus { get; private set; } = ManagerBlockedStatus.UnBlocked;
@@ -20,6 +22,7 @@ namespace User.Domain.Manager
         private void Apply(ManagerCreatedEvent e)
         {
             Id = e.Key as ManagerId;
+            UserId = e.UserId;
             ManagerEmail = e.Email;
             RegisteredDate = e.TimeStamp;
         }
@@ -30,7 +33,16 @@ namespace User.Domain.Manager
         private void Apply(ManagerUnBlockedEvent e) => BlockedStatus = e.Status;
         private void Apply(ManagerEmailChangedEvent e) => ManagerEmail = e.Email;
 
-        public ManagerAggregateRoot(ManagerId id,Email localEmail) => ApplyChange(new ManagerCreatedEvent(id,localEmail,Version));
+        public ManagerAggregateRoot(ManagerId id,UserId UserId,Email ManagerEmail)
+        {
+            ApplyChange(new ManagerCreatedEvent(id,UserId,ManagerEmail,Version));
+        }
+
+        public int GetVersion()
+        {
+            return Version;
+
+        }
 
         public ManagerAggregateRoot()
         {

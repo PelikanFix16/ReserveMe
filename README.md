@@ -28,6 +28,9 @@
 
         docker run --name rabbitmq -p 5672:5672 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest -d rabbitmq:latest
 
+Optional create migrations go to `Backend/Components/User/User.Infrastructure`:
+        dotnet ef migrations add InitManagerProjection -c ManagerContext --output-dir .\Persistence\Migrations\ --startup-project  ..\User.Api\ --project .\User.Infrastructure.csproj
+
 7. Run migrations
 
     1. Install dotnet ef tools

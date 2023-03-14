@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using User.Api.Dto.Manager;
 using User.Api.Dto.User;
+using User.Application.Cqrs.Commands.Manager.ManagerRegister;
 using User.Application.Cqrs.Commands.User.UserRegister;
 using User.Application.Cqrs.Commands.User.UserVerified;
 using User.Application.Cqrs.Queries.User.UserLogin;
@@ -60,6 +62,14 @@ namespace User.Api.Controllers
                 return Ok(result);
 
             return BadRequest(result.Reasons);
+        }
+
+        [HttpPost("manager-register")]
+        public async Task<IActionResult> RegisterManager(ManagerRegisterRequest manager)
+        {
+            ManagerRegisterCommand command = _mapper.Map<ManagerRegisterCommand>(manager);
+            FluentResults.Result result = await _sender.Send(command);
+            return result.IsSuccess ? Ok(result) : BadRequest(result.Reasons);
         }
     }
 }

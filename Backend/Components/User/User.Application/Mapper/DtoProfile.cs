@@ -9,9 +9,6 @@ namespace User.Application.Mapper
 {
     public class DtoProfile : Profile
     {
-        public DtoProfile()
-        {
-            CreateMap<string,EmailDto>().ForMember(x => x.Email,opt => opt.MapFrom(y => y));
-        }
+        public DtoProfile() => CreateMap<string,EmailDto>().ForMember(x => x.Email,opt => opt.MapFrom(y => y));
     }
 }

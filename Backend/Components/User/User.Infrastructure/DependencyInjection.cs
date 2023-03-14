@@ -21,15 +21,22 @@ namespace User.Infrastructure
             this IServiceCollection services,
             ConfigurationManager configuration)
         {
-            services.AddSingleton<ISecurityHash, SecurityHash>();
+            services.AddSingleton<ISecurityHash,SecurityHash>();
             services.AddSharedKernelInfrastructure(configuration);
             services.AddDbContext<UserContext>(
                 dbContextOptions => dbContextOptions
                     .UseMySql(
                         configuration.GetConnectionString("User"),
-                        new MySqlServerVersion(new Version(8, 0, 29)))
+                        new MySqlServerVersion(new Version(8,0,29)))
             );
-            services.AddTransient<IUserProjectionRepository, UserRepository>();
+            services.AddDbContext<ManagerContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(
+                        configuration.GetConnectionString("User"),
+                        new MySqlServerVersion(new Version(8,0,29)))
+            );
+            services.AddTransient<IUserProjectionRepository,UserRepository>();
+            services.AddTransient<IManagerProjectionRepository,ManagerRepository>();
             return services;
         }
     }
