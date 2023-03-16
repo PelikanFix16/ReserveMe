@@ -11,6 +11,7 @@ namespace User.Application.Interfaces.Repositories
     public interface IManagerProjectionRepository
     {
         public Task<Result<ManagerProjection>> GetByEmailAsync(EmailDto email);
+        public Task<Result<ManagerProjection>> GetByUserId(Guid id);
         public Task SaveAsync(ManagerProjection managerProjection);
         public Task SaveChangesAsync();
     }

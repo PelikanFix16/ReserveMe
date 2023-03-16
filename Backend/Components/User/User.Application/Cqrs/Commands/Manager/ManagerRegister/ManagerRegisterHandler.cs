@@ -47,6 +47,10 @@ namespace User.Application.Cqrs.Commands.Manager.ManagerRegister
             if (managerProjection.IsSuccess)
                 return Result.Fail("Manager with this email exists");
 
+            Result<Mapper.Projections.ManagerProjection> managerId = await _managerProjectionRepository.GetByUserId(request.UserId);
+            if (managerId.IsSuccess)
+                return Result.Fail("User already have registered manager");
+
             ManagerAggregateRoot managerAggregate = _mapper.Map<ManagerAggregateRoot>(request);
             Result resSave = _aggregateRepository.Save(managerAggregate,managerAggregate.Id);
             if (resSave.IsFailed)
