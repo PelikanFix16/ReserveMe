@@ -6,7 +6,7 @@ using SharedKernel.Application.Interfaces.Events;
 using User.Application.Interfaces.Services;
 using User.Domain.User.Events;
 
-namespace User.Application.EventHandlers.Local
+namespace User.Application.EventHandlers.Local.User
 {
     public class UserRegisteredConfirmationEventHandler : IEventHandle<UserRegistrationConfirmedEvent>
     {

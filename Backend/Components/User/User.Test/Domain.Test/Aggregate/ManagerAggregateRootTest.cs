@@ -7,6 +7,7 @@ using SharedKernel.Domain;
 using SharedKernel.Domain.BusinessRule;
 using SharedKernel.Domain.Event;
 using User.Domain.Manager;
+using User.Domain.User;
 using User.Domain.ValueObjects;
 using Xunit;
 
@@ -15,12 +16,13 @@ namespace Domain.Test.Aggregate
     public class ManagerAggregateRootTest
     {
         private readonly ManagerId _managerId = new(Guid.NewGuid());
+        private readonly UserId _userId = new(Guid.NewGuid());
         private readonly Email _email = new("test@example.com");
 
         [Fact]
         public void ShouldCreateManager()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             Assert.Equal(_managerId,manager.Id);
             manager.Should().NotBeNull();
             manager.Should().BeOfType<ManagerAggregateRoot>();
@@ -36,7 +38,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldCreateManagerWithEventManagerCreatedEvent()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             IList<DomainEvent> events = manager.GetUncommittedChanges().ToList();
             events.Should().NotBeNull();
             events.Should().HaveCount(1);
@@ -45,7 +47,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ManagerShouldBeConfirmed()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             manager.Confirm();
             manager.Status.Should().Be(ManagerStatus.Activated);
             IList<DomainEvent> events = manager.GetUncommittedChanges().ToList();
@@ -55,7 +57,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldThrowExceptionWhenConfirmManagerSecondTime()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             manager.Confirm();
             manager.Status.Should().Be(ManagerStatus.Activated);
             Action action = () => manager.Confirm();
@@ -67,7 +69,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldCannotBlockManagerWhenManagerIsNotConfirmed()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             Action action = () => manager.Block();
             action.Should().Throw<BusinessRuleValidationException>()
             .WithMessage("Manager cannot be modified without confirmation");
@@ -76,7 +78,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldCannotUnBlockManagerWhenManagerIsNotConfirmed()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             Action action = () => manager.UnBlock();
             action.Should().Throw<BusinessRuleValidationException>()
             .WithMessage("Manager cannot be modified without confirmation");
@@ -85,7 +87,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldCannotChangeEmailWhenManagerIsNotConfirmed()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             Action action = () => manager.ChangeEmail(_email);
             action.Should().Throw<BusinessRuleValidationException>()
             .WithMessage("Manager cannot be modified without confirmation");
@@ -93,7 +95,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldCannotChangeEmailWhenManagerIsBlocked()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             manager.Confirm();
             manager.Block();
             Action action = () => manager.ChangeEmail(_email);
@@ -104,7 +106,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldCannotBlockManagerWhenManagerIsBlocked()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             manager.Confirm();
             manager.Block();
             Action action = () => manager.Block();
@@ -115,7 +117,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldCannotChangeEmailWhenIsTheSame()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             manager.Confirm();
             Action action = () => manager.ChangeEmail(_email);
             action.Should().Throw<BusinessRuleValidationException>()
@@ -125,7 +127,7 @@ namespace Domain.Test.Aggregate
         [Fact]
         public void ShouldChangeEmailWhenManagerIsConfirmed()
         {
-            var manager = new ManagerAggregateRoot(_managerId,_email);
+            var manager = new ManagerAggregateRoot(_managerId,_userId,_email);
             var newEmail = new Email("newEmail@example.com");
             manager.Confirm();
             manager.ChangeEmail(newEmail);

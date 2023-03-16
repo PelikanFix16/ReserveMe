@@ -9,7 +9,7 @@ using User.Application.Interfaces.Services;
 using User.Application.Mapper.Projections;
 using User.Domain.User.Events;
 
-namespace User.Application.EventHandlers.Local
+namespace User.Application.EventHandlers.Local.User
 {
     public class UserRegisteredEventHandler : IEventHandle<UserRegisteredEvent>
     {
@@ -32,7 +32,7 @@ namespace User.Application.EventHandlers.Local
             var userProjection = _mapper.Map<UserProjection>(@event);
             await _userService.UserCreateAsync(userProjection);
             //ToDo: Delete static string change to const strings in another file
-            await _emailNotify.Send("New user", $"Hello {userProjection.Name} click here to verify your account {userProjection.Id}");
+            await _emailNotify.Send("New user",$"Hello {userProjection.Name} click here to verify your account {userProjection.Id}");
         }
     }
 }

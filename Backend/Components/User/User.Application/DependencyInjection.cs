@@ -10,7 +10,8 @@ using FluentValidation;
 using User.Application.Interfaces.Services;
 using User.Application.Services;
 using SharedKernel.Application.Interfaces.Events;
-using User.Application.EventHandlers.Local;
+using User.Application.EventHandlers.Local.User;
+using User.Application.EventHandlers.Local.Manager;
 
 namespace User.Application
 {
@@ -24,6 +25,7 @@ namespace User.Application
             services.AddTransient<IUserService,UserService>();
             services.AddTransient<IEventHandleBase,UserRegisteredEventHandler>();
             services.AddTransient<IEventHandleBase,UserRegisteredConfirmationEventHandler>();
+            services.AddTransient<IEventHandleBase,ManagerCreatedEventHandler>();
             services.AddTransient<IManagerService,ManagerService>();
             services.AddSharedKernelApplication();
             return services;
