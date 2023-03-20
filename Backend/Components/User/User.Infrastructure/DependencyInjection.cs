@@ -35,6 +35,12 @@ namespace User.Infrastructure
                         configuration.GetConnectionString("User"),
                         new MySqlServerVersion(new Version(8,0,29)))
             );
+            services.AddDbContext<EmployeeContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(
+                        configuration.GetConnectionString("User"),
+                        new MySqlServerVersion(new Version(8,0,29)))
+            );
             services.AddTransient<IUserProjectionRepository,UserRepository>();
             services.AddTransient<IManagerProjectionRepository,ManagerRepository>();
             return services;
