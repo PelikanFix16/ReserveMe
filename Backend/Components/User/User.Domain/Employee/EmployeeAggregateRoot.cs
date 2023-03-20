@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using User.Domain.Employee.Events;
 using User.Domain.Employee.Rules;
+using User.Domain.Manager;
 using User.Domain.ValueObjects;
 
 namespace User.Domain.Employee
@@ -12,6 +13,8 @@ namespace User.Domain.Employee
     public class EmployeeAggregateRoot : AggregateRoot
     {
         public EmployeeId? Id { get; private set; }
+
+        public ManagerId? ManagerId { get; private set; }
         public Email Email { get; private set; } = null!;
         public Password Password { get; private set; } = null!;
         public EmployeeStatus Status { get; private set; } = EmployeeStatus.DeActivated;
@@ -22,6 +25,7 @@ namespace User.Domain.Employee
         private void Apply(EmployeeCreatedEvent e)
         {
             Id = e.Key as EmployeeId;
+            ManagerId = e.ManagerId;
             Email = e.Email;
             Privileges = e.Privileges;
             CreatedAt = e.TimeStamp;
@@ -35,8 +39,9 @@ namespace User.Domain.Employee
 
         public EmployeeAggregateRoot(
             EmployeeId id,
+            ManagerId managerId,
             Email email,
-            EmployeePrivileges privileges) => ApplyChange(new EmployeeCreatedEvent(id,email,privileges,Version));
+            EmployeePrivileges privileges) => ApplyChange(new EmployeeCreatedEvent(id,managerId,email,privileges,Version));
 
         public EmployeeAggregateRoot()
         {

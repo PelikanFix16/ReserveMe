@@ -8,13 +8,22 @@ namespace User.Application.Cqrs.Commands.Manager.ManagerRegister
 {
     public class ManagerRegisterCommandValidator : AbstractValidator<ManagerRegisterCommand>
     {
-        public ManagerRegisterCommandValidator() =>
-                RuleFor(c => c.ManagerEmail.Email)
-                .NotNull()
-                .WithMessage("Manager Email cannot be null")
-                .NotEmpty()
-                .WithMessage("Manager Email is required")
-                .EmailAddress()
-                .WithMessage("A valid email is required");
+        public ManagerRegisterCommandValidator()
+        {
+            RuleFor(c => c.ManagerEmail.Email)
+            .NotNull()
+            .WithMessage("Manager Email cannot be null")
+            .NotEmpty()
+            .WithMessage("Manager Email is required")
+            .EmailAddress()
+            .WithMessage("A valid email is required");
+
+            RuleFor(c => c.UserId)
+             .NotNull()
+             .WithMessage("User Id cannot be null")
+             .NotEmpty()
+             .WithMessage("User Id cannot be empty");
+        }
+
     }
 }
