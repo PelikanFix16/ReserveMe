@@ -27,6 +27,7 @@ namespace User.Application
             services.AddTransient<IEventHandleBase,UserRegisteredConfirmationEventHandler>();
             services.AddTransient<IEventHandleBase,ManagerCreatedEventHandler>();
             services.AddTransient<IManagerService,ManagerService>();
+            services.AddTransient<IEmployeeService,EmployeeService>();
             services.AddSharedKernelApplication();
             return services;
         }
