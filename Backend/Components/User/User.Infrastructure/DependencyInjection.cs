@@ -43,6 +43,7 @@ namespace User.Infrastructure
             );
             services.AddTransient<IUserProjectionRepository,UserRepository>();
             services.AddTransient<IManagerProjectionRepository,ManagerRepository>();
+            services.AddTransient<IEmployeeProjectionRepository,EmployeeRepository>();
             return services;
         }
     }
