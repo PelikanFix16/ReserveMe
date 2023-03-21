@@ -12,6 +12,7 @@ namespace User.Application.Interfaces.Repositories
     {
         public Task<Result<ManagerProjection>> GetByEmailAsync(EmailDto email);
         public Task<Result<ManagerProjection>> GetByUserId(Guid id);
+        public Task<Result<ManagerProjection>> GetById(Guid id);
         public Task SaveAsync(ManagerProjection managerProjection);
         public Task SaveChangesAsync();
     }

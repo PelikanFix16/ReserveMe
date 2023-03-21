@@ -23,6 +23,12 @@ namespace User.Infrastructure.Persistence.Repositories
             return manager ?? (Result<ManagerProjection>)Result.Fail("Manager not found");
         }
 
+        public async Task<Result<ManagerProjection>> GetById(Guid id)
+        {
+            ManagerProjection? manager = await _context.Manager.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return manager ?? (Result<ManagerProjection>)Result.Fail("Manager not found");
+        }
+
         public async Task<Result<ManagerProjection>> GetByUserId(Guid id)
         {
             ManagerProjection? manager = await _context.Manager.Where(x => x.UserId == id).FirstOrDefaultAsync();
