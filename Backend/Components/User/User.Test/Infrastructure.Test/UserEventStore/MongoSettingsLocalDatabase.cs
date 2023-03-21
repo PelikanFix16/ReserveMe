@@ -13,15 +13,12 @@ namespace Infrastructure.Test.UserEventStore
         private const string DatabaseName = "EventStore";
         private const string CollectionName = "UserEvents";
 
-        public static IOptions<MongoSettings> GetConfig()
-        {
-            return Options.Create(
+        public static IOptions<MongoSettings> GetConfig() => Options.Create(
                 new MongoSettings
                 {
                     ConnectionString = ConnectionString,
                     DatabaseName = DatabaseName,
                     CollectionName = CollectionName
                 });
-        }
     }
 }
